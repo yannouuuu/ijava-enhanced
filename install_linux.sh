@@ -21,24 +21,24 @@ info() {
 }
 
 error() {
-    printf 'ERROR: %s\n' "$1" >&2
+    printf 'ERREUR: %s\n' "$1" >&2
 }
 
 require_java() {
-    log "Checking Java runtime"
+    log "Vérification de Java"
     if ! command -v java >/dev/null 2>&1; then
-        error "Java runtime not found. Install it from https://adoptium.net or https://www.oracle.com/java/"
+        error "Java n'est pas installé. Installez-le depuis https://adoptium.net ou https://www.oracle.com/java/"
         exit 1
     fi
     local version
     version="$(java -version 2>&1 | head -n 1 | tr -d '\r')"
-    info "Java detected: ${version}"
+    info "Java détecté: ${version}"
 }
 
 ensure_directories() {
-    log "Preparing install directories"
+    log "Préparation des répertoires d'installation"
     mkdir -p "$BIN_DIR"
-    info "Using install dir: $INSTALL_DIR"
+    info "Répertoire d'installation: $INSTALL_DIR"
 }
 
 has_cmd() {
@@ -53,19 +53,19 @@ download_file() {
     elif has_cmd wget; then
         wget -q "$url" -O "$dst"
     else
-        error "Neither curl nor wget is available. Install one of them and retry."
+        error "Ni curl ni wget n'est disponible. Installez l'un d'eux et réessayez."
         exit 1
     fi
 }
 
 download_toolkit() {
-    log "Downloading ijava toolkit"
+    log "Téléchargement du toolkit iJava"
     download_file "$JAR_URL" "$JAR_PATH"
-    info "Saved jar to $JAR_PATH"
+    info "Fichier JAR sauvegardé dans $JAR_PATH"
 }
 
 write_wrapper() {
-    log "Writing launcher"
+    log "Création du lanceur"
     cat <<'EOF' >"$WRAPPER_PATH"
 #!/usr/bin/env bash
 set -euo pipefail
@@ -90,10 +90,10 @@ download_latest() {
     elif has_cmd wget; then
         wget -q "$JAR_URL" -O "$JAR_PATH"
     else
-        echo "[ijava] Cannot update: curl or wget required." >&2
+        echo "[ijava] Impossible de mettre à jour: curl ou wget requis." >&2
         exit 1
     fi
-    echo "[ijava] Toolkit updated."
+    echo "[ijava] Toolkit mis à jour."
 }
 
 remove_profile_block() {
@@ -113,7 +113,7 @@ remove_profile_block() {
 
 ensure_jar() {
     if [ ! -f "$JAR_PATH" ]; then
-        echo "[ijava] Toolkit jar missing, downloading..."
+        echo "[ijava] Fichier JAR du toolkit manquant, téléchargement..."
         download_latest
     fi
 }
@@ -124,7 +124,7 @@ case "${1:-}" in
         exit 0
         ;;
     uninstall)
-        echo "[ijava] Removing installed files..."
+        echo "[ijava] Suppression des fichiers installés..."
         rm -f "$JAR_PATH"
         rm -f "$BIN_DIR/ijava"
         for file in "${PROFILE_FILES[@]}"; do
@@ -137,7 +137,7 @@ case "${1:-}" in
         if [ -d "$INSTALL_DIR" ] && [ -z "$(ls -A "$INSTALL_DIR" 2>/dev/null)" ]; then
             rmdir "$INSTALL_DIR"
         fi
-        echo "[ijava] Uninstall complete. Restart your shell."
+        echo "[ijava] Désinstallation terminée. Redémarrez votre shell."
         exit 0
         ;;
     *)
@@ -158,19 +158,18 @@ append_if_missing() {
         touch "$file"
     fi
     if grep -Fq "$marker_start" "$file"; then
-        info "Marker already present in $file"
-    else
-        {
+        info "Marqueur déjà présent dans $file"
+    else {
             printf '\n%s\n' "$marker_start"
             printf '%s\n' "$content"
             printf '%s\n' "$marker_end"
         } >>"$file"
-        info "Updated $file"
+        info "Mis à jour $file"
     fi
 }
 
 configure_shell_profiles() {
-    log "Updating shell profiles"
+    log "Mise à jour des profils shell"
     local path_line='export PATH="$HOME/.ijava/bin:$PATH"'
     local alias_block
     alias_block="$(cat <<'EOF'
@@ -196,12 +195,12 @@ EOF
 }
 
 final_message() {
-    printf '\nInstallation complete! Available commands:\n'
-    printf '  - ijava <command>\n'
+    printf '\nInstallation terminée ! Commandes disponibles:\n'
+    printf '  - ijava <commande>\n'
     printf '  - ijava update\n'
     printf '  - ijava uninstall\n'
-    printf 'Aliases: ijavai, ijavac, ijavat, ijavae, ijavas\n'
-    printf '\nOpen a new shell session or source your profile to use the toolkit.\n'
+    printf 'Alias: ijavai, ijavac, ijavat, ijavae, ijavas\n'
+    printf '\nOuvrez une nouvelle session shell ou sourcez votre profil pour utiliser le toolkit.\n'
 }
 
 main() {

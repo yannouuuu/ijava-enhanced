@@ -16,7 +16,7 @@ function Write-Info {
 
 function Fail {
     param([string]$Message)
-    Write-Host "ERROR: $Message" -ForegroundColor Red
+    Write-Host "ERREUR: $Message" -ForegroundColor Red
     exit 1
 }
 
@@ -34,25 +34,25 @@ $ProfileCandidates = @(
     (Join-Path $env:USERPROFILE "Documents\\WindowsPowerShell\\Microsoft.PowerShell_profile.ps1")
 ) | Where-Object { $_ } | Sort-Object -Unique
 
-Write-Section "Checking Java runtime"
+Write-Section "Vérification de Java"
 $javaCmd = Get-Command java -ErrorAction SilentlyContinue
 if (-not $javaCmd) {
-    Fail "Java runtime not found. Install from https://adoptium.net or https://www.oracle.com/java/technologies/downloads/"
+    Fail "Java n'est pas installé. Téléchargez-le depuis https://adoptium.net ou https://www.oracle.com/java/technologies/downloads/"
 }
 $javaVersionOutput = & java -version 2>&1
 $javaVersion = ($javaVersionOutput | Select-Object -First 1 | Out-String).Trim()
-Write-Info "Java detected: $javaVersion"
+Write-Info "Java détecté: $javaVersion"
 
-Write-Section "Preparing install directories"
+Write-Section "Préparation des répertoires d'installation"
 New-Item -ItemType Directory -Path $InstallDir -Force | Out-Null
 New-Item -ItemType Directory -Path $BinDir -Force | Out-Null
-Write-Info "Using install dir: $InstallDir"
+Write-Info "Répertoire d'installation: $InstallDir"
 
-Write-Section "Downloading ijava toolkit"
+Write-Section "Téléchargement du toolkit iJava"
 Invoke-WebRequest -Uri $JarUrl -OutFile $JarPath
-Write-Info "Saved jar to $JarPath"
+Write-Info "Fichier JAR sauvegardé dans $JarPath"
 
-Write-Section "Creating launchers"
+Write-Section "Création des lanceurs"
 $wrapperContent = @'
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
@@ -74,36 +74,47 @@ function Write-Info {
 }
 
 function Download-Jar {
-    Write-Info "Downloading latest toolkit..."
+    Write-Info "Téléchargement de la dernière version du toolkit..."
     Invoke-WebRequest -Uri $JarUrl -OutFile $JarPath
-    Write-Info "Update complete."
+    Write-Info "Mise à jour terminée."
 }
 
 function Remove-ProfileBlock {
     param([string]$ProfilePath,[string]$Start,[string]$End)
     if (-not (Test-Path $ProfilePath)) { return }
-    $content = Get-Content $ProfilePath -ErrorAction SilentlyContinue
+    $content = Get-Content $ProfilePath -Raw -ErrorAction SilentlyContinue
     if (-not $content) { return }
-    $inside = $false
-    $result = foreach ($line in $content) {
-        if ($line -eq $Start) { $inside = $true; continue }
-        if ($line -eq $End) { $inside = $false; continue }
-        if (-not $inside) { $line }
+    
+    # Utiliser regex pour supprimer le bloc
+    $pattern = [regex]::Escape($Start) + '.*?' + [regex]::Escape($End)
+    $newContent = $content -replace "(?s)$pattern", ''
+    # Nettoyer les lignes vides multiples
+    $newContent = $newContent -replace '(\r?\n){3,}', "`r`n`r`n"
+    $newContent = $newContent.Trim()
+    
+    if ($newContent) {
+        Set-Content -Path $ProfilePath -Value $newContent -NoNewline
+    } else {
+        # Si le profil est complètement vide après nettoyage, le supprimer
+        Remove-Item -Path $ProfilePath -Force -ErrorAction SilentlyContinue
     }
-    $result | Set-Content -Path $ProfilePath -Encoding ASCII
 }
 
 function Remove-PathEntry {
     param([string]$Entry)
     $current = [Environment]::GetEnvironmentVariable("PATH","User")
     if (-not $current) { return }
-    $parts = $current.Split([System.IO.Path]::PathSeparator, [System.StringSplitOptions]::RemoveEmptyEntries) | Where-Object { $_.TrimEnd('\\') -ne $Entry.TrimEnd('\\') }
+    $parts = $current.Split([System.IO.Path]::PathSeparator, [System.StringSplitOptions]::RemoveEmptyEntries) | Where-Object { 
+        $_.TrimEnd('\\') -ne $Entry.TrimEnd('\\') -and 
+        $_.TrimEnd('\\') -notlike "*\.ijava\bin"
+    }
     [Environment]::SetEnvironmentVariable("PATH", [string]::Join([System.IO.Path]::PathSeparator,$parts), "User")
+    Write-Info "Supprimé du PATH"
 }
 
 function Ensure-Jar {
     if (-not (Test-Path $JarPath)) {
-        Write-Info "Toolkit jar missing. Downloading now..."
+        Write-Info "Le fichier JAR du toolkit est manquant. Téléchargement en cours..."
         Download-Jar
     }
 }
@@ -119,19 +130,38 @@ switch ($args[0].ToLowerInvariant()) {
         Download-Jar
     }
     "uninstall" {
-        Write-Info "Removing installed files..."
-        if (Test-Path $JarPath) { Remove-Item $JarPath -Force }
-        $cmdWrapper = Join-Path $BinDir "ijava.cmd"
-        $psWrapper = Join-Path $BinDir "ijava.ps1"
-        if (Test-Path $cmdWrapper) { Remove-Item $cmdWrapper -Force }
-        if (Test-Path $psWrapper) { Remove-Item $psWrapper -Force }
+        Write-Info "Désinstallation d'iJava..."
+        Write-Info ""
+        
+        # Supprimer les profils PowerShell
+        Write-Info "Nettoyage des profils PowerShell..."
         foreach ($profilePath in $ProfileCandidates) {
             Remove-ProfileBlock -ProfilePath $profilePath -Start $AliasMarkerStart -End $AliasMarkerEnd
         }
+        
+        # Nettoyer le PATH
+        Write-Info "Suppression du PATH..."
         Remove-PathEntry -Entry $BinDir
-        if ((Test-Path $BinDir) -and -not (Get-ChildItem $BinDir -Force -ErrorAction SilentlyContinue)) { Remove-Item $BinDir -Force }
-        if ((Test-Path $InstallDir) -and -not (Get-ChildItem $InstallDir -Force -ErrorAction SilentlyContinue)) { Remove-Item $InstallDir -Force }
-        Write-Info "Uninstall complete. Restart your PowerShell session."
+        
+        # Supprimer les fichiers
+        Write-Info "Suppression des fichiers d'installation..."
+        if (Test-Path $InstallDir) { 
+            Remove-Item -Path $InstallDir -Recurse -Force -ErrorAction SilentlyContinue
+            Write-Info "Supprimé: $InstallDir"
+        }
+        
+        # Supprimer les fonctions de la session courante
+        Remove-Item Function:\ijavai -ErrorAction SilentlyContinue
+        Remove-Item Function:\ijavac -ErrorAction SilentlyContinue
+        Remove-Item Function:\ijavat -ErrorAction SilentlyContinue
+        Remove-Item Function:\ijavae -ErrorAction SilentlyContinue
+        Remove-Item Function:\ijavas -ErrorAction SilentlyContinue
+        
+        Write-Info ""
+        Write-Info "✓ Désinstallation terminée !"
+        Write-Info "Veuillez FERMER et ROUVRIR PowerShell pour finaliser la suppression."
+        Write-Info "La commande 'ijava' ne sera plus disponible."
+        exit 0
     }
     default {
         Ensure-Jar
@@ -147,7 +177,7 @@ $cmdContent = @'
 setlocal
 set "SCRIPT=%USERPROFILE%\.ijava\bin\ijava.ps1"
 if not exist "%SCRIPT%" (
-  echo [ijava] Launcher not found. Reinstall the toolkit.
+  echo [ijava] Lanceur introuvable. Réinstallez le toolkit.
   exit /b 1
 )
 pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "%SCRIPT%" %*
@@ -155,30 +185,30 @@ set "EXITCODE=%ERRORLEVEL%"
 endlocal & exit /b %EXITCODE%
 '@
 Set-Content -Path $CmdWrapper -Value $cmdContent -Encoding ASCII
-Write-Info "Created ijava.cmd and ijava.ps1 launchers"
+Write-Info "Lanceurs ijava.cmd et ijava.ps1 créés"
 
-Write-Section "Updating PATH"
+Write-Section "Mise à jour du PATH"
 $currentUserPath = [Environment]::GetEnvironmentVariable("PATH","User")
 if ([string]::IsNullOrWhiteSpace($currentUserPath)) {
     [Environment]::SetEnvironmentVariable("PATH", $BinDir, "User")
-    Write-Info "User PATH initialized with $BinDir"
+    Write-Info "PATH utilisateur initialisé avec $BinDir"
 } else {
     $parts = $currentUserPath.Split([System.IO.Path]::PathSeparator, [System.StringSplitOptions]::RemoveEmptyEntries)
     $hasBin = $parts | Where-Object { $_.TrimEnd('\\') -ieq $BinDir.TrimEnd('\\') }
     if ($hasBin) {
-        Write-Info "User PATH already contains $BinDir"
+        Write-Info "Le PATH utilisateur contient déjà $BinDir"
     } else {
         $updatedParts = $parts + $BinDir
         $newPath = [string]::Join([System.IO.Path]::PathSeparator, $updatedParts)
         [Environment]::SetEnvironmentVariable("PATH", $newPath, "User")
-        Write-Info "User PATH updated. Restart PowerShell to reload environment."
+        Write-Info "PATH utilisateur mis à jour. Redémarrez PowerShell pour recharger l'environnement."
     }
 }
 if (-not ( ($env:PATH -split [System.IO.Path]::PathSeparator) | Where-Object { $_.TrimEnd('\\') -ieq $BinDir.TrimEnd('\\') } )) {
     $env:PATH = "$BinDir" + [System.IO.Path]::PathSeparator + $env:PATH
 }
 
-Write-Section "Configuring aliases"
+Write-Section "Configuration des alias"
 $aliasBlock = @"
 $AliasMarkerStart
 function ijavai { ijava init @args }
@@ -196,14 +226,14 @@ foreach ($profilePath in $ProfileCandidates) {
     }
     if (-not (Test-Path $profilePath)) {
         New-Item -ItemType File -Path $profilePath -Force | Out-Null
-        Write-Info "Created profile: $profilePath"
+        Write-Info "Profil créé: $profilePath"
     }
     $content = Get-Content $profilePath -ErrorAction SilentlyContinue
     if ($content -contains $AliasMarkerStart) {
-        Write-Info "Aliases already defined in $profilePath"
+        Write-Info "Alias déjà définis dans $profilePath"
     } else {
         Add-Content -Path $profilePath -Value "`n$aliasBlock`n"
-        Write-Info "Appended aliases to $profilePath"
+        Write-Info "Alias ajoutés à $profilePath"
     }
 }
 
@@ -213,10 +243,10 @@ function ijavat { ijava test @args }
 function ijavae { ijava execute @args }
 function ijavas { ijava status @args }
 
-Write-Section "Done"
-Write-Host "ijava is ready. Available commands:" -ForegroundColor Green
-Write-Host "  - ijava <command>" -ForegroundColor Green
+Write-Section "Terminé"
+Write-Host "ijava est prêt. Commandes disponibles:" -ForegroundColor Green
+Write-Host "  - ijava <commande>" -ForegroundColor Green
 Write-Host "  - ijava update" -ForegroundColor Green
 Write-Host "  - ijava uninstall" -ForegroundColor Green
-Write-Host "Aliases: ijavai, ijavac, ijavat, ijavae, ijavas" -ForegroundColor Green
-Write-Host "Open a new PowerShell window to load PATH and aliases." -ForegroundColor Green
+Write-Host "Alias: ijavai, ijavac, ijavat, ijavae, ijavas" -ForegroundColor Green
+Write-Host "Ouvrez une nouvelle fenêtre PowerShell pour charger le PATH et les alias." -ForegroundColor Green

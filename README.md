@@ -61,6 +61,23 @@ Les scripts d'installation vont :
 - ✅ Configurer les wrappers et aliases
 - ✅ Ajouter iJava à votre PATH
 
+### 🗑️ Désinstallation
+
+Pour désinstaller complètement iJava de votre système, utilisez simplement :
+
+**Toutes les plateformes :**
+```bash
+ijava uninstall
+```
+
+Le script de désinstallation va :
+- 🗑️ Supprimer tous les fichiers iJava (`~/.ijava` ou `%USERPROFILE%\.ijava`)
+- 🧹 Nettoyer les profils PowerShell/Bash/Zsh
+- 🔗 Retirer iJava du PATH
+- ✨ Supprimer tous les aliases
+
+**Note :** Après la désinstallation, redémarrez votre terminal pour que les changements prennent effet.
+
 ---
 
 ## 🔌 Installation de l'extension VS Code
