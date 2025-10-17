@@ -1,0 +1,58 @@
+{
+  "name": "ijava-tools",
+  "displayName": "iJava Tools",
+  "description": "Extension VS Code pour piloter le toolkit ijava et offrir l'autocomplétion dédiée.",
+  "version": "0.0.1",
+  "publisher": "yannouuuu",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yannouuuu/ijava-enhanced"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other",
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:shellscript",
+    "onLanguage:powershell",
+    "onLanguage:bat",
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "ijava.runCommand",
+        "title": "Run iJava Command",
+        "category": "iJava"
+      },
+      {
+        "command": "ijava.showInfo",
+        "title": "iJava: Show Info",
+        "category": "iJava"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "java",
+        "path": "./snippets/ijava.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "tsc -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^16.18.68",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.3.3"
+  }
+}

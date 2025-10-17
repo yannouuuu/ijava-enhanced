@@ -1,0 +1,405 @@
+{
+  "iJava println": {
+    "prefix": [
+      "ipr",
+      "println"
+    ],
+    "body": [
+      "println(${1:message});"
+    ],
+    "description": "Insertion rapide d'un println() ijava avec point-virgule."
+  },
+  "iJava println empty": {
+    "prefix": [
+      "prn",
+      "println0"
+    ],
+    "body": [
+      "println();"
+    ],
+    "description": "Affiche simplement un retour à la ligne."
+  },
+  "iJava print": {
+    "prefix": [
+      "iprint",
+      "print"
+    ],
+    "body": [
+      "print(${1:message});"
+    ],
+    "description": "Affiche un message sans retour à la ligne."
+  },
+  "iJava charAt": {
+    "prefix": [
+      "charat",
+      "icar"
+    ],
+    "body": [
+      "${1:texte}.charAt(${2:index})"
+    ],
+    "description": "Accède à un caractère précis dans une chaîne."
+  },
+  "iJava for classic": {
+    "prefix": [
+      "for"
+    ],
+    "body": [
+      "for (${1:int i = 0}; ${2:i < limite}; ${3:i++}) {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "Boucle for générique à trois expressions."
+  },
+  "iJava for index": {
+    "prefix": [
+      "fori"
+    ],
+    "body": [
+      "for (int ${1:i} = 0; ${1:i} < ${2:taille}; ${1:i}++) {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "Boucle for indexée classique."
+  },
+  "iJava for each": {
+    "prefix": [
+      "fore",
+      "foreach"
+    ],
+    "body": [
+      "for (${1:Type} ${2:element} : ${3:collection}) {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "Boucle for-each sur une collection ou un tableau."
+  },
+  "iJava if": {
+    "prefix": [
+      "if"
+    ],
+    "body": [
+      "if (${1:condition}) {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "Bloc conditionnel if avec accolades appariées."
+  },
+  "iJava while": {
+    "prefix": [
+      "while"
+    ],
+    "body": [
+      "while (${1:condition}) {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "Boucle while avec condition en tête."
+  },
+  "iJava do while": {
+    "prefix": [
+      "dow",
+      "dowhile"
+    ],
+    "body": [
+      "do {",
+      "    ${0}",
+      "} while (${1:condition});"
+    ],
+    "description": "Boucle do-while exécutée au moins une fois."
+  },
+  "iJava return": {
+    "prefix": [
+      "ret",
+      "return"
+    ],
+    "body": [
+      "return ${0:valeur};"
+    ],
+    "description": "Instruction return avec valeur optionnelle."
+  },
+  "iJava braces": {
+    "prefix": [
+      "{"
+    ],
+    "body": [
+      "{",
+      "    ${0}",
+      "}"
+    ],
+    "description": "Ouvre une accolade en ajoutant automatiquement la fermeture."
+  },
+  "iJava comment block": {
+    "prefix": [
+      "/*",
+      "comment"
+    ],
+    "body": [
+      "/*",
+      " ${0}",
+      "*/"
+    ],
+    "description": "Insère un commentaire multi-ligne correctement fermé."
+  },
+  "iJava comment doc": {
+    "prefix": [
+      "/**",
+      "doc"
+    ],
+    "body": [
+      "/**",
+      " * ${0}",
+      " */"
+    ],
+    "description": "Crée un commentaire de documentation prêt à compléter."
+  },
+  "iJava array new": {
+    "prefix": [
+      "ian",
+      "array"
+    ],
+    "body": [
+      "${1:type}[] ${2:tableau} = new ${1:type}[${3:taille}];"
+    ],
+    "description": "Déclare et instancie un tableau simple."
+  },
+  "iJava array literal": {
+    "prefix": [
+      "ial",
+      "arraylit"
+    ],
+    "body": [
+      "${1:type}[] ${2:tableau} = { ${3:valeurs} };"
+    ],
+    "description": "Crée un tableau avec des valeurs littérales."
+  },
+  "iJava readString": {
+    "prefix": [
+      "irs",
+      "readstring"
+    ],
+    "body": [
+      "readString()"
+    ],
+    "description": "Lit une chaîne saisie par l'utilisateur."
+  },
+  "iJava readInt": {
+    "prefix": [
+      "iri",
+      "readint"
+    ],
+    "body": [
+      "readInt()"
+    ],
+    "description": "Lit un entier saisi par l'utilisateur."
+  },
+  "iJava readDouble": {
+    "prefix": [
+      "ird",
+      "readdouble"
+    ],
+    "body": [
+      "readDouble()"
+    ],
+    "description": "Lit un décimal saisi par l'utilisateur."
+  },
+  "iJava random": {
+    "prefix": [
+      "rand",
+      "random"
+    ],
+    "body": [
+      "random()"
+    ],
+    "description": "Retourne un double entre 0.0 inclus et 1.0 exclu."
+  },
+  "iJava random range": {
+    "prefix": [
+      "randint",
+      "randomi"
+    ],
+    "body": [
+      "random(${1:borneMin}, ${2:borneMax})"
+    ],
+    "description": "Retourne un entier aléatoire borné inclusif."
+  },
+  "iJava sqrt": {
+    "prefix": [
+      "isqrt",
+      "sqrt"
+    ],
+    "body": [
+      "sqrt(${1:nombre})"
+    ],
+    "description": "Calcule la racine carrée entière ou -1 si non carré parfait."
+  },
+  "iJava getTime": {
+    "prefix": [
+      "itime",
+      "gettime"
+    ],
+    "body": [
+      "getTime()"
+    ],
+    "description": "Renvoie le temps courant en millisecondes depuis 1970."
+  },
+  "iJava values": {
+    "prefix": [
+      "ivals",
+      "values"
+    ],
+    "body": [
+      "values(${1:EnumType}.class)"
+    ],
+    "description": "Liste toutes les valeurs d'une énumération."
+  },
+  "iJava rgb": {
+    "prefix": [
+      "rgb"
+    ],
+    "body": [
+      "rgb(${1:255}, ${2:255}, ${3:255}, ${4:true})"
+    ],
+    "description": "Construit une séquence ANSI RGB avant ou arrière-plan."
+  },
+  "iJava length": {
+    "prefix": [
+      "len",
+      "length"
+    ],
+    "body": [
+      "length(${1:texte})"
+    ],
+    "description": "Compte les caractères d'une chaîne."
+  },
+  "iJava equals": {
+    "prefix": [
+      "ieq",
+      "equals"
+    ],
+    "body": [
+      "equals(${1:texte1}, ${2:texte2})"
+    ],
+    "description": "Teste l'égalité exacte de deux chaînes."
+  },
+  "iJava startsWith": {
+    "prefix": [
+      "istart",
+      "startswith"
+    ],
+    "body": [
+      "startsWith(${1:texte}, ${2:prefixe})"
+    ],
+    "description": "Vérifie si une chaîne commence par un préfixe."
+  },
+  "iJava endsWith": {
+    "prefix": [
+      "iend",
+      "endswith"
+    ],
+    "body": [
+      "endsWith(${1:texte}, ${2:suffixe})"
+    ],
+    "description": "Vérifie si une chaîne se termine par un suffixe."
+  },
+  "iJava contains": {
+    "prefix": [
+      "icontains",
+      "contains"
+    ],
+    "body": [
+      "contains(${1:texte}, ${2:motif})"
+    ],
+    "description": "Recherche une sous-chaîne dans un texte."
+  },
+  "iJava indexOf": {
+    "prefix": [
+      "iindex",
+      "indexof"
+    ],
+    "body": [
+      "indexOf(${1:texte}, ${2:motif})"
+    ],
+    "description": "Retourne la première position d'une sous-chaîne ou -1."
+  },
+  "iJava substring": {
+    "prefix": [
+      "isub",
+      "substring"
+    ],
+    "body": [
+      "substring(${1:texte}, ${2:depart}, ${3:longueur})"
+    ],
+    "description": "Extrait une portion de texte depuis une position donnée."
+  },
+  "iJava matches": {
+    "prefix": [
+      "imatch",
+      "matches"
+    ],
+    "body": [
+      "matches(${1:texte}, ${2:\\d+})"
+    ],
+    "description": "Teste une chaîne avec une expression régulière."
+  },
+  "iJava type int": {
+    "prefix": [
+      "tint",
+      "int"
+    ],
+    "body": [
+      "int"
+    ],
+    "description": "Type pour un entier signé 32 bits."
+  },
+  "iJava type double": {
+    "prefix": [
+      "tdouble",
+      "double"
+    ],
+    "body": [
+      "double"
+    ],
+    "description": "Type pour un flottant double précision."
+  },
+  "iJava type boolean": {
+    "prefix": [
+      "bool",
+      "boolean"
+    ],
+    "body": [
+      "boolean"
+    ],
+    "description": "Type pour une valeur vraie ou fausse."
+  },
+  "iJava type char": {
+    "prefix": [
+      "char",
+      "char"
+    ],
+    "body": [
+      "char"
+    ],
+    "description": "Type pour un caractère unique."
+  },
+  "iJava type String": {
+    "prefix": [
+      "string",
+      "String"
+    ],
+    "body": [
+      "String"
+    ],
+    "description": "Type chaîne de caractères de la bibliothèque standard."
+  },
+  "iJava main": {
+    "prefix": [
+      "imain"
+    ],
+    "body": [
+      "void algorithm() {",
+      "    ${0}// TODO : implémentation",
+      "}"
+    ],
+    "description": "Génère un squelette de fonction algorithm()."
+  }
+}

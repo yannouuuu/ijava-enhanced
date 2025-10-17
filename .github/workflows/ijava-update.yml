@@ -1,0 +1,198 @@
+name: iJava Toolkit Auto Update
+
+on:
+  workflow_dispatch:
+    inputs:
+      discordWebhook:
+        description: "Webhook Discord (laisser vide pour désactiver)"
+        required: false
+        type: string
+  schedule:
+    # Vérifie toutes les heures si un nouveau binaire est disponible. 
+    - cron: "0 * * * *"
+
+permissions:
+  contents: write 
+
+env:
+  JAR_URL: https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  DATASET_DIR: datasets/ijava
+
+jobs:
+  check-update:
+    name: Vérification et publication
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupération du dépôt
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # requis pour pousser un commit en cas de nouvelle version
+
+      - name: Préparation des dossiers temporaires
+        run: |
+          set -euo pipefail
+          mkdir -p latest previous artifacts
+
+      - name: Téléchargement du JAR distant
+        id: remote
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 "$JAR_URL" --output latest/ijava.jar
+          remote_sha=$(sha256sum latest/ijava.jar | awk '{print $1}')
+          echo "sha=$remote_sha" >> "$GITHUB_OUTPUT"
+          echo "path=latest/ijava.jar" >> "$GITHUB_OUTPUT"
+          echo "Téléchargement réussi (SHA256: $remote_sha)"
+
+      - name: Récupération de la dernière release
+        id: previous
+        run: |
+          set -euo pipefail
+          if gh release view --json tagName,assets >/tmp/release.json 2>/tmp/release.err; then
+            tag=$(jq -r '.tagName' /tmp/release.json)
+            asset_count=$(jq '[.assets[] | select(.name=="ijava.jar")] | length' /tmp/release.json)
+            if [ "$asset_count" -gt 0 ] && [ "$tag" != "null" ]; then
+              gh release download "$tag" --pattern "ijava.jar" --dir previous --clobber >/tmp/release-download.log 2>&1 || true
+              if [ -f previous/ijava.jar ]; then
+                prev_sha=$(sha256sum previous/ijava.jar | awk '{print $1}')
+                echo "sha=$prev_sha" >> "$GITHUB_OUTPUT"
+                echo "tag=$tag" >> "$GITHUB_OUTPUT"
+                echo "found=true" >> "$GITHUB_OUTPUT"
+                echo "Dernière release détectée ($tag) - SHA256: $prev_sha"
+              else
+                echo "found=false" >> "$GITHUB_OUTPUT"
+                echo "Aucun asset ijava.jar n'a été téléchargé."
+              fi
+            else
+              echo "found=false" >> "$GITHUB_OUTPUT"
+              echo "Dernière release sans asset ijava.jar exploitable."
+            fi
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "Aucune release existante ou accès impossible."
+            cat /tmp/release.err || true
+          fi
+
+      - name: Comparaison des hashes
+        id: compare
+        run: |
+          set -euo pipefail
+          remote_sha="${{ steps.remote.outputs.sha }}"
+          prev_sha="${{ steps.previous.outputs.sha }}"
+          if [ -z "$prev_sha" ]; then
+            echo "Aucune version précédente connue, passage en mode initial."
+            echo "update=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ "$remote_sha" = "$prev_sha" ]; then
+            echo "Le hash SHA256 est identique : aucune publication nécessaire."
+            echo "update=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Nouveau hash détecté ($remote_sha)." 
+            echo "update=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Préparation des métadonnées de release
+        id: metadata
+        if: steps.compare.outputs.update == 'true'
+        run: |
+          set -euo pipefail
+          tag="ijava-$(date -u +"%Y%m%d-%H%M%S")"
+          timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "timestamp=$timestamp" >> "$GITHUB_OUTPUT"
+          echo "Nouveau tag prévu : $tag"
+
+      - name: Mise à jour de versions.json
+        if: steps.compare.outputs.update == 'true'
+        run: |
+          set -euo pipefail
+          if [ ! -f versions.json ]; then
+            echo "[]" > versions.json
+          fi
+          tmp=$(mktemp)
+          dataset_path="$DATASET_DIR/${{ steps.metadata.outputs.tag }}/ijava.jar"
+          jq --arg tag "${{ steps.metadata.outputs.tag }}" \
+             --arg date "${{ steps.metadata.outputs.timestamp }}" \
+             --arg sha "${{ steps.remote.outputs.sha }}" \
+             --arg path "$dataset_path" \
+             'if (map(.sha256) | index($sha)) then . else . + [{"version": $tag, "date": $date, "sha256": $sha, "path": $path}] end' \
+             versions.json > "$tmp"
+          mv "$tmp" versions.json
+          echo "versions.json mis à jour :"
+          cat versions.json
+
+      - name: Archivage local du JAR
+        if: steps.compare.outputs.update == 'true'
+        env:
+          TAG: ${{ steps.metadata.outputs.tag }}
+        run: |
+          set -euo pipefail
+          target_dir="$DATASET_DIR/$TAG"
+          mkdir -p "$target_dir"
+          cp latest/ijava.jar "$target_dir/ijava.jar"
+          sha256sum latest/ijava.jar > "$target_dir/ijava.jar.sha256"
+          ls -al "$target_dir"
+
+      - name: Commit de la mise à jour
+        if: steps.compare.outputs.update == 'true'
+        env:
+          TAG: ${{ steps.metadata.outputs.tag }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add versions.json "$DATASET_DIR"
+          if git diff --cached --quiet; then
+            echo "Aucun changement à committer (probablement déjà présent)."
+          else
+            git commit -m "chore: enregistre $TAG"
+            git push
+          fi
+
+      - name: Création de la release GitHub
+        if: steps.compare.outputs.update == 'true'
+        env:
+          TAG: ${{ steps.metadata.outputs.tag }}
+          SHA: ${{ steps.remote.outputs.sha }}
+          DATE: ${{ steps.metadata.outputs.timestamp }}
+          ASSET: ${{ steps.remote.outputs.path }}
+        run: |
+          set -euo pipefail
+          notes_file=$(mktemp)
+          {
+            echo "Mise à jour automatisée du toolkit ijava."
+            echo
+            echo "- Date UTC : $DATE"
+            echo "- SHA256   : $SHA"
+            echo
+            echo "Ce JAR a été récupéré depuis $JAR_URL."
+          } > "$notes_file"
+          gh release create "$TAG" "$PWD/$ASSET" --title "iJava $TAG" --notes-file "$notes_file"
+          echo "Release $TAG créée avec succès."
+
+      - name: Notification Discord (optionnelle)
+        if: steps.compare.outputs.update == 'true'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ github.event.inputs.discordWebhook }}
+          TAG: ${{ steps.metadata.outputs.tag }}
+          SHA: ${{ steps.remote.outputs.sha }}
+        run: |
+          set -euo pipefail
+          if [ -z "${DISCORD_WEBHOOK_URL:-}" ]; then
+            echo "Webhook Discord non défini : étape ignorée."
+            exit 0
+          fi
+          payload=$(jq -n --arg content "Nouvelle version ijava détectée : **$TAG** (SHA256: $SHA)." '{content: $content}')
+          curl -X POST -H "Content-Type: application/json" -d "$payload" "$DISCORD_WEBHOOK_URL"
+          echo "Notification Discord envoyée."
+
+      - name: Journalisation finale
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.compare.outputs.update }}" = "true" ]; then
+            echo "Pipeline conclu : nouvelle version publiée."
+          else
+            echo "Pipeline conclu : aucune mise à jour détectée."
+          fi
