@@ -154,8 +154,11 @@ L'extension détecte automatiquement les commandes iJava dans vos fichiers shell
 - `ijava start` - Démarre un service
 - `ijava stop` - Arrête le service
 - `ijava help` - Affiche l'aide
-- `ijava --info` - Informations de version
-- `ijava self-update` - Met à jour l'outil
+
+**Commandes ajoutées par le wrapper d'installation :**
+- `ijava --info` - Informations sur le wrapper et le toolkit
+- `ijava update` / `ijava self-update` - Met à jour le toolkit iJava
+- `ijava uninstall` - Désinstalle complètement iJava du système
 
 #### 📝 Snippets Java optimisés
 

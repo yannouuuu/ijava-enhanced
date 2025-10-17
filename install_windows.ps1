@@ -74,9 +74,9 @@ function Write-Info {
 }
 
 function Download-Jar {
-    Write-Info "Téléchargement de la dernière version du toolkit..."
+    Write-Info "Telechargement de la derniere version du toolkit..."
     Invoke-WebRequest -Uri $JarUrl -OutFile $JarPath
-    Write-Info "Mise à jour terminée."
+    Write-Info "Mise a jour terminee."
 }
 
 function Remove-ProfileBlock {
@@ -109,12 +109,12 @@ function Remove-PathEntry {
         $_.TrimEnd('\\') -notlike "*\.ijava\bin"
     }
     [Environment]::SetEnvironmentVariable("PATH", [string]::Join([System.IO.Path]::PathSeparator,$parts), "User")
-    Write-Info "Supprimé du PATH"
+    Write-Info "Supprime du PATH"
 }
 
 function Ensure-Jar {
     if (-not (Test-Path $JarPath)) {
-        Write-Info "Le fichier JAR du toolkit est manquant. Téléchargement en cours..."
+        Write-Info "Le fichier JAR du toolkit est manquant. Telechargement en cours..."
         Download-Jar
     }
 }
@@ -129,8 +129,43 @@ switch ($args[0].ToLowerInvariant()) {
     "update" {
         Download-Jar
     }
+    "self-update" {
+        Download-Jar
+    }
+    "--info" {
+        Write-Host ""
+        Write-Host "================================================" -ForegroundColor Cyan
+        Write-Host "     iJava Enhanced Wrapper v1.0.0" -ForegroundColor Cyan
+        Write-Host "================================================" -ForegroundColor Cyan
+        Write-Host ""
+        Write-Host "Installation : " -NoNewline -ForegroundColor Yellow
+        Write-Host "$InstallDir" -ForegroundColor White
+        Write-Host "Fichier JAR  : " -NoNewline -ForegroundColor Yellow
+        Write-Host "$JarPath" -ForegroundColor White
+        Write-Host ""
+        Write-Host "Commandes du wrapper :" -ForegroundColor Cyan
+        Write-Host "  - ijava update / self-update  " -NoNewline -ForegroundColor Green
+        Write-Host "-> Met a jour le toolkit iJava" -ForegroundColor Gray
+        Write-Host "  - ijava uninstall             " -NoNewline -ForegroundColor Green
+        Write-Host "-> Desinstalle iJava du systeme" -ForegroundColor Gray
+        Write-Host "  - ijava --info                " -NoNewline -ForegroundColor Green
+        Write-Host "-> Affiche ces informations" -ForegroundColor Gray
+        Write-Host ""
+        if (Test-Path $JarPath) {
+            Write-Host "Informations du toolkit iJava :" -ForegroundColor Cyan
+            Write-Host "------------------------------------------------" -ForegroundColor DarkGray
+            & java -jar $JarPath --info 2>$null
+            if ($LASTEXITCODE -ne 0) {
+                & java -jar $JarPath help 2>$null
+            }
+        } else {
+            Write-Host "ATTENTION: Le fichier JAR du toolkit n'est pas installe." -ForegroundColor Red
+        }
+        Write-Host ""
+        exit 0
+    }
     "uninstall" {
-        Write-Info "Désinstallation d'iJava..."
+        Write-Info "Desinstallation d'iJava..."
         Write-Info ""
         
         # Supprimer les profils PowerShell
@@ -147,7 +182,7 @@ switch ($args[0].ToLowerInvariant()) {
         Write-Info "Suppression des fichiers d'installation..."
         if (Test-Path $InstallDir) { 
             Remove-Item -Path $InstallDir -Recurse -Force -ErrorAction SilentlyContinue
-            Write-Info "Supprimé: $InstallDir"
+            Write-Info "Supprime: $InstallDir"
         }
         
         # Supprimer les fonctions de la session courante
@@ -158,7 +193,7 @@ switch ($args[0].ToLowerInvariant()) {
         Remove-Item Function:\ijavas -ErrorAction SilentlyContinue
         
         Write-Info ""
-        Write-Info "✓ Désinstallation terminée !"
+        Write-Info "Desinstallation terminee !"
         Write-Info "Veuillez FERMER et ROUVRIR PowerShell pour finaliser la suppression."
         Write-Info "La commande 'ijava' ne sera plus disponible."
         exit 0

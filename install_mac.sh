@@ -119,8 +119,32 @@ ensure_jar() {
 }
 
 case "${1:-}" in
-    update)
+    update|self-update)
         download_latest
+        exit 0
+        ;;
+    --info)
+        echo ""
+        echo "================================================"
+        echo "     iJava Enhanced Wrapper v1.0.0"
+        echo "================================================"
+        echo ""
+        echo "Installation : $INSTALL_DIR"
+        echo "Fichier JAR  : $JAR_PATH"
+        echo ""
+        echo "Commandes du wrapper :"
+        echo "  - ijava update / self-update  -> Met a jour le toolkit iJava"
+        echo "  - ijava uninstall             -> Desinstalle iJava du systeme"
+        echo "  - ijava --info                -> Affiche ces informations"
+        echo ""
+        if [ -f "$JAR_PATH" ]; then
+            echo "Informations du toolkit iJava :"
+            echo "------------------------------------------------"
+            java -jar "$JAR_PATH" --info 2>/dev/null || java -jar "$JAR_PATH" help 2>/dev/null
+        else
+            echo "ATTENTION: Le fichier JAR du toolkit n'est pas installe."
+        fi
+        echo ""
         exit 0
         ;;
     uninstall)
