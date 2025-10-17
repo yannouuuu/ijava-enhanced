@@ -39,7 +39,8 @@ $javaCmd = Get-Command java -ErrorAction SilentlyContinue
 if (-not $javaCmd) {
     Fail "Java runtime not found. Install from https://adoptium.net or https://www.oracle.com/java/technologies/downloads/"
 }
-$javaVersion = (& java -version 2>&1 | Select-Object -First 1).Trim()
+$javaVersionOutput = & java -version 2>&1
+$javaVersion = ($javaVersionOutput | Select-Object -First 1 | Out-String).Trim()
 Write-Info "Java detected: $javaVersion"
 
 Write-Section "Preparing install directories"
