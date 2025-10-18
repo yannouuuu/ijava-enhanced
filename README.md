@@ -10,7 +10,7 @@ Installez facilement **iJava** sur votre système et profitez d'une expérience 
 
 ## 📦 Installation
 
-### ⚡ Installation ultra-rapide (one-liner)
+### ⚡ Installation rapide
 
 **Windows (PowerShell) :**
 ```powershell
@@ -100,16 +100,16 @@ git clone https://github.com/yannouuuu/ijava-enhanced.git
 cd ijava-enhanced
 
 # Installez les dépendances
-npm install
+bun install
 
 # Compilez l'extension
-npm run compile
+bun run compile
 
 # Packagez l'extension
-npm run package
+bun run package
 
 # Installez l'extension dans VS Code
-code --install-extension ijava-tools-0.0.1.vsix
+code --install-extension ijava-enhanced-0.0.1.vsix
 ```
 
 ### Option 3 : Développement local
@@ -119,8 +119,8 @@ Si vous souhaitez contribuer ou personnaliser l'extension :
 ```bash
 git clone https://github.com/yannouuuu/ijava-enhanced.git
 cd ijava-enhanced
-npm install
-npm run compile
+bun install
+bun run compile
 code .
 ```
 
@@ -237,16 +237,16 @@ Plus de **50 snippets** pour accélérer votre développement Java :
 
 ```bash
 # Compiler le projet
-npm run compile
+bun run compile
 
 # Mode watch (recompilation automatique)
-npm run watch
+bun run watch
 
 # Vérifier les erreurs TypeScript
-npm run lint
+bun run lint
 
 # Créer le package VSIX
-npm run package
+bun run package
 ```
 
 ---

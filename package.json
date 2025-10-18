@@ -1,8 +1,8 @@
 {
-  "name": "ijava-tools",
-  "displayName": "iJava Tools",
+  "name": "ijava-enhanced",
+  "displayName": "iJava Enhanced",
   "description": "Extension VS Code pour piloter le toolkit ijava et offrir l'autocomplétion dédiée.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "publisher": "yannouuuu",
   "license": "MIT",
   "repository": {
@@ -44,7 +44,7 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "bun run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "lint": "tsc -p ./",
@@ -53,6 +53,7 @@
   "devDependencies": {
     "@types/node": "^16.18.68",
     "@types/vscode": "^1.80.0",
+    "@vscode/vsce": "^3.6.2",
     "typescript": "^5.3.3"
   }
 }
