@@ -4,5 +4,11 @@
     "date": "2025-10-18T00:08:44Z",
     "sha256": "48ab30deb950a74faa00c7739b5d26f96a83c8d98df4bcdbb04c90746789e2f1",
     "path": "datasets/ijava/ijava-20251018-000844/ijava.jar"
+  },
+  {
+    "version": "ijava-20251021-211656",
+    "date": "2025-10-21T21:16:56Z",
+    "sha256": "65588b86f678f0cb12a57b4d96d95f0af26fb76201e8710dcb4113528dd0a1a6",
+    "path": "datasets/ijava/ijava-20251021-211656/ijava.jar"
   }
 ]
