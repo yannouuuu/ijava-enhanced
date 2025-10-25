@@ -109,8 +109,15 @@ jobs:
           if [ "$remote_sha" = "$prev_sha" ]; then
             echo "Le hash SHA256 est identique : aucune publication nécessaire."
             echo "update=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "Hash différent détecté ($remote_sha). Vérification du contenu des .class..."
+          if ./scripts/diff_jars.sh previous/ijava.jar latest/ijava.jar; then
+            echo "Les fichiers .class sont identiques malgré un JAR différent."
+            echo "update=false" >> "$GITHUB_OUTPUT"
           else
-            echo "Nouveau hash détecté ($remote_sha)." 
+            echo "Différences détectées dans les .class."
             echo "update=true" >> "$GITHUB_OUTPUT"
           fi
 
