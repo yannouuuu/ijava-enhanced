@@ -232,6 +232,7 @@ Plus de **50 snippets** pour accélérer votre développement Java :
 - Node.js >= 16
 - VS Code >= 1.80.0
 - TypeScript
+- [jadx](https://github.com/skylot/jadx) (pour décompiler les JARs iJava)
 
 ### Commandes de développement
 
@@ -247,7 +248,16 @@ bun run lint
 
 # Créer le package VSIX
 bun run package
+
+# Traiter les artefacts iJava
+./scripts/process_ijava.sh --help
 ```
+
+### Analyse des JARs iJava
+- Placez chaque nouvelle archive `ijava.jar` dans un sous-dossier horodaté de `datasets/ijava`
+- Lancez `./scripts/process_ijava.sh` pour extraire les `.class` et, si `jadx` est disponible, générer le code `.java` décompilé dans `sources/`
+- Commitez les répertoires `classes/` et `sources/` pour disposer d'un diff complet dans GitHub à chaque mise à jour du JAR
+- Ajoutez l'option `--force` si vous devez régénérer l'ensemble des sorties ou `--skip-jadx` pour ignorer la décompilation
 
 ---
 
@@ -260,9 +270,10 @@ MIT - Voir le fichier LICENSE pour plus de détails
 ## 👤 Auteur
 
 **Yann Renard**
-- GitHub: [@yannouuuu](https://github.com/yannouuuu)
+> GitHub: [@yannouuuu](https://github.com/yannouuuu)
+
 **Yann Secq** (source [ijava](https://www.iut-info.univ-lille.fr/~yann.secq/ijava/))
-- LinkedIn: [@yannsecq](https://www.linkedin.com/in/yannsecq)
+> LinkedIn: [@yannsecq](https://www.linkedin.com/in/yannsecq)
 
 ---
 
@@ -284,6 +295,7 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 - 🔧 Utilisez les scripts d'installation pour installer iJava sur votre système
 - 💻 Installez ensuite l'extension VS Code pour une expérience optimale
 - ☕ Assurez-vous que Java (JDK 8 ou supérieur) est installé avant de lancer l'installeur
+- 🧩 Utilisez `scripts/process_ijava.sh` pour extraire et décompiler chaque `ijava.jar` dans `datasets/ijava`
 
 ### 🆘 Aide et support
 

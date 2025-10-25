@@ -18,6 +18,7 @@ env:
   JAR_URL: https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   DATASET_DIR: datasets/ijava
+  DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
 
 jobs:
   check-update:
@@ -34,6 +35,24 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p latest previous artifacts
+
+      - name: Installation des dépendances système
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y wget git jq unzip
+
+      - name: Installation de jadx
+        run: |
+          set -euo pipefail
+          JADX_VERSION="1.5.0"
+          JADX_URL="https://github.com/skylot/jadx/releases/download/v${JADX_VERSION}/jadx-${JADX_VERSION}.zip"
+          wget -q "$JADX_URL" -O /tmp/jadx.zip
+          unzip -q /tmp/jadx.zip -d /tmp/jadx
+          sudo mv /tmp/jadx/bin/jadx /usr/local/bin/jadx
+          sudo mv /tmp/jadx/bin/jadx-gui /usr/local/bin/jadx-gui || true
+          sudo chmod +x /usr/local/bin/jadx /usr/local/bin/jadx-gui || true
+          /usr/local/bin/jadx -version
 
       - name: Téléchargement du JAR distant
         id: remote
@@ -135,6 +154,15 @@ jobs:
           sha256sum latest/ijava.jar > "$target_dir/ijava.jar.sha256"
           ls -al "$target_dir"
 
+      - name: Décompilation et extraction du JAR
+        if: steps.compare.outputs.update == 'true'
+        env:
+          TAG: ${{ steps.metadata.outputs.tag }}
+        run: |
+          set -euo pipefail
+          ./scripts/process_ijava.sh --dataset-dir "$DATASET_DIR" --force
+          ls -R "$DATASET_DIR/$TAG"
+
       - name: Commit de la mise à jour
         if: steps.compare.outputs.update == 'true'
         env:
@@ -175,17 +203,22 @@ jobs:
       - name: Notification Discord (optionnelle)
         if: steps.compare.outputs.update == 'true'
         env:
-          DISCORD_WEBHOOK_URL: ${{ github.event.inputs.discordWebhook }}
+          DISCORD_WEBHOOK_INPUT: ${{ github.event.inputs.discordWebhook }}
+          DISCORD_WEBHOOK_SECRET: ${{ env.DISCORD_WEBHOOK_URL }}
           TAG: ${{ steps.metadata.outputs.tag }}
           SHA: ${{ steps.remote.outputs.sha }}
         run: |
           set -euo pipefail
-          if [ -z "${DISCORD_WEBHOOK_URL:-}" ]; then
+          webhook="${DISCORD_WEBHOOK_INPUT:-}"
+          if [ -z "$webhook" ]; then
+            webhook="${DISCORD_WEBHOOK_SECRET:-}"
+          fi
+          if [ -z "$webhook" ]; then
             echo "Webhook Discord non défini : étape ignorée."
             exit 0
           fi
           payload=$(jq -n --arg content "Nouvelle version ijava détectée : **$TAG** (SHA256: $SHA)." '{content: $content}')
-          curl -X POST -H "Content-Type: application/json" -d "$payload" "$DISCORD_WEBHOOK_URL"
+          curl -X POST -H "Content-Type: application/json" -d "$payload" "$webhook"
           echo "Notification Discord envoyée."
 
       - name: Journalisation finale
