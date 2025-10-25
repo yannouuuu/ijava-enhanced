@@ -40,7 +40,7 @@ jobs:
         run: |
           set -euo pipefail
           sudo apt-get update
-          sudo apt-get install -y wget git jq unzip
+          sudo apt-get install -y wget git jq unzip default-jre-headless
 
       - name: Installation de jadx
         run: |
@@ -49,9 +49,11 @@ jobs:
           JADX_URL="https://github.com/skylot/jadx/releases/download/v${JADX_VERSION}/jadx-${JADX_VERSION}.zip"
           wget -q "$JADX_URL" -O /tmp/jadx.zip
           unzip -q /tmp/jadx.zip -d /tmp/jadx
-          sudo mv /tmp/jadx/bin/jadx /usr/local/bin/jadx
-          sudo mv /tmp/jadx/bin/jadx-gui /usr/local/bin/jadx-gui || true
-          sudo chmod +x /usr/local/bin/jadx /usr/local/bin/jadx-gui || true
+          sudo rm -rf /opt/jadx
+          sudo mv /tmp/jadx /opt/jadx
+          sudo ln -sf /opt/jadx/bin/jadx /usr/local/bin/jadx
+          sudo ln -sf /opt/jadx/bin/jadx-gui /usr/local/bin/jadx-gui
+          sudo chmod +x /opt/jadx/bin/jadx /opt/jadx/bin/jadx-gui || true
           /usr/local/bin/jadx -version
 
       - name: Téléchargement du JAR distant
