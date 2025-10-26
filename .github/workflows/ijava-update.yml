@@ -1,18 +1,18 @@
-name: iJava Toolkit Auto Update
+name: iJava Toolkit - Détection Intelligente des Mises à Jour
 
 on:
   workflow_dispatch:
     inputs:
       discordWebhook:
-        description: "Webhook Discord (laisser vide pour désactiver)"
+        description: "Webhook Discord (optionnel)"
         required: false
         type: string
   schedule:
-    # Vérifie toutes les heures si un nouveau binaire est disponible. 
+    # Vérification toutes les heures
     - cron: "0 * * * *"
 
 permissions:
-  contents: write 
+  contents: write
 
 env:
   JAR_URL: https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar
@@ -21,224 +21,389 @@ env:
   DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
 
 jobs:
-  check-update:
-    name: Vérification et publication
+  check-and-publish:
+    name: Vérification intelligente et publication
     runs-on: ubuntu-latest
 
     steps:
-      - name: Récupération du dépôt
+      # ═══════════════════════════════════════════════════════════════
+      # 📦 PHASE 1: Préparation de l'environnement
+      # ═══════════════════════════════════════════════════════════════
+      
+      - name: 📥 Récupération du dépôt
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # requis pour pousser un commit en cas de nouvelle version
+          fetch-depth: 0
 
-      - name: Préparation des dossiers temporaires
+      - name: 🗂️ Création des dossiers de travail
         run: |
           set -euo pipefail
-          mkdir -p latest previous artifacts
+          mkdir -p workspace/remote workspace/reference artifacts
+          echo "✓ Dossiers de travail créés"
 
-      - name: Installation des dépendances système
+      - name: 🔧 Installation des outils système
         run: |
           set -euo pipefail
-          sudo apt-get update
-          sudo apt-get install -y wget git jq unzip default-jre-headless
+          echo "Installation des dépendances..."
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq wget git jq default-jre-headless
+          echo "✓ Outils système installés"
 
-      - name: Installation de jadx
+      - name: 🔨 Installation de JADX (décompilateur)
         run: |
           set -euo pipefail
           JADX_VERSION="1.5.0"
           JADX_URL="https://github.com/skylot/jadx/releases/download/v${JADX_VERSION}/jadx-${JADX_VERSION}.zip"
+          
+          echo "Téléchargement de JADX v${JADX_VERSION}..."
           wget -q "$JADX_URL" -O /tmp/jadx.zip
+          
+          echo "Installation de JADX..."
           unzip -q /tmp/jadx.zip -d /tmp/jadx
           sudo rm -rf /opt/jadx
           sudo mv /tmp/jadx /opt/jadx
           sudo ln -sf /opt/jadx/bin/jadx /usr/local/bin/jadx
-          sudo ln -sf /opt/jadx/bin/jadx-gui /usr/local/bin/jadx-gui
-          sudo chmod +x /opt/jadx/bin/jadx /opt/jadx/bin/jadx-gui || true
+          sudo chmod +x /opt/jadx/bin/jadx
+          
+          echo "✓ JADX installé:"
           /usr/local/bin/jadx --version
 
-      - name: Téléchargement du JAR distant
-        id: remote
-        run: |
-          set -euo pipefail
-          curl --fail --location --retry 3 "$JAR_URL" --output latest/ijava.jar
-          remote_sha=$(sha256sum latest/ijava.jar | awk '{print $1}')
-          echo "sha=$remote_sha" >> "$GITHUB_OUTPUT"
-          echo "path=latest/ijava.jar" >> "$GITHUB_OUTPUT"
-          echo "Téléchargement réussi (SHA256: $remote_sha)"
+      # ═══════════════════════════════════════════════════════════════
+      # 🌐 PHASE 2: Récupération du JAR distant
+      # ═══════════════════════════════════════════════════════════════
 
-      - name: Récupération de la dernière release
-        id: previous
+      - name: 🌐 Téléchargement du JAR distant
+        id: download
         run: |
           set -euo pipefail
-          if gh release view --json tagName,assets >/tmp/release.json 2>/tmp/release.err; then
-            tag=$(jq -r '.tagName' /tmp/release.json)
-            asset_count=$(jq '[.assets[] | select(.name=="ijava.jar")] | length' /tmp/release.json)
-            if [ "$asset_count" -gt 0 ] && [ "$tag" != "null" ]; then
-              gh release download "$tag" --pattern "ijava.jar" --dir previous --clobber >/tmp/release-download.log 2>&1 || true
-              if [ -f previous/ijava.jar ]; then
-                prev_sha=$(sha256sum previous/ijava.jar | awk '{print $1}')
-                echo "sha=$prev_sha" >> "$GITHUB_OUTPUT"
-                echo "tag=$tag" >> "$GITHUB_OUTPUT"
-                echo "found=true" >> "$GITHUB_OUTPUT"
-                echo "Dernière release détectée ($tag) - SHA256: $prev_sha"
-              else
-                echo "found=false" >> "$GITHUB_OUTPUT"
-                echo "Aucun asset ijava.jar n'a été téléchargé."
-              fi
-            else
-              echo "found=false" >> "$GITHUB_OUTPUT"
-              echo "Dernière release sans asset ijava.jar exploitable."
-            fi
+          echo "Téléchargement depuis $JAR_URL..."
+          
+          if curl --fail --location --retry 3 --retry-delay 5 \
+               "$JAR_URL" --output workspace/remote/ijava.jar; then
+            remote_sha=$(sha256sum workspace/remote/ijava.jar | awk '{print $1}')
+            remote_size=$(stat -f%z workspace/remote/ijava.jar 2>/dev/null || stat -c%s workspace/remote/ijava.jar)
+            
+            echo "sha=$remote_sha" >> "$GITHUB_OUTPUT"
+            echo "size=$remote_size" >> "$GITHUB_OUTPUT"
+            echo "path=workspace/remote/ijava.jar" >> "$GITHUB_OUTPUT"
+            
+            echo "✓ Téléchargement réussi"
+            echo "  📊 Taille: ${remote_size} octets"
+            echo "  🔐 SHA256: ${remote_sha}"
           else
-            echo "found=false" >> "$GITHUB_OUTPUT"
-            echo "Aucune release existante ou accès impossible."
-            cat /tmp/release.err || true
+            echo "✗ Échec du téléchargement"
+            exit 1
           fi
 
-      - name: Comparaison des hashes
+      # ═══════════════════════════════════════════════════════════════
+      # 📚 PHASE 3: Récupération de la version de référence
+      # ═══════════════════════════════════════════════════════════════
+
+      - name: 📚 Récupération de la dernière version connue
+        id: reference
+        run: |
+          set -euo pipefail
+          echo "Recherche de la dernière release..."
+          
+          # Tentative de récupération via GitHub Release
+          if gh release view --json tagName,assets > /tmp/release.json 2>/tmp/release.err; then
+            tag=$(jq -r '.tagName' /tmp/release.json)
+            asset_exists=$(jq '[.assets[] | select(.name=="ijava.jar")] | length' /tmp/release.json)
+            
+            if [ "$asset_exists" -gt 0 ]; then
+              echo "found=release" >> "$GITHUB_OUTPUT"
+              echo "tag=$tag" >> "$GITHUB_OUTPUT"
+              
+              # Téléchargement du JAR de référence
+              if gh release download "$tag" --pattern "ijava.jar" \
+                   --dir workspace/reference --clobber 2>&1; then
+                ref_sha=$(sha256sum workspace/reference/ijava.jar | awk '{print $1}')
+                echo "sha=$ref_sha" >> "$GITHUB_OUTPUT"
+                echo "✓ Version de référence: $tag"
+                echo "  🔐 SHA256: $ref_sha"
+                exit 0
+              fi
+            fi
+          fi
+          
+          # Plan B: chercher dans le dataset local
+          echo "Aucune release trouvée, recherche dans le dataset local..."
+          latest_local=$(find "$DATASET_DIR" -maxdepth 1 -type d -name "ijava-*" | sort -r | head -n 1)
+          
+          if [ -n "$latest_local" ] && [ -f "$latest_local/ijava.jar" ]; then
+            cp "$latest_local/ijava.jar" workspace/reference/ijava.jar
+            ref_sha=$(sha256sum workspace/reference/ijava.jar | awk '{print $1}')
+            
+            echo "found=local" >> "$GITHUB_OUTPUT"
+            echo "tag=$(basename "$latest_local")" >> "$GITHUB_OUTPUT"
+            echo "sha=$ref_sha" >> "$GITHUB_OUTPUT"
+            echo "✓ Version de référence locale: $(basename "$latest_local")"
+            echo "  🔐 SHA256: $ref_sha"
+          else
+            echo "found=none" >> "$GITHUB_OUTPUT"
+            echo "⚠ Aucune version de référence trouvée"
+            echo "  → Première exécution, toute version sera considérée comme nouvelle"
+          fi
+
+      # ═══════════════════════════════════════════════════════════════
+      # 🔍 PHASE 4: Comparaison
+      # ═══════════════════════════════════════════════════════════════
+
+      - name: 🔍 Analyse comparative des fichiers .class
         id: compare
         run: |
           set -euo pipefail
-          remote_sha="${{ steps.remote.outputs.sha }}"
-          prev_sha="${{ steps.previous.outputs.sha }}"
-          prev_found="${{ steps.previous.outputs.found }}"
-
-          if [ -z "$prev_sha" ] || [ "$prev_found" != "true" ]; then
-            echo "Aucune version précédente exploitable, passage en mode initial."
+          
+          reference_found="${{ steps.reference.outputs.found }}"
+          
+          # Si aucune référence, c'est forcément une nouvelle version
+          if [ "$reference_found" = "none" ]; then
             echo "update=true" >> "$GITHUB_OUTPUT"
+            echo "reason=Première version détectée" >> "$GITHUB_OUTPUT"
+            echo "✓ Aucune version de référence → mise à jour requise"
             exit 0
           fi
-
-          echo "SHA précédent : $prev_sha"
-          echo "SHA distant   : $remote_sha"
-          if [ "$remote_sha" = "$prev_sha" ]; then
-            echo "Hashes identiques : vérification approfondie requise."
-          else
-            echo "Hashes différents : vérification approfondie requise."
-          fi
-          echo "Comparaison du contenu des .class..."
-          if ./scripts/diff_jars.sh previous/ijava.jar latest/ijava.jar; then
-            echo "Les fichiers .class sont identiques."
+          
+          echo "═══════════════════════════════════════════════════════"
+          echo "  Comparaison approfondie des fichiers .class"
+          echo "═══════════════════════════════════════════════════════"
+          echo
+          
+          # Comparaison avec notre script intelligent
+          if ./scripts/diff_jars.sh \
+               workspace/reference/ijava.jar \
+               workspace/remote/ijava.jar; then
+            
             echo "update=false" >> "$GITHUB_OUTPUT"
+            echo "reason=Les fichiers .class sont identiques" >> "$GITHUB_OUTPUT"
+            echo
+            echo "✓ Aucune différence fonctionnelle détectée"
+            echo "  → Pas de mise à jour nécessaire"
           else
-            echo "Différences détectées dans les .class."
             echo "update=true" >> "$GITHUB_OUTPUT"
+            echo "reason=Différences détectées dans le code décompilé" >> "$GITHUB_OUTPUT"
+            echo
+            echo "✓ Changements détectés dans le code"
+            echo "  → Mise à jour nécessaire"
           fi
 
-      - name: Préparation des métadonnées de release
+      # ═══════════════════════════════════════════════════════════════
+      # 🏷️ PHASE 5: Préparation de la nouvelle version
+      # ═══════════════════════════════════════════════════════════════
+
+      - name: 🏷️ Génération des métadonnées de version
         id: metadata
         if: steps.compare.outputs.update == 'true'
         run: |
           set -euo pipefail
+          
+          # Génération d'un tag basé sur la date/heure UTC
           tag="ijava-$(date -u +"%Y%m%d-%H%M%S")"
           timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          human_date=$(date -u +"%d %B %Y à %H:%M:%S UTC")
+          
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
           echo "timestamp=$timestamp" >> "$GITHUB_OUTPUT"
-          echo "Nouveau tag prévu : $tag"
+          echo "human_date=$human_date" >> "$GITHUB_OUTPUT"
+          
+          echo "✓ Nouvelle version préparée:"
+          echo "  🏷️  Tag: $tag"
+          echo "  📅 Date: $human_date"
 
-      - name: Mise à jour de versions.json
+      - name: 📝 Mise à jour du registre versions.json
         if: steps.compare.outputs.update == 'true'
         run: |
           set -euo pipefail
+          
+          # Création du fichier s'il n'existe pas
           if [ ! -f versions.json ]; then
             echo "[]" > versions.json
           fi
+          
+          # Ajout de la nouvelle version
           tmp=$(mktemp)
           dataset_path="$DATASET_DIR/${{ steps.metadata.outputs.tag }}/ijava.jar"
+          
           jq --arg tag "${{ steps.metadata.outputs.tag }}" \
              --arg date "${{ steps.metadata.outputs.timestamp }}" \
-             --arg sha "${{ steps.remote.outputs.sha }}" \
+             --arg sha "${{ steps.download.outputs.sha }}" \
              --arg path "$dataset_path" \
-             'if (map(.sha256) | index($sha)) then . else . + [{"version": $tag, "date": $date, "sha256": $sha, "path": $path}] end' \
-             versions.json > "$tmp"
+             --arg reason "${{ steps.compare.outputs.reason }}" \
+             '. + [{
+                "version": $tag,
+                "date": $date,
+                "sha256": $sha,
+                "path": $path,
+                "reason": $reason
+              }]' versions.json > "$tmp"
+          
           mv "$tmp" versions.json
-          echo "versions.json mis à jour :"
-          cat versions.json
+          
+          echo "✓ versions.json mis à jour"
+          echo "  📊 Nombre de versions: $(jq 'length' versions.json)"
 
-      - name: Archivage local du JAR
+      - name: 💾 Archivage du JAR dans le dataset
         if: steps.compare.outputs.update == 'true'
         env:
           TAG: ${{ steps.metadata.outputs.tag }}
         run: |
           set -euo pipefail
+          
           target_dir="$DATASET_DIR/$TAG"
           mkdir -p "$target_dir"
-          cp latest/ijava.jar "$target_dir/ijava.jar"
-          sha256sum latest/ijava.jar > "$target_dir/ijava.jar.sha256"
-          ls -al "$target_dir"
+          
+          # Copie du JAR et génération du checksum
+          cp workspace/remote/ijava.jar "$target_dir/ijava.jar"
+          sha256sum "$target_dir/ijava.jar" | awk '{print $1}' > "$target_dir/ijava.jar.sha256"
+          
+          echo "✓ JAR archivé dans: $target_dir"
+          ls -lh "$target_dir"
 
-      - name: Décompilation et extraction du JAR
+      - name: 🔓 Décompilation pour archivage
         if: steps.compare.outputs.update == 'true'
         env:
           TAG: ${{ steps.metadata.outputs.tag }}
         run: |
           set -euo pipefail
+          
+          echo "Décompilation du JAR pour archivage..."
           ./scripts/process_ijava.sh --dataset-dir "$DATASET_DIR" --force
-          ls -R "$DATASET_DIR/$TAG"
+          
+          echo "✓ Décompilation terminée"
+          echo "  📂 Structure créée:"
+          ls -lh "$DATASET_DIR/$TAG"
 
-      - name: Commit de la mise à jour
+      # ═══════════════════════════════════════════════════════════════
+      # 📤 PHASE 6: Publication
+      # ═══════════════════════════════════════════════════════════════
+
+      - name: 📤 Commit et push des changements
         if: steps.compare.outputs.update == 'true'
         env:
           TAG: ${{ steps.metadata.outputs.tag }}
         run: |
           set -euo pipefail
+          
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          
           git add versions.json "$DATASET_DIR"
+          
           if git diff --cached --quiet; then
-            echo "Aucun changement à committer (probablement déjà présent)."
+            echo "⚠ Aucun changement à committer"
           else
-            git commit -m "chore: enregistre $TAG"
+            git commit -m "chore: nouvelle version $TAG
+
+          Cette version a été détectée automatiquement par comparaison
+          des fichiers .class décompilés.
+
+          Raison: ${{ steps.compare.outputs.reason }}"
+                      
             git push
+            echo "✓ Changements poussés vers le dépôt"
           fi
 
-      - name: Création de la release GitHub
+      - name: 🎉 Création de la release GitHub
         if: steps.compare.outputs.update == 'true'
         env:
           TAG: ${{ steps.metadata.outputs.tag }}
-          SHA: ${{ steps.remote.outputs.sha }}
-          DATE: ${{ steps.metadata.outputs.timestamp }}
-          ASSET: ${{ steps.remote.outputs.path }}
+          SHA: ${{ steps.download.outputs.sha }}
+          HUMAN_DATE: ${{ steps.metadata.outputs.human_date }}
+          REASON: ${{ steps.compare.outputs.reason }}
         run: |
           set -euo pipefail
+          
           notes_file=$(mktemp)
           {
-            echo "Mise à jour automatisée du toolkit ijava."
+            echo "# 🎓 Nouvelle version iJava détectée"
             echo
-            echo "- Date UTC : $DATE"
-            echo "- SHA256   : $SHA"
+            echo "Cette version a été automatiquement détectée et publiée par analyse"
+            echo "du contenu décompilé des fichiers \`.class\`."
             echo
-            echo "Ce JAR a été récupéré depuis $JAR_URL."
+            echo "## 📊 Informations"
+            echo
+            echo "- **Date de détection**: $HUMAN_DATE"
+            echo "- **SHA256**: \`$SHA\`"
+            echo "- **Raison**: $REASON"
+            echo
+            echo "## 🔗 Source"
+            echo
+            echo "Le JAR a été récupéré depuis: $JAR_URL"
+            echo
+            echo "---"
+            echo
+            echo "_Cette release a été créée automatiquement par GitHub Actions._"
           } > "$notes_file"
-          gh release create "$TAG" "$PWD/$ASSET" --title "iJava $TAG" --notes-file "$notes_file"
-          echo "Release $TAG créée avec succès."
+          
+          gh release create "$TAG" \
+            "$DATASET_DIR/$TAG/ijava.jar" \
+            --title "🎓 iJava $TAG" \
+            --notes-file "$notes_file"
+          
+          echo "✓ Release $TAG créée avec succès"
 
-      - name: Notification Discord (optionnelle)
+      - name: 📢 Notification Discord
         if: steps.compare.outputs.update == 'true'
         env:
           DISCORD_WEBHOOK_INPUT: ${{ github.event.inputs.discordWebhook }}
           DISCORD_WEBHOOK_SECRET: ${{ env.DISCORD_WEBHOOK_URL }}
           TAG: ${{ steps.metadata.outputs.tag }}
-          SHA: ${{ steps.remote.outputs.sha }}
+          REASON: ${{ steps.compare.outputs.reason }}
         run: |
           set -euo pipefail
-          webhook="${DISCORD_WEBHOOK_INPUT:-}"
+          
+          webhook="${DISCORD_WEBHOOK_INPUT:-${DISCORD_WEBHOOK_SECRET:-}}"
+          
           if [ -z "$webhook" ]; then
-            webhook="${DISCORD_WEBHOOK_SECRET:-}"
-          fi
-          if [ -z "$webhook" ]; then
-            echo "Webhook Discord non défini : étape ignorée."
+            echo "⚠ Webhook Discord non configuré, notification ignorée"
             exit 0
           fi
-          payload=$(jq -n --arg content "Nouvelle version ijava détectée : **$TAG** (SHA256: $SHA)." '{content: $content}')
-          curl -X POST -H "Content-Type: application/json" -d "$payload" "$webhook"
-          echo "Notification Discord envoyée."
+          
+          payload=$(jq -n \
+            --arg content "🎓 **Nouvelle version iJava détectée !**
 
-      - name: Journalisation finale
+          **Version**: \`$TAG\`
+          **Raison**: $REASON
+
+          Une nouvelle release est disponible sur GitHub." \
+            '{content: $content}')
+          
+          if curl -X POST -H "Content-Type: application/json" \
+               -d "$payload" "$webhook" --fail; then
+            echo "✓ Notification Discord envoyée"
+          else
+            echo "⚠ Échec de l'envoi de la notification Discord"
+          fi
+
+      # ═══════════════════════════════════════════════════════════════
+      # 📋 PHASE 7: Récapitulatif
+      # ═══════════════════════════════════════════════════════════════
+
+      - name: 📋 Récapitulatif de l'exécution
+        if: always()
         run: |
           set -euo pipefail
+          
+          echo
+          echo "═══════════════════════════════════════════════════════"
+          echo "  📋 Récapitulatif de l'exécution"
+          echo "═══════════════════════════════════════════════════════"
+          echo
+          
           if [ "${{ steps.compare.outputs.update }}" = "true" ]; then
-            echo "Pipeline conclu : nouvelle version publiée."
+            echo "✅ Nouvelle version publiée avec succès"
+            echo
+            echo "  🏷️  Tag: ${{ steps.metadata.outputs.tag }}"
+            echo "  📅 Date: ${{ steps.metadata.outputs.human_date }}"
+            echo "  💡 Raison: ${{ steps.compare.outputs.reason }}"
+            echo
+            echo "La nouvelle version est disponible sur GitHub Releases."
           else
-            echo "Pipeline conclu : aucune mise à jour détectée."
+            echo "ℹ️  Aucune mise à jour nécessaire"
+            echo
+            echo "  Le JAR distant est identique à la dernière version connue."
+            echo "  Aucun changement fonctionnel détecté dans les fichiers .class."
           fi
+          
+          echo
+          echo "═══════════════════════════════════════════════════════"
