@@ -13,11 +13,51 @@ set -euo pipefail
 # CONFIGURATION
 # ==============================================================================
 
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly LIB_DIR="$SCRIPT_DIR/scripts/lib"
+# Détecte si le script est exécuté via pipe (curl | bash)
+if [[ -n "${BASH_SOURCE[0]:-}" ]] && [[ -f "${BASH_SOURCE[0]}" ]]; then
+    # Exécution locale (fichier sur le disque)
+    readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    readonly LIB_DIR="$SCRIPT_DIR/scripts/lib"
+    readonly IS_PIPED=false
+else
+    # Exécution via pipe (curl | bash)
+    readonly SCRIPT_DIR=""
+    readonly LIB_DIR=""
+    readonly IS_PIPED=true
+fi
 
 # Chargement de la bibliothèque commune
-if [[ -f "$LIB_DIR/common.sh" ]]; then
+if [[ "$IS_PIPED" == true ]]; then
+    # Télécharge common.sh temporairement
+    readonly TEMP_COMMON="$(mktemp)"
+    readonly COMMON_URL="https://raw.githubusercontent.com/yannouuuu/ijava-enhanced/main/scripts/lib/common.sh"
+    
+    if command -v curl >/dev/null 2>&1; then
+        curl -fsSL "$COMMON_URL" -o "$TEMP_COMMON" || {
+            echo "ERREUR: Impossible de télécharger la bibliothèque commune"
+            echo "URL: $COMMON_URL"
+            rm -f "$TEMP_COMMON"
+            exit 1
+        }
+    elif command -v wget >/dev/null 2>&1; then
+        wget -q "$COMMON_URL" -O "$TEMP_COMMON" || {
+            echo "ERREUR: Impossible de télécharger la bibliothèque commune"
+            echo "URL: $COMMON_URL"
+            rm -f "$TEMP_COMMON"
+            exit 1
+        }
+    else
+        echo "ERREUR: curl ou wget requis pour l'installation"
+        exit 1
+    fi
+    
+    # shellcheck source=scripts/lib/common.sh
+    source "$TEMP_COMMON"
+    
+    # Nettoyage du fichier temporaire à la sortie
+    trap 'rm -f "$TEMP_COMMON"' EXIT
+elif [[ -f "$LIB_DIR/common.sh" ]]; then
+    # Chargement local
     # shellcheck source=scripts/lib/common.sh
     source "$LIB_DIR/common.sh"
 else
