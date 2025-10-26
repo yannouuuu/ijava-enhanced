@@ -25,7 +25,7 @@ $ProgressPreference = "SilentlyContinue"
 $Script:Config = @{
     Version         = "1.0.0"
     JarUrl          = "https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar"
-    InstallDir      = Join-Path $env:USERPROFILE ".ijava"
+    InstallDir      = Join-Path $env:USERPROFILE ".ijava2"
     AliasMarkerStart = "# >>> ijava aliases >>>"
     AliasMarkerEnd   = "# <<< ijava aliases <<<"
 }
@@ -241,7 +241,7 @@ $ErrorActionPreference = "Stop"
 
 $Script:Config = @{
     Version          = "1.0.0"
-    InstallDir       = Join-Path $env:USERPROFILE ".ijava"
+    InstallDir       = Join-Path $env:USERPROFILE ".ijava2"
     JarUrl           = "https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar"
     AliasMarkerStart = "# >>> ijava aliases >>>"
     AliasMarkerEnd   = "# <<< ijava aliases <<<"
@@ -318,7 +318,7 @@ function Remove-PathEntry {
         $parts = $current.Split([System.IO.Path]::PathSeparator, [System.StringSplitOptions]::RemoveEmptyEntries) | 
             Where-Object { 
                 $_.TrimEnd('\') -ne $Entry.TrimEnd('\') -and 
-                $_.TrimEnd('\') -notlike "*\.ijava\bin"
+                $_.TrimEnd('\') -notlike "*\.ijava2\bin"
             }
         
         $newPath = [string]::Join([System.IO.Path]::PathSeparator, $parts)
@@ -395,12 +395,14 @@ switch ($args[0].ToLowerInvariant()) {
         Write-Host "╚════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
         Write-Host ""
 
-        Write-IjavaInfo "Suppression des fichiers..."
+        Write-IjavaInfo "Suppression des fichiers du wrapper..."
         if (Test-Path $Script:Config.JarPath) {
             Remove-Item -Path $Script:Config.JarPath -Force -ErrorAction SilentlyContinue
         }
         if (Test-Path $Script:Config.BinDir) {
             Remove-Item -Path "$($Script:Config.BinDir)\ijava" -Force -ErrorAction SilentlyContinue
+            Remove-Item -Path "$($Script:Config.BinDir)\ijava.cmd" -Force -ErrorAction SilentlyContinue
+            Remove-Item -Path "$($Script:Config.BinDir)\ijava.ps1" -Force -ErrorAction SilentlyContinue
         }
 
         Write-IjavaInfo "Nettoyage des profils PowerShell..."
@@ -412,33 +414,26 @@ switch ($args[0].ToLowerInvariant()) {
         Write-IjavaInfo "Suppression du PATH..."
         Remove-PathEntry -Entry $Script:Config.BinDir
 
-        # Demande de suppression du dossier .ijava2 (logs)
+        # Vérifier s'il reste des fichiers utilisateur dans .ijava2
         $ijava2Dir = "$env:USERPROFILE\.ijava2"
         if (Test-Path $ijava2Dir) {
-            Write-Host ""
-            $response = Read-Host "? Supprimer le dossier ~\.ijava2 (contient les logs) ? [O/n]"
-            if ($response -eq "" -or $response -match "^[yYoO]$") {
-                Write-IjavaInfo "Suppression du dossier des logs..."
-                Remove-Item -Path $ijava2Dir -Recurse -Force -ErrorAction SilentlyContinue
-                Write-Host "✓ Dossier des logs supprimé" -ForegroundColor Green
-            }
-            else {
-                Write-Host "ℹ Dossier des logs conservé : $ijava2Dir" -ForegroundColor Cyan
-            }
-        }
-
-        # Demande de suppression du fichier ijava2 (TPs et exercices)
-        $ijava2File = "$env:USERPROFILE\ijava2"
-        if (Test-Path $ijava2File) {
-            Write-Host ""
-            $response = Read-Host "? Supprimer le fichier ~\ijava2 (contient tous les TPs et exercices) ? [O/n]"
-            if ($response -eq "" -or $response -match "^[yYoO]$") {
-                Write-IjavaInfo "Suppression du fichier des exercices..."
-                Remove-Item -Path $ijava2File -Force -ErrorAction SilentlyContinue
-                Write-Host "✓ Fichier des exercices supprimé" -ForegroundColor Green
-            }
-            else {
-                Write-Host "ℹ Fichier des exercices conservé : $ijava2File" -ForegroundColor Cyan
+            $remainingContent = Get-ChildItem -Path $ijava2Dir -ErrorAction SilentlyContinue
+            if ($remainingContent) {
+                Write-Host ""
+                $response = Read-Host "? Supprimer le contenu restant de ~\.ijava2 (logs, TPs, exercices) ? [O/n]"
+                if ($response -eq "" -or $response -match "^[yYoO]$") {
+                    Write-IjavaInfo "Suppression du contenu utilisateur..."
+                    Remove-Item -Path "$ijava2Dir\*" -Recurse -Force -ErrorAction SilentlyContinue
+                    Write-Host "✓ Contenu utilisateur supprimé" -ForegroundColor Green
+                    # Supprimer le répertoire s'il est vide
+                    $remainingAfterCleanup = Get-ChildItem -Path $ijava2Dir -ErrorAction SilentlyContinue
+                    if (-not $remainingAfterCleanup) {
+                        Remove-Item -Path $ijava2Dir -Force -ErrorAction SilentlyContinue
+                    }
+                }
+                else {
+                    Write-Host "ℹ Contenu utilisateur conservé dans : $ijava2Dir" -ForegroundColor Cyan
+                }
             }
         }
 
@@ -449,7 +444,7 @@ switch ($args[0].ToLowerInvariant()) {
         Remove-Item Function:\ijavae -ErrorAction SilentlyContinue
         Remove-Item Function:\ijavas -ErrorAction SilentlyContinue
 
-        Write-IjavaInfo "Suppression des répertoires..."
+        Write-IjavaInfo "Suppression des répertoires vides..."
         if (Test-Path $Script:Config.BinDir) {
             $binDirContents = Get-ChildItem -Path $Script:Config.BinDir -ErrorAction SilentlyContinue
             if (-not $binDirContents) {
@@ -494,7 +489,7 @@ switch ($args[0].ToLowerInvariant()) {
     $cmdContent = @"
 @echo off
 setlocal
-set "SCRIPT=%USERPROFILE%\.ijava\bin\ijava.ps1"
+set "SCRIPT=%USERPROFILE%\.ijava2\bin\ijava.ps1"
 if not exist "%SCRIPT%" (
     echo [ijava] Lanceur introuvable. Reinstallez le toolkit.
     exit /b 1

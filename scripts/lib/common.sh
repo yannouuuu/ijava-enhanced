@@ -33,7 +33,7 @@ readonly SYMBOL_ROCKET="🚀"
 # Configuration par défaut
 readonly IJAVA_VERSION="1.0.0"
 readonly JAR_URL="https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar"
-readonly DEFAULT_INSTALL_DIR="${HOME}/.ijava"
+readonly DEFAULT_INSTALL_DIR="${HOME}/.ijava2"
 
 # ==============================================================================
 # FONCTIONS DE LOGGING

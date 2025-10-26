@@ -67,7 +67,7 @@ else
 fi
 
 # Configuration spécifique à macOS
-readonly INSTALL_DIR="${IJAVA_HOME:-$HOME/.ijava}"
+readonly INSTALL_DIR="${IJAVA_HOME:-$HOME/.ijava2}"
 readonly BIN_DIR="$INSTALL_DIR/bin"
 readonly JAR_PATH="$INSTALL_DIR/ijava.jar"
 readonly WRAPPER_PATH="$BIN_DIR/ijava"
@@ -164,7 +164,7 @@ create_wrapper() {
 set -euo pipefail
 
 # Configuration
-readonly INSTALL_DIR="${IJAVA_HOME:-$HOME/.ijava}"
+readonly INSTALL_DIR="${IJAVA_HOME:-$HOME/.ijava2}"
 readonly BIN_DIR="$INSTALL_DIR/bin"
 readonly JAR_PATH="$INSTALL_DIR/ijava.jar"
 readonly JAR_URL="https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar"
@@ -293,7 +293,7 @@ cmd_uninstall() {
     echo -e "${C_CYAN}${C_BOLD}Désinstallation d'iJava Enhanced${C_RESET}"
     echo ""
 
-    echo -e "${C_YELLOW}⚙${C_RESET}  Suppression des fichiers..."
+    echo -e "${C_YELLOW}⚙${C_RESET}  Suppression des fichiers du wrapper..."
     rm -f "$JAR_PATH"
     rm -f "$BIN_DIR/ijava"
 
@@ -305,31 +305,21 @@ cmd_uninstall() {
         fi
     done
 
-    # Demande de suppression du dossier .ijava2 (logs)
-    if [[ -d "$HOME/.ijava2" ]]; then
+    # Vérifier s'il reste des fichiers utilisateur dans .ijava2
+    if [[ -d "$HOME/.ijava2" ]] && [[ -n "$(ls -A "$HOME/.ijava2" 2>/dev/null)" ]]; then
         echo ""
-        if confirm "Supprimer le dossier ~/.ijava2 (contient les logs) ?"; then
-            echo -e "${C_YELLOW}⚙${C_RESET}  Suppression du dossier des logs..."
-            rm -rf "$HOME/.ijava2"
-            echo -e "${C_GREEN}✓${C_RESET}  Dossier des logs supprimé"
+        if confirm "Supprimer le contenu restant de ~/.ijava2 (logs, TPs, exercices) ?"; then
+            echo -e "${C_YELLOW}⚙${C_RESET}  Suppression du contenu utilisateur..."
+            rm -rf "$HOME/.ijava2"/*
+            echo -e "${C_GREEN}✓${C_RESET}  Contenu utilisateur supprimé"
+            # Supprimer le répertoire s'il est vide
+            [[ -z "$(ls -A "$HOME/.ijava2" 2>/dev/null)" ]] && rmdir "$HOME/.ijava2"
         else
-            echo -e "${C_CYAN}ℹ${C_RESET}  Dossier des logs conservé : $HOME/.ijava2"
+            echo -e "${C_CYAN}ℹ${C_RESET}  Contenu utilisateur conservé dans : $HOME/.ijava2"
         fi
     fi
 
-    # Demande de suppression du fichier ijava2 (TPs et exercices)
-    if [[ -f "$HOME/ijava2" ]]; then
-        echo ""
-        if confirm "Supprimer le fichier ~/ijava2 (contient tous les TPs et exercices) ?"; then
-            echo -e "${C_YELLOW}⚙${C_RESET}  Suppression du fichier des exercices..."
-            rm -f "$HOME/ijava2"
-            echo -e "${C_GREEN}✓${C_RESET}  Fichier des exercices supprimé"
-        else
-            echo -e "${C_CYAN}ℹ${C_RESET}  Fichier des exercices conservé : $HOME/ijava2"
-        fi
-    fi
-
-    echo -e "${C_YELLOW}⚙${C_RESET}  Suppression des répertoires..."
+    echo -e "${C_YELLOW}⚙${C_RESET}  Suppression des répertoires vides..."
     [[ -d "$BIN_DIR" ]] && [[ -z "$(ls -A "$BIN_DIR" 2>/dev/null)" ]] && rmdir "$BIN_DIR"
     [[ -d "$INSTALL_DIR" ]] && [[ -z "$(ls -A "$INSTALL_DIR" 2>/dev/null)" ]] && rmdir "$INSTALL_DIR"
 
@@ -376,7 +366,7 @@ WRAPPER_EOF
 configure_shell() {
     log_section "Configuration des profils shell"
     
-    local path_config="export PATH=\"\$HOME/.ijava/bin:\$PATH\""
+    local path_config="export PATH=\"\$HOME/.ijava2/bin:\$PATH\""
     local alias_config
     alias_config=$(cat <<'ALIAS_EOF'
 # Alias pratiques pour iJava
