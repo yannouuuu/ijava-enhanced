@@ -149,6 +149,30 @@ has_cmd() {
     command -v "$1" >/dev/null 2>&1
 }
 
+# Demande une confirmation utilisateur
+confirm() {
+    local prompt="${1:-Continuer?}"
+    local default="${2:-y}"
+
+    if [[ "$default" == "y" ]]; then
+        prompt="$prompt [O/n]"
+    else
+        prompt="$prompt [o/N]"
+    fi
+
+    echo -ne "${C_YELLOW}?${C_RESET}  ${C_BOLD}$prompt${C_RESET} "
+    read -r response
+
+    if [[ -z "$response" ]]; then
+        response="$default"
+    fi
+
+    case "$response" in
+        [yYoO]*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
 # Télécharge la dernière version
 download_latest() {
     echo -e "${C_CYAN}⬇${C_RESET}  Téléchargement de la dernière version..."
@@ -199,7 +223,7 @@ cmd_info() {
     echo ""
     echo -e "${C_CYAN}${C_BOLD}╔════════════════════════════════════════════════════════╗${C_RESET}"
     echo -e "${C_CYAN}${C_BOLD}║                                                        ║${C_RESET}"
-    echo -e "${C_CYAN}${C_BOLD}║          iJava Enhanced Wrapper v${VERSION}               ║${C_RESET}"
+    echo -e "${C_CYAN}${C_BOLD}║          iJava Enhanced Wrapper v${VERSION}             ║${C_RESET}"
     echo -e "${C_CYAN}${C_BOLD}║                                                        ║${C_RESET}"
     echo -e "${C_CYAN}${C_BOLD}╚════════════════════════════════════════════════════════╝${C_RESET}"
     echo ""
@@ -228,11 +252,11 @@ cmd_uninstall() {
     echo ""
     echo -e "${C_CYAN}${C_BOLD}Désinstallation d'iJava Enhanced${C_RESET}"
     echo ""
-    
+
     echo -e "${C_YELLOW}⚙${C_RESET}  Suppression des fichiers..."
     rm -f "$JAR_PATH"
     rm -f "$BIN_DIR/ijava"
-    
+
     echo -e "${C_YELLOW}⚙${C_RESET}  Nettoyage des profils shell..."
     for file in "${PROFILE_FILES[@]}"; do
         if [[ -f "$file" ]]; then
@@ -240,11 +264,35 @@ cmd_uninstall() {
             remove_profile_block "$file" "$ALIAS_MARKER_START" "$ALIAS_MARKER_END"
         fi
     done
-    
+
+    # Demande de suppression du dossier .ijava2 (logs)
+    if [[ -d "$HOME/.ijava2" ]]; then
+        echo ""
+        if confirm "Supprimer le dossier ~/.ijava2 (contient les logs) ?"; then
+            echo -e "${C_YELLOW}⚙${C_RESET}  Suppression du dossier des logs..."
+            rm -rf "$HOME/.ijava2"
+            echo -e "${C_GREEN}✓${C_RESET}  Dossier des logs supprimé"
+        else
+            echo -e "${C_CYAN}ℹ${C_RESET}  Dossier des logs conservé : $HOME/.ijava2"
+        fi
+    fi
+
+    # Demande de suppression du fichier ijava2 (TPs et exercices)
+    if [[ -f "$HOME/ijava2" ]]; then
+        echo ""
+        if confirm "Supprimer le fichier ~/ijava2 (contient tous les TPs et exercices) ?"; then
+            echo -e "${C_YELLOW}⚙${C_RESET}  Suppression du fichier des exercices..."
+            rm -f "$HOME/ijava2"
+            echo -e "${C_GREEN}✓${C_RESET}  Fichier des exercices supprimé"
+        else
+            echo -e "${C_CYAN}ℹ${C_RESET}  Fichier des exercices conservé : $HOME/ijava2"
+        fi
+    fi
+
     echo -e "${C_YELLOW}⚙${C_RESET}  Suppression des répertoires..."
     [[ -d "$BIN_DIR" ]] && [[ -z "$(ls -A "$BIN_DIR" 2>/dev/null)" ]] && rmdir "$BIN_DIR"
     [[ -d "$INSTALL_DIR" ]] && [[ -z "$(ls -A "$INSTALL_DIR" 2>/dev/null)" ]] && rmdir "$INSTALL_DIR"
-    
+
     echo ""
     echo -e "${C_GREEN}✓${C_RESET} ${C_BOLD}Désinstallation terminée !${C_RESET}"
     echo ""

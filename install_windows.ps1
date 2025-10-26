@@ -53,7 +53,7 @@ function Write-Banner {
     Write-Host "╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
     Write-Host "║                                                                ║" -ForegroundColor Cyan
     Write-Host "║                   iJava Enhanced Installer                     ║" -ForegroundColor Cyan
-    Write-Host "║                         Version $Version                           ║" -ForegroundColor Cyan
+    Write-Host "║                         Version $Version                         ║" -ForegroundColor Cyan
     Write-Host "║                      (Windows Edition)                         ║" -ForegroundColor Cyan
     Write-Host "║                                                                ║" -ForegroundColor Cyan
     Write-Host "╚════════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
@@ -394,27 +394,75 @@ switch ($args[0].ToLowerInvariant()) {
         Write-Host "║         Désinstallation d'iJava Enhanced              ║" -ForegroundColor Cyan
         Write-Host "╚════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
         Write-Host ""
-        
+
         Write-IjavaInfo "Suppression des fichiers..."
-        if (Test-Path $Script:Config.InstallDir) {
-            Remove-Item -Path $Script:Config.InstallDir -Recurse -Force -ErrorAction SilentlyContinue
+        if (Test-Path $Script:Config.JarPath) {
+            Remove-Item -Path $Script:Config.JarPath -Force -ErrorAction SilentlyContinue
         }
-        
+        if (Test-Path $Script:Config.BinDir) {
+            Remove-Item -Path "$($Script:Config.BinDir)\ijava" -Force -ErrorAction SilentlyContinue
+        }
+
         Write-IjavaInfo "Nettoyage des profils PowerShell..."
         foreach ($profilePath in $Script:ProfileCandidates) {
+            Remove-ProfileBlock -ProfilePath $profilePath -Start $Script:Config.PathMarkerStart -End $Script:Config.PathMarkerEnd
             Remove-ProfileBlock -ProfilePath $profilePath -Start $Script:Config.AliasMarkerStart -End $Script:Config.AliasMarkerEnd
         }
-        
+
         Write-IjavaInfo "Suppression du PATH..."
         Remove-PathEntry -Entry $Script:Config.BinDir
-        
+
+        # Demande de suppression du dossier .ijava2 (logs)
+        $ijava2Dir = "$env:USERPROFILE\.ijava2"
+        if (Test-Path $ijava2Dir) {
+            Write-Host ""
+            $response = Read-Host "? Supprimer le dossier ~\.ijava2 (contient les logs) ? [O/n]"
+            if ($response -eq "" -or $response -match "^[yYoO]$") {
+                Write-IjavaInfo "Suppression du dossier des logs..."
+                Remove-Item -Path $ijava2Dir -Recurse -Force -ErrorAction SilentlyContinue
+                Write-Host "✓ Dossier des logs supprimé" -ForegroundColor Green
+            }
+            else {
+                Write-Host "ℹ Dossier des logs conservé : $ijava2Dir" -ForegroundColor Cyan
+            }
+        }
+
+        # Demande de suppression du fichier ijava2 (TPs et exercices)
+        $ijava2File = "$env:USERPROFILE\ijava2"
+        if (Test-Path $ijava2File) {
+            Write-Host ""
+            $response = Read-Host "? Supprimer le fichier ~\ijava2 (contient tous les TPs et exercices) ? [O/n]"
+            if ($response -eq "" -or $response -match "^[yYoO]$") {
+                Write-IjavaInfo "Suppression du fichier des exercices..."
+                Remove-Item -Path $ijava2File -Force -ErrorAction SilentlyContinue
+                Write-Host "✓ Fichier des exercices supprimé" -ForegroundColor Green
+            }
+            else {
+                Write-Host "ℹ Fichier des exercices conservé : $ijava2File" -ForegroundColor Cyan
+            }
+        }
+
         Write-IjavaInfo "Suppression des fonctions de la session courante..."
         Remove-Item Function:\ijavai -ErrorAction SilentlyContinue
         Remove-Item Function:\ijavac -ErrorAction SilentlyContinue
         Remove-Item Function:\ijavat -ErrorAction SilentlyContinue
         Remove-Item Function:\ijavae -ErrorAction SilentlyContinue
         Remove-Item Function:\ijavas -ErrorAction SilentlyContinue
-        
+
+        Write-IjavaInfo "Suppression des répertoires..."
+        if (Test-Path $Script:Config.BinDir) {
+            $binDirContents = Get-ChildItem -Path $Script:Config.BinDir -ErrorAction SilentlyContinue
+            if (-not $binDirContents) {
+                Remove-Item -Path $Script:Config.BinDir -Force -ErrorAction SilentlyContinue
+            }
+        }
+        if (Test-Path $Script:Config.InstallDir) {
+            $installDirContents = Get-ChildItem -Path $Script:Config.InstallDir -ErrorAction SilentlyContinue
+            if (-not $installDirContents) {
+                Remove-Item -Path $Script:Config.InstallDir -Force -ErrorAction SilentlyContinue
+            }
+        }
+
         Write-Host ""
         Write-Host "✓ Désinstallation terminée avec succès !" -ForegroundColor Green
         Write-Host ""
