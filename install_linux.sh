@@ -14,7 +14,7 @@ set -euo pipefail
 # ==============================================================================
 
 # Détecte si le script est exécuté via pipe (curl | bash)
-if [[ -n "${BASH_SOURCE[0]:-}" ]] && [[ -f "${BASH_SOURCE[0]}" ]]; then
+if [[ -n "${BASH_SOURCE[0]:-}" ]] && [[ -f "${BASH_SOURCE[0]:-}" ]]; then
     # Exécution locale (fichier sur le disque)
     readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     readonly LIB_DIR="$SCRIPT_DIR/scripts/lib"
