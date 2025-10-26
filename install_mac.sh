@@ -1,240 +1,387 @@
 #!/usr/bin/env bash
+# ==============================================================================
+# iJava Enhanced - Script d'installation pour macOS
+# ==============================================================================
+# Description: Installe le toolkit iJava et configure l'environnement shell
+# Système: macOS (toutes versions)
+# Prérequis: Java 11+, bash, curl ou wget
+# ==============================================================================
+
 set -euo pipefail
 
-JAR_URL="https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar"
-INSTALL_DIR="${IJAVA_HOME:-$HOME/.ijava}"
-BIN_DIR="$INSTALL_DIR/bin"
-JAR_PATH="$INSTALL_DIR/ijava.jar"
-WRAPPER_PATH="$BIN_DIR/ijava"
-PROFILE_FILES=("$HOME/.zshrc" "$HOME/.bashrc" "$HOME/.bash_profile")
-PATH_MARKER_START="# >>> ijava path >>>"
-PATH_MARKER_END="# <<< ijava path <<<"
-ALIAS_MARKER_START="# >>> ijava aliases >>>"
-ALIAS_MARKER_END="# <<< ijava aliases <<<"
+# ==============================================================================
+# CONFIGURATION
+# ==============================================================================
 
-log() {
-    printf '==> %s\n' "$1"
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly LIB_DIR="$SCRIPT_DIR/scripts/lib"
+
+# Chargement de la bibliothèque commune
+if [[ -f "$LIB_DIR/common.sh" ]]; then
+    # shellcheck source=scripts/lib/common.sh
+    source "$LIB_DIR/common.sh"
+else
+    echo "ERREUR: Bibliothèque commune introuvable : $LIB_DIR/common.sh"
+    echo "Assurez-vous que le dépôt est complet."
+    exit 1
+fi
+
+# Configuration spécifique à macOS
+readonly INSTALL_DIR="${IJAVA_HOME:-$HOME/.ijava}"
+readonly BIN_DIR="$INSTALL_DIR/bin"
+readonly JAR_PATH="$INSTALL_DIR/ijava.jar"
+readonly WRAPPER_PATH="$BIN_DIR/ijava"
+readonly PROFILE_FILES=("$HOME/.zshrc" "$HOME/.bashrc" "$HOME/.bash_profile" "$HOME/.profile")
+
+# Marqueurs pour les fichiers de profil
+readonly PATH_MARKER_START="# >>> ijava path >>>"
+readonly PATH_MARKER_END="# <<< ijava path <<<"
+readonly ALIAS_MARKER_START="# >>> ijava aliases >>>"
+readonly ALIAS_MARKER_END="# <<< ijava aliases <<<"
+
+# ==============================================================================
+# FONCTIONS SPÉCIFIQUES À MACOS
+# ==============================================================================
+
+# Détecte le shell par défaut sur macOS
+detect_default_shell() {
+    local default_shell
+    default_shell="$(dscl . -read "$HOME" UserShell | awk '{print $2}')"
+    
+    case "$default_shell" in
+        */zsh)
+            log_info "Shell détecté : Zsh (par défaut sur macOS Catalina+)"
+            ;;
+        */bash)
+            log_info "Shell détecté : Bash"
+            ;;
+        *)
+            log_info "Shell détecté : $default_shell"
+            ;;
+    esac
 }
 
-info() {
-    printf '    %s\n' "$1"
-}
-
-error() {
-    printf 'ERREUR: %s\n' "$1" >&2
-}
-
-require_java() {
-    log "Vérification de Java"
-    if ! command -v java >/dev/null 2>&1; then
-        error "Java n'est pas installé. Installez-le depuis https://adoptium.net ou https://www.oracle.com/java/"
-        exit 1
+# Vérifie si Homebrew est installé (optionnel)
+check_homebrew() {
+    if has_command brew; then
+        log_detail "Homebrew détecté : $(brew --version | head -n 1)"
+        return 0
     fi
-    local version
-    version="$(java -version 2>&1 | head -n 1 | tr -d '\r')"
-    info "Java détecté: ${version}"
+    return 1
 }
 
-ensure_directories() {
-    log "Préparation des répertoires d'installation"
-    mkdir -p "$BIN_DIR"
-    info "Répertoire d'installation: $INSTALL_DIR"
-}
+# ==============================================================================
+# FONCTIONS D'INSTALLATION
+# ==============================================================================
 
-has_cmd() {
-    command -v "$1" >/dev/null 2>&1
-}
-
-download_file() {
-    local url="$1"
-    local dst="$2"
-    if has_cmd curl; then
-        curl -fsSL "$url" -o "$dst"
-    elif has_cmd wget; then
-        wget -q "$url" -O "$dst"
-    else
-        error "Ni curl ni wget n'est disponible. Installez l'un d'eux et réessayez."
-        exit 1
+# Prépare les répertoires d'installation
+prepare_directories() {
+    log_section "Préparation de l'environnement"
+    
+    # Détecte le shell
+    detect_default_shell
+    
+    # Vérifie Homebrew (informatif uniquement)
+    if check_homebrew; then
+        log_detail "Homebrew est disponible pour gérer Java si nécessaire"
     fi
+    
+    ensure_directory "$INSTALL_DIR" "répertoire d'installation" || exit 1
+    ensure_directory "$BIN_DIR" "répertoire des exécutables" || exit 1
+    
+    check_disk_space 50 "$INSTALL_DIR" || {
+        log_warning "Espace disque faible, mais on continue..."
+    }
+    
+    log_success "Environnement prêt"
 }
 
+# Télécharge le toolkit iJava
 download_toolkit() {
-    log "Téléchargement du toolkit iJava"
-    download_file "$JAR_URL" "$JAR_PATH"
-    info "Fichier JAR sauvegardé dans $JAR_PATH"
+    log_section "Téléchargement du toolkit iJava"
+    
+    download_file "$JAR_URL" "$JAR_PATH" "toolkit iJava" || {
+        log_error "Impossible de télécharger le toolkit"
+        log_info "Vérifiez votre connexion internet et réessayez"
+        exit 1
+    }
 }
 
-write_wrapper() {
-    log "Création du lanceur"
-    cat <<'EOF' >"$WRAPPER_PATH"
+# Crée le script wrapper
+create_wrapper() {
+    log_section "Création du lanceur intelligent"
+    
+    log_progress "Génération du wrapper"
+    
+    cat > "$WRAPPER_PATH" << 'WRAPPER_EOF'
 #!/usr/bin/env bash
+# ==============================================================================
+# iJava Enhanced par Yann Renard (version macOS)
+# ==============================================================================
+# Ce script encapsule le toolkit iJava et ajoute des fonctionnalités avancées
+# ==============================================================================
+
 set -euo pipefail
 
-INSTALL_DIR="${IJAVA_HOME:-$HOME/.ijava}"
-BIN_DIR="$INSTALL_DIR/bin"
-JAR_PATH="$INSTALL_DIR/ijava.jar"
-JAR_URL="https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar"
-PATH_MARKER_START="# >>> ijava path >>>"
-PATH_MARKER_END="# <<< ijava path <<<"
-ALIAS_MARKER_START="# >>> ijava aliases >>>"
-ALIAS_MARKER_END="# <<< ijava aliases <<<"
-PROFILE_FILES=("$HOME/.zshrc" "$HOME/.bashrc" "$HOME/.bash_profile")
+# Configuration
+readonly INSTALL_DIR="${IJAVA_HOME:-$HOME/.ijava}"
+readonly BIN_DIR="$INSTALL_DIR/bin"
+readonly JAR_PATH="$INSTALL_DIR/ijava.jar"
+readonly JAR_URL="https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar"
+readonly PATH_MARKER_START="# >>> ijava path >>>"
+readonly PATH_MARKER_END="# <<< ijava path <<<"
+readonly ALIAS_MARKER_START="# >>> ijava aliases >>>"
+readonly ALIAS_MARKER_END="# <<< ijava aliases <<<"
+readonly PROFILE_FILES=("$HOME/.zshrc" "$HOME/.bashrc" "$HOME/.bash_profile" "$HOME/.profile")
+readonly VERSION="1.0.0"
 
+# Couleurs
+readonly C_RESET='\033[0m'
+readonly C_BOLD='\033[1m'
+readonly C_GREEN='\033[0;32m'
+readonly C_YELLOW='\033[0;33m'
+readonly C_CYAN='\033[0;36m'
+readonly C_RED='\033[0;31m'
+
+# Utilitaires
 has_cmd() {
     command -v "$1" >/dev/null 2>&1
 }
 
+# Télécharge la dernière version
 download_latest() {
+    echo -e "${C_CYAN}⬇${C_RESET}  Téléchargement de la dernière version..."
+    
     if has_cmd curl; then
-        curl -fsSL "$JAR_URL" -o "$JAR_PATH"
+        curl -fsSL --progress-bar "$JAR_URL" -o "$JAR_PATH"
     elif has_cmd wget; then
-        wget -q "$JAR_URL" -O "$JAR_PATH"
+        wget -q --show-progress "$JAR_URL" -O "$JAR_PATH"
     else
-        echo "[ijava] Impossible de mettre à jour: curl ou wget requis." >&2
+        echo -e "${C_RED}✗${C_RESET} Impossible de mettre à jour: curl ou wget requis" >&2
         exit 1
     fi
-    echo "[ijava] Toolkit mis à jour."
+    
+    echo -e "${C_GREEN}✓${C_RESET} ${C_BOLD}Toolkit mis à jour avec succès !${C_RESET}"
 }
 
+# Supprime un bloc de profil
 remove_profile_block() {
-    local file="$1"
-    local start="$2"
-    local end="$3"
-    [ -f "$file" ] || return 0
+    local file="$1" start="$2" end="$3"
+    [[ -f "$file" ]] || return 0
+    
     local tmp
     tmp="$(mktemp)"
     awk -v s="$start" -v e="$end" '
         $0==s { flag=1; next }
         $0==e { flag=0; next }
         !flag { print }
-    ' "$file" >"$tmp"
+    ' "$file" > "$tmp"
     mv "$tmp" "$file"
 }
 
+# Vérifie et télécharge le JAR si nécessaire
 ensure_jar() {
-    if [ ! -f "$JAR_PATH" ]; then
-        echo "[ijava] Fichier JAR du toolkit manquant, téléchargement..."
+    if [[ ! -f "$JAR_PATH" ]]; then
+        echo -e "${C_YELLOW}⚠${C_RESET}  Toolkit manquant, téléchargement en cours..."
         download_latest
     fi
 }
 
-case "${1:-}" in
-    update|self-update)
-        download_latest
-        exit 0
-        ;;
-    --info)
-        echo ""
-        echo "================================================"
-        echo "     iJava Enhanced Wrapper v1.0.0"
-        echo "================================================"
-        echo ""
-        echo "Installation : $INSTALL_DIR"
-        echo "Fichier JAR  : $JAR_PATH"
-        echo ""
-        echo "Commandes du wrapper :"
-        echo "  - ijava update / self-update  -> Met a jour le toolkit iJava"
-        echo "  - ijava uninstall             -> Desinstalle iJava du systeme"
-        echo "  - ijava --info                -> Affiche ces informations"
-        echo ""
-        if [ -f "$JAR_PATH" ]; then
-            echo "Informations du toolkit iJava :"
-            echo "------------------------------------------------"
-            java -jar "$JAR_PATH" --info 2>/dev/null || java -jar "$JAR_PATH" help 2>/dev/null
-        else
-            echo "ATTENTION: Le fichier JAR du toolkit n'est pas installe."
-        fi
-        echo ""
-        exit 0
-        ;;
-    uninstall)
-        echo "[ijava] Suppression des fichiers installés..."
-        rm -f "$JAR_PATH"
-        rm -f "$BIN_DIR/ijava"
-        for file in "${PROFILE_FILES[@]}"; do
+# Commande: update / self-update
+cmd_update() {
+    download_latest
+    exit 0
+}
+
+# Commande: --info
+cmd_info() {
+    echo ""
+    echo -e "${C_CYAN}${C_BOLD}╔════════════════════════════════════════════════════════╗${C_RESET}"
+    echo -e "${C_CYAN}${C_BOLD}║                                                        ║${C_RESET}"
+    echo -e "${C_CYAN}${C_BOLD}║          iJava Enhanced Wrapper v${VERSION}               ║${C_RESET}"
+    echo -e "${C_CYAN}${C_BOLD}║                    (macOS Edition)                     ║${C_RESET}"
+    echo -e "${C_CYAN}${C_BOLD}║                                                        ║${C_RESET}"
+    echo -e "${C_CYAN}${C_BOLD}╚════════════════════════════════════════════════════════╝${C_RESET}"
+    echo ""
+    echo -e "${C_BOLD}Installation :${C_RESET} $INSTALL_DIR"
+    echo -e "${C_BOLD}Fichier JAR  :${C_RESET} $JAR_PATH"
+    echo ""
+    echo -e "${C_BOLD}${C_CYAN}Commandes du wrapper :${C_RESET}"
+    echo -e "  ${C_GREEN}ijava update${C_RESET} / ${C_GREEN}self-update${C_RESET}  → Met à jour le toolkit"
+    echo -e "  ${C_GREEN}ijava uninstall${C_RESET}             → Désinstalle iJava"
+    echo -e "  ${C_GREEN}ijava --info${C_RESET}                → Affiche ces informations"
+    echo ""
+    
+    if [[ -f "$JAR_PATH" ]]; then
+        echo -e "${C_BOLD}${C_CYAN}Informations du toolkit iJava :${C_RESET}"
+        echo "────────────────────────────────────────────────────────"
+        java -jar "$JAR_PATH" --info 2>/dev/null || java -jar "$JAR_PATH" help 2>/dev/null || true
+    else
+        echo -e "${C_YELLOW}⚠${C_RESET}  Le fichier JAR du toolkit n'est pas installé."
+    fi
+    echo ""
+    exit 0
+}
+
+# Commande: uninstall
+cmd_uninstall() {
+    echo ""
+    echo -e "${C_CYAN}${C_BOLD}Désinstallation d'iJava Enhanced${C_RESET}"
+    echo ""
+    
+    echo -e "${C_YELLOW}⚙${C_RESET}  Suppression des fichiers..."
+    rm -f "$JAR_PATH"
+    rm -f "$BIN_DIR/ijava"
+    
+    echo -e "${C_YELLOW}⚙${C_RESET}  Nettoyage des profils shell..."
+    for file in "${PROFILE_FILES[@]}"; do
+        if [[ -f "$file" ]]; then
             remove_profile_block "$file" "$PATH_MARKER_START" "$PATH_MARKER_END"
             remove_profile_block "$file" "$ALIAS_MARKER_START" "$ALIAS_MARKER_END"
-        done
-        if [ -d "$BIN_DIR" ] && [ -z "$(ls -A "$BIN_DIR" 2>/dev/null)" ]; then
-            rmdir "$BIN_DIR"
         fi
-        if [ -d "$INSTALL_DIR" ] && [ -z "$(ls -A "$INSTALL_DIR" 2>/dev/null)" ]; then
-            rmdir "$INSTALL_DIR"
-        fi
-        echo "[ijava] Désinstallation terminée. Redémarrez votre shell."
-        exit 0
-        ;;
-    *)
-        ensure_jar
-        exec java -jar "$JAR_PATH" "$@"
-        ;;
-esac
-EOF
-    chmod +x "$WRAPPER_PATH"
+    done
+    
+    echo -e "${C_YELLOW}⚙${C_RESET}  Suppression des répertoires..."
+    [[ -d "$BIN_DIR" ]] && [[ -z "$(ls -A "$BIN_DIR" 2>/dev/null)" ]] && rmdir "$BIN_DIR"
+    [[ -d "$INSTALL_DIR" ]] && [[ -z "$(ls -A "$INSTALL_DIR" 2>/dev/null)" ]] && rmdir "$INSTALL_DIR"
+    
+    echo ""
+    echo -e "${C_GREEN}✓${C_RESET} ${C_BOLD}Désinstallation terminée !${C_RESET}"
+    echo ""
+    echo "Redémarrez votre Terminal pour finaliser la suppression."
+    echo ""
+    exit 0
 }
 
-append_if_missing() {
-    local file="$1"
-    local marker_start="$2"
-    local marker_end="$3"
-    local content="$4"
-    if [ ! -f "$file" ]; then
-        touch "$file"
-    fi
-    if grep -Fq "$marker_start" "$file"; then
-        info "Marqueur déjà présent dans $file"
-    else
-        {
-            printf '\n%s\n' "$marker_start"
-            printf '%s\n' "$content"
-            printf '%s\n' "$marker_end"
-        } >>"$file"
-        info "Mis à jour $file"
-    fi
+# Point d'entrée principal
+main() {
+    case "${1:-}" in
+        update|self-update)
+            cmd_update
+            ;;
+        --info)
+            cmd_info
+            ;;
+        uninstall)
+            cmd_uninstall
+            ;;
+        *)
+            ensure_jar
+            exec java -jar "$JAR_PATH" "$@"
+            ;;
+    esac
 }
 
-configure_shell_profiles() {
-    log "Mise à jour des profils shell"
-    local path_line='export PATH="$HOME/.ijava/bin:$PATH"'
-    local alias_block
-    alias_block="$(cat <<'EOF'
+main "$@"
+WRAPPER_EOF
+    
+    chmod +x "$WRAPPER_PATH" || {
+        log_error "Impossible de rendre le wrapper exécutable"
+        exit 1
+    }
+    
+    log_success "Lanceur créé et configuré"
+    log_detail "$WRAPPER_PATH"
+}
+
+# Configure les profils shell
+configure_shell() {
+    log_section "Configuration des profils shell"
+    
+    local path_config="export PATH=\"\$HOME/.ijava/bin:\$PATH\""
+    local alias_config
+    alias_config=$(cat <<'ALIAS_EOF'
+# Alias pratiques pour iJava
 alias ijavai="ijava init"
 alias ijavac="ijava compile"
 alias ijavat="ijava test"
 alias ijavae="ijava execute"
 alias ijavas="ijava status"
-EOF
-)"
-    for file in "${PROFILE_FILES[@]}"; do
-        append_if_missing "$file" "$PATH_MARKER_START" "$PATH_MARKER_END" "$path_line"
-        append_if_missing "$file" "$ALIAS_MARKER_START" "$ALIAS_MARKER_END" "$alias_block"
+ALIAS_EOF
+)
+    
+    local updated=0
+    
+    for profile in "${PROFILE_FILES[@]}"; do
+        if [[ -f "$profile" ]]; then
+            # Ajoute le PATH
+            append_to_profile "$profile" "$PATH_MARKER_START" "$PATH_MARKER_END" "$path_config" && ((updated++)) || true
+            
+            # Ajoute les alias
+            append_to_profile "$profile" "$ALIAS_MARKER_START" "$ALIAS_MARKER_END" "$alias_config" || true
+        fi
     done
+    
+    # Configure le PATH pour la session actuelle
     if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
         export PATH="$BIN_DIR:$PATH"
+        log_detail "PATH mis à jour pour cette session"
     fi
-    alias ijavai="ijava init"
-    alias ijavac="ijava compile"
-    alias ijavat="ijava test"
-    alias ijavae="ijava execute"
-    alias ijavas="ijava status"
+    
+    # Configure les alias pour la session actuelle
+    alias ijavai="ijava init" 2>/dev/null || true
+    alias ijavac="ijava compile" 2>/dev/null || true
+    alias ijavat="ijava test" 2>/dev/null || true
+    alias ijavae="ijava execute" 2>/dev/null || true
+    alias ijavas="ijava status" 2>/dev/null || true
+    
+    if [[ $updated -gt 0 ]]; then
+        log_success "Configuration shell terminée"
+    else
+        log_info "Configuration shell déjà à jour"
+    fi
 }
 
-final_message() {
-    printf '\nInstallation terminée ! Commandes disponibles:\n'
-    printf '  - ijava <commande>\n'
-    printf '  - ijava update\n'
-    printf '  - ijava uninstall\n'
-    printf 'Alias: ijavai, ijavac, ijavat, ijavae, ijavas\n'
-    printf '\nOuvrez une nouvelle session terminal ou sourcez votre profil pour utiliser le toolkit.\n'
+# Affichage des notes spécifiques à macOS
+show_macos_notes() {
+    echo ""
+    echo -e "${COLOR_BOLD}${COLOR_CYAN}📝 Notes spécifiques macOS :${COLOR_RESET}"
+    echo ""
+    echo -e "  ${COLOR_YELLOW}•${COLOR_RESET} Par défaut, macOS Catalina+ utilise ${COLOR_BOLD}Zsh${COLOR_RESET}"
+    echo -e "  ${COLOR_YELLOW}•${COLOR_RESET} Si vous utilisez Bash, assurez-vous de sourcer ${COLOR_DIM}~/.bashrc${COLOR_RESET}"
+    echo -e "  ${COLOR_YELLOW}•${COLOR_RESET} Pour installer Java via Homebrew : ${COLOR_GREEN}brew install openjdk${COLOR_RESET}"
+    echo ""
 }
+
+# ==============================================================================
+# FONCTION PRINCIPALE
+# ==============================================================================
 
 main() {
-    require_java
-    ensure_directories
+    # Affiche la bannière
+    print_banner "$IJAVA_VERSION"
+    
+    # Vérifie les prérequis
+    check_java || exit 1
+    
+    # Installation
+    prepare_directories
     download_toolkit
-    write_wrapper
-    configure_shell_profiles
-    final_message
+    create_wrapper
+    configure_shell
+    
+    # Validation
+    validate_installation "$JAR_PATH" "$WRAPPER_PATH" || {
+        log_error "L'installation n'a pas pu être validée"
+        exit 1
+    }
+    
+    # Messages finaux
+    show_success_message
+    show_installation_summary "$INSTALL_DIR" "$JAR_PATH" "$BIN_DIR"
+    show_macos_notes
+    show_next_steps "$INSTALL_DIR"
+    
+    echo -e "${COLOR_BOLD}${COLOR_GREEN}Merci d'avoir installé iJava Enhanced ! ${SYMBOL_ROCKET}${COLOR_RESET}"
+    echo ""
 }
 
+# ==============================================================================
+# POINT D'ENTRÉE
+# ==============================================================================
+
+# Gestion des signaux pour un arrêt propre
+trap 'echo ""; log_error "Installation interrompue par l''utilisateur"; exit 130' INT TERM
+
+# Exécution
 main "$@"
