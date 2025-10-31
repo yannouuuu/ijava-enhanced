@@ -105,20 +105,20 @@ has_command() {
 confirm() {
     local prompt="${1:-Continuer?}"
     local default="${2:-y}"
-    
+
     if [[ "$default" == "y" ]]; then
         prompt="$prompt [O/n]"
     else
         prompt="$prompt [o/N]"
     fi
-    
+
     echo -ne "${COLOR_YELLOW}?${COLOR_RESET}  ${COLOR_BOLD}$prompt${COLOR_RESET} "
     read -r response
-    
+
     if [[ -z "$response" ]]; then
         response="$default"
     fi
-    
+
     case "$response" in
         [yYoO]*) return 0 ;;
         *) return 1 ;;
@@ -131,7 +131,7 @@ show_spinner() {
     local message="${2:-Traitement en cours}"
     local delay=0.1
     local spinstr='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
-    
+
     while ps -p "$pid" > /dev/null 2>&1; do
         local temp=${spinstr#?}
         printf "\r${COLOR_CYAN}%s${COLOR_RESET}  %s" "${spinstr:0:1}" "$message"
@@ -145,26 +145,96 @@ show_spinner() {
 # FONCTIONS DE VÉRIFICATION
 # ==============================================================================
 
+# Tente d'installer Java automatiquement
+install_java() {
+    log_section "Installation automatique de Java"
+
+    if ! has_command sudo; then
+        log_error "La commande 'sudo' est requise pour l'installation automatique."
+        log_info "Veuillez installer Java manuellement et relancer le script."
+        return 1
+    fi
+
+    local os
+    os="$(uname -s)"
+
+    case "$os" in
+        Linux)
+            if has_command apt-get; then
+                log_progress "Utilisation de APT (Debian/Ubuntu)"
+                sudo apt-get update
+                sudo apt-get install -y openjdk-21-jdk
+            elif has_command dnf; then
+                log_progress "Utilisation de DNF (Fedora/CentOS)"
+                sudo dnf install -y java-latest-openjdk-devel
+            elif has_command yum; then
+                log_progress "Utilisation de YUM (RHEL/CentOS 7)"
+                sudo yum install -y java-11-openjdk-devel
+            elif has_command pacman; then
+                log_progress "Utilisation de Pacman (Arch Linux)"
+                sudo pacman -Syu --noconfirm jdk-openjdk
+            else
+                log_error "Gestionnaire de paquets non supporté pour l'installation automatique."
+                log_info "Veuillez installer Java manuellement."
+                return 1
+            fi
+            ;;
+        Darwin)
+            if has_command brew; then
+                log_progress "Utilisation de Homebrew (macOS)"
+                brew install openjdk
+            else
+                log_error "Homebrew n'est pas installé."
+                log_info "Installez Homebrew (https://brew.sh) ou installez Java manuellement."
+                return 1
+            fi
+            ;;
+        *)
+            log_error "Système d'exploitation non supporté pour l'installation automatique de Java: $os"
+            return 1
+            ;;
+    esac
+
+    # Vérification post-installation
+    if has_command java; then
+        log_success "Java a été installé avec succès."
+        return 0
+    else
+        log_error "L'installation de Java semble avoir échoué."
+        return 1
+    fi
+}
+
+# Demande à l'utilisateur s'il veut installer Java
+prompt_and_install_java() {
+    echo ""
+    log_warning "Java n'est pas détecté sur votre système."
+    if confirm "Voulez-vous tenter une installation automatique de Java (OpenJDK) ?"; then
+        install_java
+        return $?
+    else
+        log_error "Java est requis pour continuer."
+        log_info "Veuillez l'installer manuellement et relancer le script."
+        return 1
+    fi
+}
+
 # Vérifie que Java est installé
 check_java() {
     log_section "Vérification des prérequis"
     log_progress "Recherche de Java"
-    
+
     if ! has_command java; then
-        echo ""
-        log_error "Java n'est pas installé sur votre système"
-        log_info "Installez Java depuis l'une de ces sources :"
-        log_detail "Adoptium (recommandé): ${COLOR_CYAN}https://adoptium.net${COLOR_RESET}"
-        log_detail "Oracle Java: ${COLOR_CYAN}https://www.oracle.com/java/${COLOR_RESET}"
-        echo ""
-        return 1
+        prompt_and_install_java || return 1
+        # On re-vérifie après l'installation
+        log_progress "Nouvelle vérification de Java"
     fi
-    
+
     local java_version
     java_version="$(java -version 2>&1 | head -n 1 | tr -d '\r')"
     log_success "Java détecté"
     log_detail "$java_version"
-    
+
     return 0
 }
 
@@ -172,17 +242,17 @@ check_java() {
 check_disk_space() {
     local required_mb="${1:-50}"
     local install_dir="${2:-$HOME}"
-    
+
     if has_command df; then
         local available_mb
         available_mb=$(df -m "$install_dir" | awk 'NR==2 {print $4}')
-        
+
         if [[ "$available_mb" -lt "$required_mb" ]]; then
             log_warning "Espace disque faible : ${available_mb}MB disponibles"
             return 1
         fi
     fi
-    
+
     return 0
 }
 
@@ -195,9 +265,9 @@ download_file() {
     local url="$1"
     local destination="$2"
     local description="${3:-fichier}"
-    
+
     log_progress "Téléchargement de $description"
-    
+
     if has_command curl; then
         if curl -fsSL --progress-bar "$url" -o "$destination"; then
             log_success "Téléchargement terminé"
@@ -215,7 +285,7 @@ download_file() {
         log_info "Installez curl ou wget et réessayez"
         return 1
     fi
-    
+
     log_error "Échec du téléchargement"
     return 1
 }
@@ -228,12 +298,12 @@ download_file() {
 ensure_directory() {
     local dir="$1"
     local description="${2:-répertoire}"
-    
+
     if [[ -d "$dir" ]]; then
         log_detail "$description existe déjà : $dir"
         return 0
     fi
-    
+
     if mkdir -p "$dir" 2>/dev/null; then
         log_success "Création de $description"
         log_detail "$dir"
@@ -249,7 +319,7 @@ can_write_file() {
     local file="$1"
     local dir
     dir="$(dirname "$file")"
-    
+
     if [[ -f "$file" ]]; then
         [[ -w "$file" ]]
     else
@@ -260,13 +330,13 @@ can_write_file() {
 # Sauvegarde un fichier avant modification
 backup_file() {
     local file="$1"
-    
+
     if [[ ! -f "$file" ]]; then
         return 0
     fi
-    
+
     local backup="${file}.backup.$(date +%Y%m%d_%H%M%S)"
-    
+
     if cp "$file" "$backup" 2>/dev/null; then
         log_detail "Sauvegarde créée : $backup"
         return 0
@@ -285,18 +355,18 @@ remove_profile_block() {
     local file="$1"
     local marker_start="$2"
     local marker_end="$3"
-    
+
     [[ -f "$file" ]] || return 0
-    
+
     local tmp
     tmp="$(mktemp)"
-    
+
     awk -v start="$marker_start" -v end="$marker_end" '
         $0 == start { skip=1; next }
         $0 == end { skip=0; next }
         !skip { print }
     ' "$file" > "$tmp"
-    
+
     mv "$tmp" "$file"
 }
 
@@ -306,18 +376,18 @@ append_to_profile() {
     local marker_start="$2"
     local marker_end="$3"
     local content="$4"
-    
+
     # Crée le fichier s'il n'existe pas
     if [[ ! -f "$file" ]]; then
         touch "$file" 2>/dev/null || return 1
     fi
-    
+
     # Vérifie si le contenu existe déjà
     if grep -Fq "$marker_start" "$file"; then
         log_detail "Configuration déjà présente dans $(basename "$file")"
         return 0
     fi
-    
+
     # Ajoute le contenu
     {
         echo ""
@@ -325,7 +395,7 @@ append_to_profile() {
         echo "$content"
         echo "$marker_end"
     } >> "$file"
-    
+
     log_success "Profil mis à jour : $(basename "$file")"
     return 0
 }
@@ -349,7 +419,7 @@ show_success_message() {
 # Affiche les prochaines étapes
 show_next_steps() {
     local install_dir="${1:-$DEFAULT_INSTALL_DIR}"
-    
+
     echo ""
     echo -e "${COLOR_BOLD}${COLOR_CYAN}Prochaines étapes :${COLOR_RESET}"
     echo ""
@@ -381,7 +451,7 @@ show_installation_summary() {
     local install_dir="$1"
     local jar_path="$2"
     local bin_dir="$3"
-    
+
     echo ""
     echo -e "${COLOR_BOLD}${COLOR_CYAN}Résumé de l'installation :${COLOR_RESET}"
     echo ""
@@ -404,11 +474,11 @@ show_installation_summary() {
 validate_installation() {
     local jar_path="$1"
     local wrapper_path="$2"
-    
+
     log_section "Validation de l'installation"
-    
+
     local all_ok=true
-    
+
     # Vérifie le JAR
     if [[ -f "$jar_path" ]]; then
         log_success "Toolkit iJava présent"
@@ -417,7 +487,7 @@ validate_installation() {
         log_error "Toolkit iJava manquant : $jar_path"
         all_ok=false
     fi
-    
+
     # Vérifie le wrapper
     if [[ -f "$wrapper_path" && -x "$wrapper_path" ]]; then
         log_success "Lanceur exécutable présent"
@@ -426,7 +496,7 @@ validate_installation() {
         log_error "Lanceur manquant ou non exécutable : $wrapper_path"
         all_ok=false
     fi
-    
+
     if [[ "$all_ok" == true ]]; then
         log_success "Validation réussie"
         return 0

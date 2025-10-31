@@ -48,7 +48,7 @@ $Script:ProfileCandidates = @(
 
 function Write-Banner {
     param([string]$Version = "1.0.0")
-    
+
     Write-Host ""
     Write-Host "╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
     Write-Host "║                                                                ║" -ForegroundColor Cyan
@@ -108,19 +108,99 @@ function Write-Progress {
 # FONCTIONS DE VÉRIFICATION
 # ==============================================================================
 
+function Install-Java {
+    Write-Section "Installation automatique de Java"
+
+    $wingetCmd = Get-Command winget -ErrorAction SilentlyContinue
+    if (-not $wingetCmd) {
+        Write-Error "Winget n'est pas disponible sur votre système."
+        Write-Info "Winget est le gestionnaire de paquets de Windows et est requis pour l'installation automatique."
+        Write-Info "Veuillez installer Java manuellement depuis https://adoptium.net et relancer le script."
+        return $false
+    }
+
+    if (-not (Test-AdminRights)) {
+        Write-Warning "Les droits administrateur sont requis pour installer Java."
+        Write-Info "Tentative de relance du script en tant qu'administrateur..."
+
+        # Relaunch as admin
+        try {
+            $newProcess = @{
+                FilePath     = "powershell.exe"
+                ArgumentList = "-NoProfile -ExecutionPolicy Bypass -File `"$($MyInvocation.MyCommand.Path)`""
+                Verb         = "RunAs"
+                ErrorAction  = "Stop"
+            }
+            Start-Process @newProcess
+            # Exit current script
+            exit
+        }
+        catch {
+            Write-Error "Échec de la tentative de relance en mode administrateur."
+            Write-Info "Veuillez faire un clic droit sur le script et choisir 'Exécuter en tant qu'administrateur'."
+            return $false
+        }
+    }
+
+    $packageId = "Microsoft.OpenJDK.21"
+    Write-Progress "Installation de Java via Winget (Package: $packageId)"
+    Write-Info "Cela peut prendre plusieurs minutes..."
+
+    try {
+        $wingetArgs = "install --id $packageId -e --accept-package-agreements --accept-source-agreements --silent"
+        Write-Detail "Exécution: winget $wingetArgs"
+
+        $process = Start-Process -FilePath "winget" -ArgumentList $wingetArgs -Wait -PassThru -WindowStyle Hidden
+
+        if ($process.ExitCode -eq 0) {
+            Write-Success "Java a été installé avec succès via Winget."
+            # Il faut rafraîchir les variables d'environnement pour trouver la nouvelle commande java
+            Write-Info "Mise à jour des variables d'environnement..."
+            $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+            return $true
+        }
+        else {
+            Write-Error "L'installation de Java via Winget a échoué avec le code d'erreur : $($process.ExitCode)"
+            return $false
+        }
+    }
+    catch {
+        Write-Error "Une erreur est survenue lors de l'exécution de Winget : $_"
+        return $false
+    }
+}
+
+function Prompt-AndInstallJava {
+    Write-Warning "Java n'est pas détecté sur votre système."
+    $response = Read-Host "? Voulez-vous tenter une installation automatique de Java (Microsoft OpenJDK) via Winget ? [O/n]"
+    if ($response -eq '' -or $response -match '^[yYoO]$') {
+        return Install-Java
+    }
+    else {
+        Write-Error "Java est requis pour continuer."
+        Write-Info "Veuillez l'installer manuellement et relancer le script."
+        return $false
+    }
+}
+
 function Test-JavaInstalled {
     Write-Section "Vérification des prérequis"
     Write-Progress "Recherche de Java"
-    
+
     $javaCmd = Get-Command java -ErrorAction SilentlyContinue
     if (-not $javaCmd) {
-        Write-Error "Java n'est pas installé sur votre système"
-        Write-Info "Installez Java depuis l'une de ces sources :"
-        Write-Detail "Adoptium (recommandé): https://adoptium.net"
-        Write-Detail "Oracle Java: https://www.oracle.com/java/technologies/downloads/"
-        return $false
+        if (-not (Prompt-AndInstallJava)) {
+            return $false
+        }
+        # Re-check after attempting installation
+        Write-Progress "Nouvelle vérification de Java"
+        $javaCmd = Get-Command java -ErrorAction SilentlyContinue
+        if (-not $javaCmd) {
+            Write-Error "Java n'est toujours pas détecté après la tentative d'installation."
+            return $false
+        }
     }
-    
+
     try {
         $javaVersionOutput = & java -version 2>&1
         $javaVersion = ($javaVersionOutput | Select-Object -First 1 | Out-String).Trim()
@@ -136,16 +216,16 @@ function Test-JavaInstalled {
 
 function Test-DiskSpace {
     param([int]$RequiredMB = 50)
-    
+
     try {
         $drive = (Get-Item $env:USERPROFILE).PSDrive
         $freeSpaceMB = [math]::Round($drive.Free / 1MB, 2)
-        
+
         if ($freeSpaceMB -lt $RequiredMB) {
             Write-Warning "Espace disque faible : ${freeSpaceMB}MB disponibles"
             return $false
         }
-        
+
         return $true
     }
     catch {
@@ -165,11 +245,11 @@ function Test-AdminRights {
 
 function Initialize-Directories {
     Write-Section "Préparation de l'environnement"
-    
+
     try {
         # Vérifie l'espace disque
         Test-DiskSpace -RequiredMB 50 | Out-Null
-        
+
         # Crée les répertoires
         if (-not (Test-Path $Script:Config.InstallDir)) {
             New-Item -ItemType Directory -Path $Script:Config.InstallDir -Force | Out-Null
@@ -179,7 +259,7 @@ function Initialize-Directories {
         else {
             Write-Detail "Répertoire d'installation existant : $($Script:Config.InstallDir)"
         }
-        
+
         if (-not (Test-Path $Script:Config.BinDir)) {
             New-Item -ItemType Directory -Path $Script:Config.BinDir -Force | Out-Null
             Write-Success "Création du répertoire des exécutables"
@@ -188,7 +268,7 @@ function Initialize-Directories {
         else {
             Write-Detail "Répertoire des exécutables existant : $($Script:Config.BinDir)"
         }
-        
+
         Write-Success "Environnement prêt"
         return $true
     }
@@ -201,10 +281,10 @@ function Initialize-Directories {
 function Install-Toolkit {
     Write-Section "Téléchargement du toolkit iJava"
     Write-Progress "Téléchargement en cours"
-    
+
     try {
         Invoke-WebRequest -Uri $Script:Config.JarUrl -OutFile $Script:Config.JarPath -UseBasicParsing
-        
+
         if (Test-Path $Script:Config.JarPath) {
             $fileSize = (Get-Item $Script:Config.JarPath).Length / 1KB
             Write-Success "Téléchargement terminé"
@@ -227,7 +307,7 @@ function Install-Toolkit {
 function Install-Wrapper {
     Write-Section "Création du lanceur intelligent"
     Write-Progress "Génération du wrapper PowerShell"
-    
+
     $wrapperContent = @'
 # ==============================================================================
 # iJava Enhanced par Yann Renard (version Windows)
@@ -284,18 +364,18 @@ function Remove-ProfileBlock {
         [string]$Start,
         [string]$End
     )
-    
+
     if (-not (Test-Path $ProfilePath)) { return }
-    
+
     try {
         $content = Get-Content $ProfilePath -Raw -ErrorAction SilentlyContinue
         if (-not $content) { return }
-        
+
         $pattern = [regex]::Escape($Start) + '.*?' + [regex]::Escape($End)
         $newContent = $content -replace "(?s)$pattern", ''
         $newContent = $newContent -replace '(\r?\n){3,}', "`r`n`r`n"
         $newContent = $newContent.Trim()
-        
+
         if ($newContent) {
             Set-Content -Path $ProfilePath -Value $newContent -NoNewline
         }
@@ -310,17 +390,17 @@ function Remove-ProfileBlock {
 
 function Remove-PathEntry {
     param([string]$Entry)
-    
+
     try {
         $current = [Environment]::GetEnvironmentVariable("PATH", "User")
         if (-not $current) { return }
-        
-        $parts = $current.Split([System.IO.Path]::PathSeparator, [System.StringSplitOptions]::RemoveEmptyEntries) | 
-            Where-Object { 
-                $_.TrimEnd('\') -ne $Entry.TrimEnd('\') -and 
+
+        $parts = $current.Split([System.IO.Path]::PathSeparator, [System.StringSplitOptions]::RemoveEmptyEntries) |
+            Where-Object {
+                $_.TrimEnd('\') -ne $Entry.TrimEnd('\') -and
                 $_.TrimEnd('\') -notlike "*\.ijava2\bin"
             }
-        
+
         $newPath = [string]::Join([System.IO.Path]::PathSeparator, $parts)
         [Environment]::SetEnvironmentVariable("PATH", $newPath, "User")
         Write-IjavaInfo "Supprimé du PATH utilisateur"
@@ -373,7 +453,7 @@ switch ($args[0].ToLowerInvariant()) {
         Write-Host "  ijava --info                " -NoNewline -ForegroundColor Green
         Write-Host "→ Affiche ces informations" -ForegroundColor Gray
         Write-Host ""
-        
+
         if (Test-Path $Script:Config.JarPath) {
             Write-Host "Informations du toolkit iJava :" -ForegroundColor Cyan
             Write-Host "────────────────────────────────────────────────────────" -ForegroundColor DarkGray
@@ -482,10 +562,10 @@ switch ($args[0].ToLowerInvariant()) {
         Write-Error "Impossible de créer le wrapper PowerShell : $_"
         return $false
     }
-    
+
     # Crée le wrapper CMD pour compatibilité
     Write-Progress "Génération du wrapper CMD"
-    
+
     $cmdContent = @"
 @echo off
 setlocal
@@ -516,10 +596,10 @@ endlocal & exit /b %EXITCODE%
 
 function Update-SystemPath {
     Write-Section "Mise à jour du PATH système"
-    
+
     try {
         $currentUserPath = [Environment]::GetEnvironmentVariable("PATH", "User")
-        
+
         if ([string]::IsNullOrWhiteSpace($currentUserPath)) {
             [Environment]::SetEnvironmentVariable("PATH", $Script:Config.BinDir, "User")
             Write-Success "PATH utilisateur initialisé"
@@ -528,7 +608,7 @@ function Update-SystemPath {
         else {
             $parts = $currentUserPath.Split([System.IO.Path]::PathSeparator, [System.StringSplitOptions]::RemoveEmptyEntries)
             $hasBin = $parts | Where-Object { $_.TrimEnd('\') -ieq $Script:Config.BinDir.TrimEnd('\') }
-            
+
             if ($hasBin) {
                 Write-Info "Le PATH contient déjà le répertoire d'installation"
             }
@@ -540,13 +620,13 @@ function Update-SystemPath {
                 Write-Detail "Redémarrez PowerShell pour charger le nouveau PATH"
             }
         }
-        
+
         # Met à jour le PATH pour la session actuelle
         if (-not (($env:PATH -split [System.IO.Path]::PathSeparator) | Where-Object { $_.TrimEnd('\') -ieq $Script:Config.BinDir.TrimEnd('\') })) {
             $env:PATH = "$($Script:Config.BinDir)$([System.IO.Path]::PathSeparator)$env:PATH"
             Write-Detail "PATH mis à jour pour cette session"
         }
-        
+
         return $true
     }
     catch {
@@ -557,7 +637,7 @@ function Update-SystemPath {
 
 function Install-Aliases {
     Write-Section "Configuration des alias"
-    
+
     $aliasBlock = @"
 $($Script:Config.AliasMarkerStart)
 # Alias pratiques pour iJava
@@ -570,21 +650,21 @@ $($Script:Config.AliasMarkerEnd)
 "@
 
     $aliasesAdded = 0
-    
+
     foreach ($profilePath in $Script:ProfileCandidates) {
         if (-not $profilePath) { continue }
-        
+
         try {
             $directory = Split-Path $profilePath -Parent
             if ($directory -and -not (Test-Path $directory)) {
                 New-Item -ItemType Directory -Path $directory -Force | Out-Null
             }
-            
+
             if (-not (Test-Path $profilePath)) {
                 New-Item -ItemType File -Path $profilePath -Force | Out-Null
                 Write-Detail "Profil créé : $profilePath"
             }
-            
+
             $content = Get-Content $profilePath -ErrorAction SilentlyContinue
             if ($content -contains $Script:Config.AliasMarkerStart) {
                 Write-Detail "Alias déjà présents dans $(Split-Path $profilePath -Leaf)"
@@ -599,7 +679,7 @@ $($Script:Config.AliasMarkerEnd)
             Write-Warning "Impossible de modifier $profilePath : $_"
         }
     }
-    
+
     # Crée les alias pour la session actuelle
     try {
         function global:ijavai { ijava init @args }
@@ -612,22 +692,22 @@ $($Script:Config.AliasMarkerEnd)
     catch {
         Write-Warning "Impossible de créer les alias pour cette session"
     }
-    
+
     if ($aliasesAdded -gt 0) {
         Write-Success "Configuration des alias terminée"
     }
     else {
         Write-Info "Configuration des alias déjà à jour"
     }
-    
+
     return $true
 }
 
 function Test-Installation {
     Write-Section "Validation de l'installation"
-    
+
     $allOk = $true
-    
+
     # Vérifie le JAR
     if (Test-Path $Script:Config.JarPath) {
         $fileSize = (Get-Item $Script:Config.JarPath).Length / 1KB
@@ -638,7 +718,7 @@ function Test-Installation {
         Write-Error "Toolkit iJava manquant : $($Script:Config.JarPath)"
         $allOk = $false
     }
-    
+
     # Vérifie les wrappers
     if (Test-Path $Script:Config.PowerShellWrapper) {
         Write-Success "Wrapper PowerShell présent"
@@ -648,7 +728,7 @@ function Test-Installation {
         Write-Error "Wrapper PowerShell manquant"
         $allOk = $false
     }
-    
+
     if (Test-Path $Script:Config.CmdWrapper) {
         Write-Success "Wrapper CMD présent"
         Write-Detail $Script:Config.CmdWrapper
@@ -657,14 +737,14 @@ function Test-Installation {
         Write-Error "Wrapper CMD manquant"
         $allOk = $false
     }
-    
+
     if ($allOk) {
         Write-Success "Validation réussie"
     }
     else {
         Write-Error "Validation échouée"
     }
-    
+
     return $allOk
 }
 
@@ -739,36 +819,36 @@ function Show-InstallationSummary {
 function Invoke-Installation {
     # Affiche la bannière
     Write-Banner -Version $Script:Config.Version
-    
+
     # Vérifie les prérequis
     if (-not (Test-JavaInstalled)) {
         exit 1
     }
-    
+
     # Avertissement si pas en admin (mais on continue)
     if (-not (Test-AdminRights)) {
         Write-Warning "Vous n'êtes pas en mode administrateur"
         Write-Info "L'installation continuera en mode utilisateur"
     }
-    
+
     # Installation
     if (-not (Initialize-Directories)) { exit 1 }
     if (-not (Install-Toolkit)) { exit 1 }
     if (-not (Install-Wrapper)) { exit 1 }
     if (-not (Update-SystemPath)) { exit 1 }
     if (-not (Install-Aliases)) { exit 1 }
-    
+
     # Validation
     if (-not (Test-Installation)) {
         Write-Error "L'installation n'a pas pu être validée"
         exit 1
     }
-    
+
     # Messages finaux
     Show-SuccessMessage
     Show-InstallationSummary
     Show-NextSteps
-    
+
     Write-Host "Merci d'avoir installé iJava Enhanced ! 🚀" -ForegroundColor Green
     Write-Host ""
 }
