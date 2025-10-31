@@ -76,7 +76,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-    statusBarItem.name = "iJava Tools";
+    statusBarItem.name = "iJava Enhanced";
     statusBarItem.command = "ijava.showInfo";
     statusBarItem.text = "iJava: ...";
     statusBarItem.show();
