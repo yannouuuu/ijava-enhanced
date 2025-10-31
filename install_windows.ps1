@@ -390,10 +390,11 @@ function ijavae { & ijava execute @args }
 function ijavas { & ijava status @args }
 "@
     
-    Add-ToProfile -ProfilePath $profilePath -MarkerStart $PATH_MARKER_START -MarkerEnd $PATH_MARKER_END -Content $pathConfig
-    Add-ToProfile -ProfilePath $profilePath -MarkerStart $ALIAS_MARKER_START -MarkerEnd $ALIAS_MARKER_END -Content $aliasConfig
+    Add-ToProfile -ProfilePath $profilePath -MarkerStart $PATH_MARKER_START -MarkerEnd $PATH_MARKER_END -Content $pathConfig | Out-Null
+    Add-ToProfile -ProfilePath $profilePath -MarkerStart $ALIAS_MARKER_START -MarkerEnd $ALIAS_MARKER_END -Content $aliasConfig | Out-Null
     
     New-Alias -Name ijavai -Value "$BIN_DIR\ijava.ps1" -Scope Global -Force -ErrorAction SilentlyContinue
+
     New-Alias -Name ijavac -Value "$BIN_DIR\ijava.ps1" -Scope Global -Force -ErrorAction SilentlyContinue
     New-Alias -Name ijavat -Value "$BIN_DIR\ijava.ps1" -Scope Global -Force -ErrorAction SilentlyContinue
     New-Alias -Name ijavae -Value "$BIN_DIR\ijava.ps1" -Scope Global -Force -ErrorAction SilentlyContinue
