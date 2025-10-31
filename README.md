@@ -14,7 +14,7 @@ Installez facilement **iJava** sur votre système et profitez d'une expérience 
 
 **Windows (PowerShell) :**
 ```powershell
-irm https://raw.githubusercontent.com/yannouuuu/ijava-enhanced/main/install_windows.ps1 | powershell.exe -ExecutionPolicy Bypass -
+iex (iwr -useb https://raw.githubusercontent.com/yannouuuu/ijava-enhanced/main/install_windows.ps1).Content | powershell.exe -ExecutionPolicy Bypass -
 ```
 
 **Linux :**
