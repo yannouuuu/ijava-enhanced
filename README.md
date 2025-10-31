@@ -1,4 +1,4 @@
-# 🚀 iJava Enhanced - Installeur & Extension VS Code
+# iJava Enhanced - Installeur & Extension VS Code
 
 **iJava Enhanced** est un outil complet qui combine :
 - 🔧 **Un installeur automatique** pour iJava sur votre système (Windows, Linux, macOS)
@@ -14,7 +14,7 @@ Installez facilement **iJava** sur votre système et profitez d'une expérience 
 
 **Windows (PowerShell) :**
 ```powershell
-irm https://raw.githubusercontent.com/yannouuuu/ijava-enhanced/main/install_windows.ps1 | iex
+irm https://raw.githubusercontent.com/yannouuuu/ijava-enhanced/main/install_windows.ps1 | powershell.exe -ExecutionPolicy Bypass -
 ```
 
 **Linux :**
@@ -39,8 +39,9 @@ cd ijava-enhanced
 Puis lancez le script correspondant à votre système :
 
 **Windows :**
+> **⚠️ Note pour Windows :** L'exécution de scripts PowerShell est souvent restreinte. Si la commande standard `.\install_windows.ps1` échoue avec une erreur de sécurité (`PSSecurityException`), utilisez la commande suivante qui contourne cette restriction pour cette seule exécution :
 ```powershell
-.\install_windows.ps1
+powershell.exe -ExecutionPolicy Bypass -File .\install_windows.ps1
 ```
 
 **Linux :**
@@ -56,10 +57,10 @@ chmod +x install_mac.sh
 ```
 
 Les scripts d'installation vont :
-- ✅ Vérifier la présence de Java sur votre système
-- ✅ Télécharger la dernière version d'iJava
-- ✅ Configurer les wrappers et aliases
-- ✅ Ajouter iJava à votre PATH
+- Vérifier la présence de Java sur votre système
+- Télécharger la dernière version d'iJava
+- Configurer les wrappers et aliases
+- Ajouter iJava à votre PATH
 
 ### 🗑️ Désinstallation
 
@@ -133,16 +134,16 @@ Puis appuyez sur `F5` pour lancer l'extension en mode debug.
 ### 🔧 Installeur système iJava
 
 L'installeur automatique s'occupe de :
-- 📥 Télécharger la dernière version d'iJava depuis le site officiel
-- ☕ Vérifier que Java est installé sur votre système
-- 📁 Créer le répertoire d'installation (`~/.ijava` ou `%USERPROFILE%\.ijava`)
-- 🔗 Configurer les wrappers pour une utilisation facile (`ijava` dans le terminal)
-- 🛤️ Ajouter iJava à votre PATH automatiquement
-- ⚙️ Créer les aliases pour PowerShell/Bash/Zsh selon votre OS
+- Télécharger la dernière version d'iJava depuis le site officiel
+- Vérifier que Java est installé sur votre système
+- Créer le répertoire d'installation (`~/.ijava` ou `%USERPROFILE%\.ijava`)
+- Configurer les wrappers pour une utilisation facile (`ijava` dans le terminal)
+- Ajouter iJava à votre PATH automatiquement
+- Créer les aliases pour PowerShell/Bash/Zsh selon votre OS
 
 ### 💻 Extension VS Code
 
-#### 🎯 Autocomplétion intelligente pour iJava
+#### Autocomplétion intelligente pour iJava
 
 L'extension détecte automatiquement les commandes iJava dans vos fichiers shell, PowerShell et batch et propose l'autocomplétion :
 
@@ -160,7 +161,7 @@ L'extension détecte automatiquement les commandes iJava dans vos fichiers shell
 - `ijava update` / `ijava self-update` - Met à jour le toolkit iJava
 - `ijava uninstall` - Désinstalle complètement iJava du système
 
-#### 📝 Snippets Java optimisés
+#### Snippets Java optimisés
 
 Plus de **50 snippets** pour accélérer votre développement Java :
 
@@ -182,51 +183,51 @@ Plus de **50 snippets** pour accélérer votre développement Java :
 
 ... et bien plus encore !
 
-#### 🔧 Commandes VS Code
+#### Commandes VS Code
 
 - **Run iJava Command** : Exécute une commande iJava dans un terminal intégré
 - **iJava: Show Info** : Affiche les informations sur l'extension
 
 ---
 
-## 🎨 Améliorations & fonctionnalités
+## Améliorations & fonctionnalités
 
-### 🆕 Installeur système
-- ✅ Installation automatique d'iJava en une commande
-- ✅ Support multi-plateforme (Windows, Linux, macOS)
-- ✅ Vérification automatique de Java
-- ✅ Configuration automatique du PATH
-- ✅ Création de wrappers et aliases
-- ✅ Téléchargement depuis le site officiel
+### Installeur système
+- Installation automatique d'iJava en une commande
+- Support multi-plateforme (Windows, Linux, macOS)
+- Vérification automatique de Java
+- Configuration automatique du PATH
+- Création de wrappers et aliases
+- Téléchargement depuis le site officiel
 
-### 🎨 Extension VS Code
-- ✅ Autocomplétion complète des commandes iJava
-- ✅ Support multi-langages (Shell, PowerShell, Batch)
-- ✅ Terminal intégré réutilisable
-- ✅ Barre de statut avec indicateur iJava
-- ✅ Plus de 50 snippets Java optimisés
+### Extension VS Code
+- Autocomplétion complète des commandes iJava
+- Support multi-langages (Shell, PowerShell, Batch)
+- Terminal intégré réutilisable
+- Barre de statut avec indicateur iJava
+- Plus de 50 snippets Java optimisés
 
-### 🔨 Améliorations
-- 🎯 Détection intelligente des fichiers `.java` pour compilation
-- 🚀 Suggestions contextuelles basées sur la commande tapée
-- 📋 Documentation intégrée pour chaque commande
-- 🔄 Gestion optimisée du terminal (réutilisation)
-- 💾 Support de l'autocomplétion des fichiers
+### Améliorations
+- Détection intelligente des fichiers `.java` pour compilation
+- Suggestions contextuelles basées sur la commande tapée
+- Documentation intégrée pour chaque commande
+- Gestion optimisée du terminal (réutilisation)
+- Support de l'autocomplétion des fichiers
 
-### 🎭 Interface utilisateur
-- 📊 Barre de statut interactive
-- 🖥️ Terminal dédié pour les commandes iJava
-- 📝 Descriptions détaillées des commandes
-- 🎨 Icônes et marqueurs visuels
+### Interface utilisateur
+- Barre de statut interactive
+- Terminal dédié pour les commandes iJava
+- Descriptions détaillées des commandes
+- Icônes et marqueurs visuels
 
-### ⚡ Performance
-- 🏃 Activation conditionnelle selon le langage
-- 💡 Chargement optimisé au démarrage
-- 🔍 Recherche de fichiers asynchrone
+### Performance
+- Activation conditionnelle selon le langage
+- Chargement optimisé au démarrage
+- Recherche de fichiers asynchrone
 
 ---
 
-## 🛠️ Développement
+## Développement
 
 ### Prérequis
 - Node.js >= 16
@@ -261,13 +262,7 @@ bun run package
 
 ---
 
-## 📄 Licence
-
-MIT - Voir le fichier LICENSE pour plus de détails
-
----
-
-## 👤 Auteur
+## Auteur
 
 **Yann Renard**
 > GitHub: [@yannouuuu](https://github.com/yannouuuu)
@@ -275,33 +270,9 @@ MIT - Voir le fichier LICENSE pour plus de détails
 **Yann Secq** (source [ijava](https://www.iut-info.univ-lille.fr/~yann.secq/ijava/))
 > LinkedIn: [@yannsecq](https://www.linkedin.com/in/yannsecq)
 
----
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues ! N'hésitez pas à :
-
-1. 🍴 Fork le projet
-2. 🔨 Créer une branche pour votre fonctionnalité (`git checkout -b feature/AmazingFeature`)
-3. 💾 Commit vos changements (`git commit -m 'feat: add AmazingFeature'`)
-4. 📤 Push vers la branche (`git push origin feature/AmazingFeature`)
-5. 🎉 Ouvrir une Pull Request
-
----
-
-## 📝 Notes
-
-**iJava Enhanced** facilite l'installation et l'utilisation du toolkit **iJava** :
-- 🔧 Utilisez les scripts d'installation pour installer iJava sur votre système
-- 💻 Installez ensuite l'extension VS Code pour une expérience optimale
-- ☕ Assurez-vous que Java (JDK 8 ou supérieur) est installé avant de lancer l'installeur
-- 🧩 Utilisez `scripts/process_ijava.sh` pour extraire et décompiler chaque `ijava.jar` dans `datasets/ijava`
-
-### 🆘 Aide et support
+### Aide et support
 
 Si vous rencontrez des problèmes :
 1. Vérifiez que Java est installé : `java -version`
 2. Consultez les logs d'installation
 3. Ouvrez une issue sur [GitHub](https://github.com/yannouuuu/ijava-enhanced/issues)
-
-**Bon développement avec iJava ! 🎉**
