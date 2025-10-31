@@ -1,20 +1,24 @@
 # ==============================================================================
 # iJava Enhanced - Module PowerShell commun
 # ==============================================================================
+    try {
+        $newContent = @"\n\n$MarkerStart
+$Content
+$MarkerEnd
+"@
 
-$OutputEncoding = [System.Text.Encoding]::UTF8
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-$script:IJAVA_VERSION = "1.0.0"
-$script:JAR_URL = "https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar"
-$script:DEFAULT_INSTALL_DIR = Join-Path $env:USERPROFILE ".ijava2"
-
-# ==============================================================================
-# FONCTIONS DE LOGGING
-# ==============================================================================
-
-function Write-Banner {
-    param(
-        [string]$Version = $script:IJAVA_VERSION
+        # Conserve le contenu existant et écrit le fichier sans BOM pour éviter les caractères indésirables
+        if ($null -eq $profileContent) { $profileContent = "" }
+        $combined = $profileContent + $newContent
+        [System.IO.File]::WriteAllText($ProfilePath, $combined, (New-Object System.Text.UTF8Encoding($false)))
+        Write-Success "Profil PowerShell mis à jour"
+        return $true
+    }
+    catch {
+        Write-Warning2 "Impossible de mettre à jour le profil PowerShell"
+        Write-Detail $_.Exception.Message
+        return $false
+    }
     )
     
     Write-Host ""
@@ -339,7 +343,9 @@ $MarkerStart
 $Content
 $MarkerEnd
 "@
-        Add-Content -Path $ProfilePath -Value $newContent -Encoding UTF8
+            if ($null -eq $profileContent) { $profileContent = "" }
+            $combined = $profileContent + $newContent
+            [System.IO.File]::WriteAllText($ProfilePath, $combined, (New-Object System.Text.UTF8Encoding($false)))
         Write-Success "Profil PowerShell mis à jour"
         return $true
     }
@@ -368,7 +374,7 @@ function Remove-FromProfile {
         $newContent = $content -replace $pattern, ""
         $newContent = $newContent -replace "(\r?\n){3,}", "`n`n"
         
-        Set-Content -Path $ProfilePath -Value $newContent.Trim() -Encoding UTF8
+        [System.IO.File]::WriteAllText($ProfilePath, $newContent.Trim(), (New-Object System.Text.UTF8Encoding($false)))
         return $true
     }
     catch {
