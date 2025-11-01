@@ -1,3 +1,5 @@
+$OutputEncoding = [System.Text.Encoding]::UTF8
+
 # ==============================================================================
 # iJava Enhanced - Script d'installation pour Windows
 # ==============================================================================
@@ -108,6 +110,34 @@ function Write-Progress {
 # FONCTIONS DE VÉRIFICATION
 # ==============================================================================
 
+function Refresh-Environment {
+    Write-Info "Envoi du signal de mise à jour de l'environnement..."
+
+    $cSharpSig = @'
+    using System;
+    using System.Runtime.InteropServices;
+
+    public class Win32 {
+        [DllImport("user32.dll", SetLastError=true, CharSet=CharSet.Auto)]
+        public static extern IntPtr SendMessageTimeout(
+            IntPtr hWnd, uint Msg, UIntPtr wParam, string lParam,
+            uint fuFlags, uint uTimeout, out UIntPtr lpdwResult);
+    }
+'@
+
+    Add-Type -TypeDefinition $cSharpSig -Namespace "Win32Utils" -ErrorAction SilentlyContinue
+
+    $HWND_BROADCAST = [IntPtr]0xffff;
+    $WM_SETTINGCHANGE = 0x1a;
+    $result = [UIntPtr]::Zero
+
+    [Win32Utils.Win32]::SendMessageTimeout($HWND_BROADCAST, $WM_SETTINGCHANGE, `
+        [UIntPtr]::Zero, "Environment", 2, 5000, [ref]$result) | Out-Null
+
+    Write-Info "Signal de mise à jour envoyé. Mise à jour du PATH pour la session actuelle..."
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+}
+
 function Install-Java {
     Write-Section "Installation automatique de Java"
 
@@ -123,7 +153,6 @@ function Install-Java {
         Write-Warning "Les droits administrateur sont requis pour installer Java."
         Write-Info "Tentative de relance du script en tant qu'administrateur..."
 
-        # Relaunch as admin
         try {
             $newProcess = @{
                 FilePath     = "powershell.exe"
@@ -132,12 +161,11 @@ function Install-Java {
                 ErrorAction  = "Stop"
             }
             Start-Process @newProcess
-            # Exit current script
             exit
         }
         catch {
             Write-Error "Échec de la tentative de relance en mode administrateur."
-            Write-Info "Veuillez faire un clic droit sur le script et choisir 'Exécuter en tant qu'administrateur'."
+            Write-Info "Veuillez faire un clic droit sur le script et choisir 'Exécuter en tant qu`'administrateur'."
             return $false
         }
     }
@@ -154,9 +182,7 @@ function Install-Java {
 
         if ($process.ExitCode -eq 0) {
             Write-Success "Java a été installé avec succès via Winget."
-            # Il faut rafraîchir les variables d'environnement pour trouver la nouvelle commande java
-            Write-Info "Mise à jour des variables d'environnement..."
-            $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+            Refresh-Environment
             return $true
         }
         else {
@@ -193,10 +219,14 @@ function Test-JavaInstalled {
             return $false
         }
         # Re-check after attempting installation
-        Write-Progress "Nouvelle vérification de Java"
-        $javaCmd = Get-Command java -ErrorAction SilentlyContinue
+        Write-Progress "Nouvelle vérification de Java après installation..."
+        Start-Sleep -Seconds 3 # Laisse le temps au système de traiter le message
+
+        $javaCmd = Get-Command java -NoCache -ErrorAction SilentlyContinue
         if (-not $javaCmd) {
             Write-Error "Java n'est toujours pas détecté après la tentative d'installation."
+            Write-Info "Le rafraîchissement automatique de l'environnement a peut-être échoué."
+            Write-Info "Veuillez fermer et rouvrir votre terminal, puis relancer le script."
             return $false
         }
     }
@@ -209,7 +239,8 @@ function Test-JavaInstalled {
         return $true
     }
     catch {
-        Write-Error "Impossible de vérifier la version de Java"
+        Write-Error "Impossible de vérifier la version de Java, même si la commande semble exister."
+        Write-Info "Essayez de fermer et rouvrir votre terminal."
         return $false
     }
 }
