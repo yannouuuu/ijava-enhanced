@@ -115,7 +115,7 @@ $INSTALL_DIR = if ($env:IJAVA_HOME) { $env:IJAVA_HOME } else { Join-Path $env:US
 $BIN_DIR = Join-Path $INSTALL_DIR "bin"
 $JAR_PATH = Join-Path $INSTALL_DIR "ijava.jar"
 $JAR_URL = "https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar"
-$VERSION = "1.0.0"
+$VERSION = "1.2.0"
 
 function Test-Cmd {
     param([string]$Command)

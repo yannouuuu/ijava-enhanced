@@ -134,7 +134,7 @@ readonly PATH_MARKER_END="# <<< ijava path <<<"
 readonly ALIAS_MARKER_START="# >>> ijava aliases >>>"
 readonly ALIAS_MARKER_END="# <<< ijava aliases <<<"
 readonly PROFILE_FILES=("$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.profile")
-readonly VERSION="1.0.0"
+readonly VERSION="1.2.0"
 
 # Couleurs
 readonly C_RESET='\033[0m'
