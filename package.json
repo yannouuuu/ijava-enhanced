@@ -2,7 +2,7 @@
   "name": "ijava-enhanced",
   "displayName": "iJava Enhanced",
   "description": "Extension VS Code pour piloter le toolkit ijava et offrir l'autocomplétion dédiée.",
-  "version": "0.1.0",
+  "version": "1.2.0",
   "publisher": "yannouuuu",
   "license": "MIT",
   "repository": {
