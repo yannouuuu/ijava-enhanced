@@ -17,13 +17,24 @@ function Write-Banner {
         [string]$Version = $script:IJAVA_VERSION
     )
     
+    $title = "iJava Enhanced Installer"
+    $versionText = "v$Version"
+    $totalWidth = 64
+    $contentWidth = $title.Length + $versionText.Length + 5  # 5 pour "⚡ " et "  "
+    $padding = [Math]::Floor(($totalWidth - $contentWidth) / 2)
+    $paddingRight = $totalWidth - $contentWidth - $padding
+    
     Write-Host ""
-    Write-Host "╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-    Write-Host "║                                                                ║" -ForegroundColor Cyan
-    Write-Host "║                   iJava Enhanced Installer                     ║" -ForegroundColor Cyan
-    Write-Host "║                         Version $Version                           ║" -ForegroundColor Cyan
-    Write-Host "║                                                                ║" -ForegroundColor Cyan
-    Write-Host "╚════════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+    Write-Host "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" -ForegroundColor Cyan
+    Write-Host "┃" -ForegroundColor Cyan -NoNewline
+    Write-Host (" " * $padding) -NoNewline
+    Write-Host "⚡ " -ForegroundColor Yellow -NoNewline
+    Write-Host $title -ForegroundColor White -NoNewline
+    Write-Host "  " -NoNewline
+    Write-Host $versionText -ForegroundColor DarkCyan -NoNewline
+    Write-Host (" " * $paddingRight) -NoNewline
+    Write-Host "┃" -ForegroundColor Cyan
+    Write-Host "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" -ForegroundColor Cyan
     Write-Host ""
 }
 
@@ -31,9 +42,8 @@ function Write-Section {
     param([string]$Message)
     
     Write-Host ""
-    Write-Host "╭─────────────────────────────────────────────────────────╮" -ForegroundColor Blue
-    Write-Host "│ $Message" -ForegroundColor Blue
-    Write-Host "╰─────────────────────────────────────────────────────────╯" -ForegroundColor Blue
+    Write-Host "▶ " -ForegroundColor Cyan -NoNewline
+    Write-Host $Message -ForegroundColor White
 }
 
 function Write-Success {
@@ -378,12 +388,19 @@ function Remove-FromProfile {
 }
 
 function Show-SuccessMessage {
+    $message = "🚀  Installation réussie avec succès !  🚀"
+    $totalWidth = 64
+    $padding = [Math]::Floor(($totalWidth - $message.Length) / 2)
+    $paddingRight = $totalWidth - $message.Length - $padding
+    
     Write-Host ""
-    Write-Host "╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Green
-    Write-Host "║                                                                ║" -ForegroundColor Green
-    Write-Host "║        🚀  Installation réussie avec succès !  🚀              ║" -ForegroundColor Green
-    Write-Host "║                                                                ║" -ForegroundColor Green
-    Write-Host "╚════════════════════════════════════════════════════════════════╝" -ForegroundColor Green
+    Write-Host "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" -ForegroundColor Green
+    Write-Host "┃" -ForegroundColor Green -NoNewline
+    Write-Host (" " * $padding) -NoNewline
+    Write-Host $message -ForegroundColor White -NoNewline
+    Write-Host (" " * $paddingRight) -NoNewline
+    Write-Host "┃" -ForegroundColor Green
+    Write-Host "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" -ForegroundColor Green
     Write-Host ""
 }
 

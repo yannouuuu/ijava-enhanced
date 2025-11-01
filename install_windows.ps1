@@ -167,20 +167,44 @@ function Invoke-Update {
 }
 
 function Show-Info {
+    $title = "iJava Enhanced Wrapper"
+    $versionText = "v$VERSION"
+    $subtitle = "Windows Edition  •  par Yann Renard"
+    $totalWidth = 64
+    
+    # Calcul pour la première ligne (titre + version)
+    $line1Content = "⚡ $title  $versionText"
+    $padding1 = [Math]::Floor(($totalWidth - $line1Content.Length) / 2)
+    $paddingRight1 = $totalWidth - $line1Content.Length - $padding1
+    
+    # Calcul pour la deuxième ligne (sous-titre)
+    $padding2 = [Math]::Floor(($totalWidth - $subtitle.Length) / 2)
+    $paddingRight2 = $totalWidth - $subtitle.Length - $padding2
+    
     Write-Host ""
-    Write-Host "╔════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-    Write-Host "║                                                        ║" -ForegroundColor Cyan
-    Write-Host "║          iJava Enhanced Wrapper v$VERSION             ║" -ForegroundColor Cyan
-    Write-Host "║                  (Windows Edition)                     ║" -ForegroundColor Cyan
-    Write-Host "║                                                        ║" -ForegroundColor Cyan
-    Write-Host "╚════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+    Write-Host "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" -ForegroundColor Cyan
+    Write-Host "┃" -ForegroundColor Cyan -NoNewline
+    Write-Host (" " * $padding1) -NoNewline
+    Write-Host "⚡ " -ForegroundColor Yellow -NoNewline
+    Write-Host $title -ForegroundColor White -NoNewline
+    Write-Host "  " -NoNewline
+    Write-Host $versionText -ForegroundColor DarkCyan -NoNewline
+    Write-Host (" " * $paddingRight1) -NoNewline
+    Write-Host "┃" -ForegroundColor Cyan
+    Write-Host "┃" -ForegroundColor Cyan -NoNewline
+    Write-Host (" " * $padding2) -NoNewline
+    Write-Host $subtitle -ForegroundColor DarkGray -NoNewline
+    Write-Host (" " * $paddingRight2) -NoNewline
+    Write-Host "┃" -ForegroundColor Cyan
+    Write-Host "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" -ForegroundColor Cyan
     Write-Host ""
     Write-Host "Installation : " -NoNewline
     Write-Host $INSTALL_DIR
     Write-Host "Fichier JAR  : " -NoNewline
     Write-Host $JAR_PATH
     Write-Host ""
-    Write-Host "Commandes du wrapper :" -ForegroundColor Cyan
+    Write-Host "▶ " -ForegroundColor Cyan -NoNewline
+    Write-Host "Commandes du wrapper" -ForegroundColor White
     Write-Host "  ijava update" -ForegroundColor Green -NoNewline
     Write-Host " / " -NoNewline
     Write-Host "self-update" -ForegroundColor Green -NoNewline
@@ -192,11 +216,9 @@ function Show-Info {
     Write-Host ""
     
     if (Test-Path $JAR_PATH) {
-        Write-Host "Informations du toolkit iJava :" -ForegroundColor Cyan
-        Write-Host "────────────────────────────────────────────────────────"
-        # N'appelle pas le JAR directement pour éviter les messages d'erreur
+        Write-Host "▶ " -ForegroundColor Cyan -NoNewline
+        Write-Host "Commandes iJava disponibles" -ForegroundColor White
         Write-Host ""
-        Write-Host "Commandes iJava disponibles :" -ForegroundColor White
         Write-Host "  init       Initialize current exercise or specified exercise from skeleton"
         Write-Host "  compile    Compile the current exercise or specified Java file"
         Write-Host "  test       Run a *Test class"
