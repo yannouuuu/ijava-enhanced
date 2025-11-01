@@ -194,15 +194,19 @@ function Show-Info {
     if (Test-Path $JAR_PATH) {
         Write-Host "Informations du toolkit iJava :" -ForegroundColor Cyan
         Write-Host "────────────────────────────────────────────────────────"
-        try {
-            & java -jar $JAR_PATH --info 2>$null
-            if ($LASTEXITCODE -ne 0) {
-                & java -jar $JAR_PATH help 2>$null
-            }
-        }
-        catch {
-            Write-Host "Impossible d'obtenir les informations du toolkit" -ForegroundColor Yellow
-        }
+        # N'appelle pas le JAR directement pour éviter les messages d'erreur
+        Write-Host ""
+        Write-Host "Commandes iJava disponibles :" -ForegroundColor White
+        Write-Host "  init       Initialize current exercise or specified exercise from skeleton"
+        Write-Host "  compile    Compile the current exercise or specified Java file"
+        Write-Host "  test       Run a *Test class"
+        Write-Host "  execute    Execute the current exercise or specified Java class"
+        Write-Host "  status     Show sessions overview or TP status"
+        Write-Host "  start      Initialize workspace and show status"
+        Write-Host "  stop       Stop the web server daemon"
+        Write-Host ""
+        Write-Host "Pour plus d'informations : " -NoNewline
+        Write-Host "ijava <command> --help" -ForegroundColor Cyan
     }
     else {
         Write-Host "⚠  Le fichier JAR du toolkit n'est pas installé." -ForegroundColor Yellow
