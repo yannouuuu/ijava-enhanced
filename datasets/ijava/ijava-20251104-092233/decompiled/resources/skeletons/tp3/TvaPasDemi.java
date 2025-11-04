@@ -1,0 +1,3 @@
+class TvaPasDemi extends Program {
+
+}
