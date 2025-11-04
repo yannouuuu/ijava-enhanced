@@ -40,5 +40,12 @@
     "date": "2025-10-23T09:20:30Z",
     "sha256": "ad9bfbd472d6be1b451a99da6bb1e1e206a0f076c0e028906a5cf8e222075798",
     "path": "datasets/ijava/ijava-20251023-092030/ijava.jar"
+  },
+  {
+    "version": "ijava-20251104-063011",
+    "date": "2025-11-04T06:30:11Z",
+    "sha256": "3c482d2c2ece1a32b49f25622e71ab4b0bc5d684d61583b02d813cd4a340ec35",
+    "path": "datasets/ijava/ijava-20251104-063011/ijava.jar",
+    "reason": "Différences détectées dans le code décompilé"
   }
 ]
