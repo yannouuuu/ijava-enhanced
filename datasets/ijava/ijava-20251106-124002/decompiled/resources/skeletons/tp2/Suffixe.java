@@ -1,0 +1,3 @@
+class Suffixe extends Program {
+
+}
