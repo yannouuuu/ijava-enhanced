@@ -1,0 +1,3 @@
+class SommeMinMax extends Program {
+
+}

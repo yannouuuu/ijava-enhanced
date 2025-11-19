@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>NuageDeMots - tp8</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Calcul des fréquences pour le nuage de mots</h1>
+        <p class="session-info">tp8 / NuageDeMots.java</p>
+    </header>
+    <main>
+
+<p>Nous avons maintenant tous les ingrédients pour calculer les fréquences de chaque mot dans un texte.</p>
+<p>Recopiez les différentes fonctions que vous avez écrites dans les étapes précédentes et complétez la fonction <code>void algorithm()</code> ci-dessous :</p>
+<pre><code class="language-java">void algorithm() {
+    String texte =
+        &quot;Keep it simple, stupid !&quot; +
+        &quot;Keep it stupid simple !&quot; +
+        &quot;Keep it simple and stupid !&quot; +
+        &quot;Keep it small and simple !&quot;;
+    println(texte);
+    println();
+    // Compléter ici en utilisant les fonctions écrites précédemment pour afficher les mots du texte et leur fréquence
+}
+</code></pre>
+<p>afin qu’elle affiche la liste des mots de <code>texte</code> et la fréquence de chaque mot.</p>
+<pre><code class="language-bash">ijava execute NuageDeMots
+Keep : 4
+it : 4
+simple : 4
+stupid : 3
+and : 2
+small : 1
+</code></pre>
+<h2>Prolongements</h2>
+<h3>Ignorez les différences de casse</h3>
+<p>Actuellement, si l'on a le mot <code>Keep</code>et le mot <code>keep</code>, ils sont considérés comme différents. Améliorez votre programme afin que la casse (ie. les majuscules/minuscules) d'un mot soit ignorée.</p>
+<h3>Triez les mots par ordre de fréquence</h3>
+<p>Même si cela sera l'objet d'un futur cours, sans vous aider d'une recherche web ou d'une quelconque IA, demandez vous comment il serait possible d'avoir un affichage permettant d'afficher par ordre décroissant de fréquence les différents mots.</p>
+
+    </main>
+</body>
+</html>

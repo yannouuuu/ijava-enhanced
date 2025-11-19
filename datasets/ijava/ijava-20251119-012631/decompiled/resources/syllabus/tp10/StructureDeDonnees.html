@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>StructureDeDonnees - tp10</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Définition de la structure de données et fonctions associées</h1>
+        <p class="session-info">tp10 / StructureDeDonnees.java</p>
+    </header>
+    <main>
+
+<p>La première étape consiste à identifier les éléments du problème et la manière de les représenter. Concrètement:</p>
+<ul>
+<li>Quel type utiliser pour représenter un mouton?</li>
+<li>Quel type utiliser pour représenter la prairie, càd l’espace dans lequel évoluent les moutons ?</li>
+</ul>
+<p>Dans la solution proposée, un mouton sera représenté par un <strong>caractère</strong>, et la prairie par un <strong>tableau de caractères</strong>. Un caractère sera réservé pour représenter la case vide de la prairie.</p>
+<p>Commençons par initialiser la prairie telle qu’elle est au début du jeu, et l’afficher.</p>
+<h2>Déclaration des constantes constituant la prairie</h2>
+<p>Déclarer ces constantes globales pour représenter les moutons:</p>
+<ul>
+<li>une constante nommée <code>GAUCHE</code> et contenant le caractère <code>&lt;</code> pour un mouton allant vers la gauche</li>
+<li>une constante nommée <code>DROITE</code> et contenant le caractère <code>&lt;</code> pour un mouton allant vers la droite</li>
+<li>une constante nommée <code>ESPACE</code> et contenant le caractère <code>_</code> pour représenter l'espace vide dans la prairie.</li>
+</ul>
+<p>Nous allons utiliser l'algorithme principal suivant pour débuter :</p>
+<pre><code class="language-java">void algorithm () {
+    char[] prairie = initialiser(7);  // Fonction à écrire
+    println(toString(prairie));     // Fonction à écrire
+}
+</code></pre>
+<h2>Fonction d'initialisation de la prairie</h2>
+<p>Définissez la fonction <code>initialiser</code> qui crée une configuration en fonction d'une taille donnée. <strong>ATTENTION : si un nombre pair est donné, la fonction passera automatiquement au nombre impair lui succédant !</strong> (en effet, pour avoir un nombre égal de moutons dans les deux troupeaux et un seul espace vide, une prairie doit nécessairement être impaire).</p>
+<p>La fonction doit valider les tests suivants :</p>
+<pre><code class="language-java">    // test d'initialisation d'une prairie en situation initiale
+    void test_initialiser_7() {
+        assertArrayEquals(
+            new char[]{DROITE, DROITE, DROITE, ESPACE, GAUCHE, GAUCHE, GAUCHE},
+            initialiser(7));
+    }
+    void test_initialiser_3() {
+        assertArrayEquals(
+            new char[]{DROITE, ESPACE, GAUCHE},
+            initialiser(3));
+    }
+    void test_initialiser_2() {
+        assertArrayEquals(
+            new char[]{DROITE, ESPACE, GAUCHE},
+            initialiser(2));    
+    }
+</code></pre>
+<h2>Fonction d'affichage de la prairie</h2>
+<p>Définissez la fonction <code>toString</code> qui crée une représentation sous forme de chaîne de caractères d'une prairie donnée en paramètre.</p>
+<p>La fonction doit valider les tests suivants :</p>
+<pre><code class="language-java">    // test de la visualisation d'une prairie
+    void test_toString_vide() {
+        char[] prairie_vide = new char[]{ESPACE, ESPACE, ESPACE, ESPACE, ESPACE};
+        assertEquals(&quot;_____&quot;, toString(prairie_vide));
+    }
+    void test_toString_prairie_initiale() {
+        char[] prairie_initiale = new char[]{
+            DROITE, DROITE, DROITE, ESPACE, GAUCHE, GAUCHE, GAUCHE};
+        assertEquals(&quot;&gt;&gt;&gt;_&lt;&lt;&lt;&quot;, toString(prairie_initiale));
+    }
+    void test_toString_prairie_inexistante() {
+        char[] test_toString_prairie_inexistante = new char[]{};
+        assertEquals(&quot;&quot;, toString(test_toString_prairie_inexistante));
+    }
+</code></pre>
+<p>Vérifiez <em>de visu</em> que la prairie s'affiche comme prévu à l'aide de : <code>ijava execute StructureDeDonnees</code> !</p>
+
+    </main>
+</body>
+</html>
