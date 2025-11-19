@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CTPSaE1v2 - tp42</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Changement de représentation des images</h1>
+        <p class="session-info">tp42 / CTPSaE1v2.java</p>
+    </header>
+    <main>
+
+<p>Votre bosse vient vous voir car des clients ont critiqué la lourdeur des fichiers images.</p>
+<p>Les développeurs et développeuses seniors ont creusé le problème et proposent de compresser la représentation des images. Le principe qu'ils proposent est de considérer que les images en <em>pixel art</em> des clients ont assez peu de couleurs (généralement 16 ou 32) par rapport au nombre de couleurs possibles en RGB (256 x 256 x 256 soit beaucoup !). Ainsi, ils proposent de compresser la représentation des images en introduisant la notion de palette de couleurs.</p>
+<p>Voici un exemple d'image pour comprendre le principe :</p>
+<table>
+    <tr>
+        <td style="background: #f00;"></td>
+        <td style="background: #0f0;"></td>
+        <td style="background: #00f;"></td>
+    </tr>
+    <tr>
+        <td style="background: #000;"></td>
+        <td style="background: #f00;"></td>
+        <td style="background: #0f0;"></td>
+    </tr>
+    <tr>
+        <td style="background: #fff;"></td>
+        <td style="background: #000;"></td>
+        <td style="background: #f00;"></td>
+    </tr>
+</table>
+<p>Cette image est constituée de 3x3 soit 9 pixels (<strong>on ne travaille qu'avec des images carrées</strong>), mais de seulement 5 couleurs (rouge, vert, bleu, noir, blanc) et est représentée ainsi avec notre codage actuel :</p>
+<pre><code class="language-java">final String IMAGE = &quot;255000000&quot;+&quot;000255000&quot;+&quot;000000255&quot;+
+                     &quot;000000000&quot;+&quot;255000000&quot;+&quot;000255000&quot;+
+                     &quot;255255255&quot;+&quot;000000000&quot;+&quot;255000000&quot;;
+</code></pre>
+<p>Les responsables proposent donc de créer la notion de <strong>palette</strong> de couleurs, pour associer à chaque couleur un nombre :</p>
+<ul>
+<li><code>0 = rouge</code></li>
+<li><code>1 = vert</code></li>
+<li><code>2 = bleu</code></li>
+<li><code>3 = noir</code></li>
+<li><code>4 = blanc</code></li>
+</ul>
+<p>Dit autrement, ils proposent de représenter la <strong>palette</strong> de couleurs d'une image par un tableau de chaînes de caractères :</p>
+<table style="width: 50%">
+    <tr>
+        <td style="background: #DDD; border: 1px solid">"255000000"</td>
+        <td style="background: #DDD; border: 1px solid">"000255000"</td>
+        <td style="background: #DDD; border: 1px solid">"000000255"</td>
+        <td style="background: #DDD; border: 1px solid">"000000000"</td>
+        <td style="background: #DDD; border: 1px solid">"255255255"</td>
+    </tr>
+    <tr style="text-align: center; font-style: italic">
+        <td style="text-align: center">0</td>
+        <td style="text-align: center">1</td>
+        <td style="text-align: center">2</td>
+        <td style="text-align: center">3</td>
+        <td style="text-align: center">4</td>
+    </tr>
+</table>
+<p>Si l'on dispose de cette <strong>palette</strong>, l'image peut être représentée à l'aide d'un tableau d'entiers avec un code couleur de la <strong>palette</strong> pour chaque pixel de l'image. Ce qui pour cet exemple, correspond à ce tableau de 9 entiers :</p>
+<table>
+    <tr style="background: #DDD; border: 1px solid">
+        <td style="border: 1px solid">0</td>
+        <td style="border: 1px solid">1</td>
+        <td style="border: 1px solid">2</td>
+        <td style="border: 1px solid">3</td>
+        <td style="border: 1px solid">0</td>
+        <td style="border: 1px solid">1</td>
+        <td style="border: 1px solid">4</td>
+        <td style="border: 1px solid">3</td>
+        <td style="border: 1px solid">0</td>
+    </tr>
+    <tr style="text-align: center; font-style: italic">
+        <td style="text-align: center">0</td>
+        <td style="text-align: center">1</td>
+        <td style="text-align: center">2</td>
+        <td style="text-align: center">3</td>
+        <td style="text-align: center">4</td>
+        <td style="text-align: center">5</td>
+        <td style="text-align: center">6</td>
+        <td style="text-align: center">7</td>
+        <td style="text-align: center">8</td>
+    </tr>
+</table>
+<p>car la <strong>palette</strong> correspond à ceci :</p>
+<table>
+    <tr style="font-style: bold">
+        <td style="background: #f00; border: 1px solid">"255000000"</td>
+        <td style="background: #0f0; border: 1px solid">"000255000"</td>
+        <td style="background: #00f; color: #fff; border: 1px solid">"000000255"</td>
+        <td style="background: #000; color: #fff; border: 1px solid">"000000000"</td>
+        <td style="background: #fff; border: 1px solid">"255255255"</td>
+    </tr>
+    <tr style="font-style: italic">
+        <td style="text-align: center;">0</td>
+        <td style="text-align: center;">1</td>
+        <td style="text-align: center;">2</td>
+        <td style="text-align: center;">3</td>
+        <td style="text-align: center;">4</td>
+    </tr>
+</table>
+<h2><code>int colorCode(String[] palette, String color)</code> (4 pts)</h2>
+<p>Définissez la fonction <code>colorCode</code> qui en fonction d'une couleur (<code>color</code>) représentée sous la forme d'une chaîne de 9 caractères retourne le code couleur correspondant dans la <code>palette</code>. Si la couleur n'est pas présente alors l'indice <code>-1</code> est retourné.</p>
+<p>Votre fonction doit valider le test suivant :</p>
+<pre><code class="language-java">void test_colorCode() {
+    final String[] PALETTE = {
+            &quot;255000000&quot;, // rouge
+            &quot;000255000&quot;, // vert
+            &quot;000000255&quot;, // bleu
+            &quot;000000000&quot;, // noir
+            &quot;255255255&quot;  // blanc
+    };
+    assertEquals( 0, colorCode(PALETTE, &quot;255000000&quot;));
+    assertEquals( 4, colorCode(PALETTE, &quot;255255255&quot;));
+    assertEquals(-1, colorCode(PALETTE, &quot;032064032&quot;));
+}
+</code></pre>
+<h2><code>int numberOfPixels(String image)</code> (1 pt)</h2>
+<p>Créez la fonction <code>numberOfPixels</code> qui retourne le nombre de pixels contenus dans l'<code>image</code> donnée en paramètre qui est une image selon l'ancien format..</p>
+<p>Votre fonction doit valider le test suivant :</p>
+<pre><code class="language-java">void test_numberOfPixels() {
+    final String IMAGE_2x2 = &quot;255255255&quot;+&quot;000255000&quot;+
+                                 &quot;255255255&quot;+&quot;000255000&quot;;
+        assertEquals(4, numberOfPixels(IMAGE_2x2));
+
+        final String IMAGE_3x3 = &quot;255000000&quot;+&quot;000255000&quot;+&quot;000000255&quot;+
+                                 &quot;000000000&quot;+&quot;255000000&quot;+&quot;000255000&quot;+
+                                 &quot;255255255&quot;+&quot;000000000&quot;+&quot;255000000&quot;;
+        assertEquals(9, numberOfPixels(IMAGE_3x3));
+}
+</code></pre>
+<h2><code>int[] convertOldToNew(String image, String[] palette)</code> (4 pts)</h2>
+<p>Créez maintenant la fonction <code>convertOldToNew</code> qui convertit une <code>image</code> sous l'ancien format, vers le nouveau à l'aide de la <code>palette</code> de couleurs. On considère que la <code>palette</code> est bien construite et contient toutes les couleurs présentes dans <code>image</code>.</p>
+<p>Votre fonction doit valider le test suivant :</p>
+<pre><code class="language-java">void test_convertOldToNew() {
+    final String IMAGE_2x2 = &quot;255255255&quot;+&quot;000255000&quot;+
+                                 &quot;255255255&quot;+&quot;000255000&quot;;
+        final String[] PALETTE = {
+            &quot;255000000&quot;, // rouge
+            &quot;000255000&quot;, // vert
+            &quot;000000255&quot;, // bleu
+            &quot;000000000&quot;, // noir
+            &quot;255255255&quot;  // blanc
+        };
+        assertArrayEquals(new int[]{4, 1, 4, 1}, 
+                    convertOldToNew(IMAGE_2x2, PALETTE));
+        
+        final String IMAGE_3x3 = &quot;255000000&quot;+&quot;000255000&quot;+&quot;000000255&quot;+
+                                 &quot;000000000&quot;+&quot;255000000&quot;+&quot;000255000&quot;+
+                                 &quot;255255255&quot;+&quot;000000000&quot;+&quot;255000000&quot;;
+        assertArrayEquals(new int[]{0, 1, 2, 3, 0, 1, 4, 3, 0}, 
+                    convertOldToNew(IMAGE_3x3, PALETTE));
+}
+</code></pre>
+<h2><code>String convertNewToOld(int[] image, String[] palette)</code> (4 pts)</h2>
+<p>Créez maintenant la fonction <code>convertNewToOld</code> qui convertit une <code>image</code> sous le nouveau format, vers l'ancien' à l'aide de la <code>palette</code> de couleurs. On considère que la <code>palette</code> est bien construite et contient toutes les couleurs présentes dans <code>image</code>.</p>
+<p>Votre fonction doit valider le test suivant :</p>
+<pre><code class="language-java">void test_convertNewToOld() {
+    final String[] PALETTE = {
+            &quot;255000000&quot;, // rouge
+            &quot;000255000&quot;, // vert
+            &quot;000000255&quot;, // bleu
+            &quot;000000000&quot;, // noir
+            &quot;255255255&quot;  // blanc
+        };
+        final String IMAGE_2x2 = &quot;255255255&quot;+&quot;000255000&quot;+
+                                 &quot;255255255&quot;+&quot;000255000&quot;;
+        assertEquals(IMAGE_2x2, 
+                    convertNewToOld(new int[]{4, 1, 4, 1}, PALETTE));
+        
+        final String IMAGE_3x3 = &quot;255000000&quot;+&quot;000255000&quot;+&quot;000000255&quot;+
+                                 &quot;000000000&quot;+&quot;255000000&quot;+&quot;000255000&quot;+
+                                 &quot;255255255&quot;+&quot;000000000&quot;+&quot;255000000&quot;;
+        assertEquals(IMAGE_3x3, 
+                    convertNewToOld(new int[]{0, 1, 2, 3, 0, 1, 4, 3, 0}, PALETTE));
+}
+</code></pre>
+<h2><code>String[] shift(String[] palette, boolean right)</code> (2 pts)</h2>
+<p>Créez la fonction <code>shift</code> qui crée une nouvelle palette en effectuant un décalage des couleurs de la <code>palette</code> vers la droite si <code>right</code>vaut <code>true</code> et vers la droite sinon . Ceci permet de faire varier les palettes de couleurs indépendamment des images.</p>
+<pre><code class="language-java">void test_shift() {
+    final String[] PALETTE = new String[]{&quot;255000000&quot;, &quot;000255000&quot;, &quot;000000255&quot;};
+    assertArrayEquals(new String[]{&quot;000000255&quot;, &quot;255000000&quot;, &quot;000255000&quot;}, 
+                      shift(PALETTE, true));
+    assertArrayEquals(new String[]{&quot;000255000&quot;, &quot;000000255&quot;, &quot;255000000&quot;}, 
+                      shift(PALETTE, false));
+}
+</code></pre>
+<h2><code>void show(int[] image, String[] palette)</code> (3 pts)</h2>
+<p>On souhaite maintenant définir la procédure <code>show</code> qui affiche une <code>image</code> avec le nouvel encodage en fonction d'une <code>palette</code> de couleurs. Vous pouvez vous inspirer de la fonction <code>show</code> que vous avez écrite dans les semaines précédentes et pouvez aussi copier les éventuelles fonctions qui vous semblent utiles pour définir cette nouvelle version.</p>
+<p>Ici on n'a pas de fonction de test associé, mais vous pouvez vérifier que lorsque vous exécutez le programme, vous obtenez bien l'image donnée en exemple au début de l'énoncé avec ce code :</p>
+<pre><code class="language-java">void algorithm() {
+    final String IMAGE_3x3 = &quot;255000000&quot;+&quot;000255000&quot;+&quot;000000255&quot;+
+                             &quot;000000000&quot;+&quot;255000000&quot;+&quot;000255000&quot;+
+                             &quot;255255255&quot;+&quot;000000000&quot;+&quot;255000000&quot;;
+    final String[] PALETTE = {
+        &quot;255000000&quot;, // rouge
+        &quot;000255000&quot;, // vert
+        &quot;000000255&quot;, // bleu
+        &quot;000000000&quot;, // noir
+        &quot;255255255&quot;  // blanc
+    };
+    show(convertOldToNew(IMAGE_3x3, PALETTE), PALETTE);
+}
+</code></pre>
+
+    </main>
+</body>
+</html>

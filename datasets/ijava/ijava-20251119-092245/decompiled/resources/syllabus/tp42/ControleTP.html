@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ControleTP - tp42</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Contrôle TP SaÉ1</h1>
+        <p class="session-info">tp42 / ControleTP.java</p>
+    </header>
+    <main>
+
+<p>Lisez attentivement ces consignes avant de débuter :</p>
+<ul>
+<li>vous pouvez utiliser les fichiers présents sur votre compte pour vous aider,</li>
+<li>vous pouvez consulter le cours sur Moodle,</li>
+<li>aucun accès extérieur n'est autorisé,</li>
+<li>aucun usage de votre portable qui doit être rangé dans votre sac.</li>
+</ul>
+<p>Vous avez un ensemble de fonctions à créer durant le contrôle, selon les mêmes procédures que lorsque vous êtes en TP. L'énoncé est disponible à la fois dans le navigateur ou en prévisualisant le fichier Markdown. Des squelettes plus ou moins complets sont potentiellement généré et vous utilisez les commandes habituelles d'<code>ijava</code> pour développer</p>
+<ul>
+<li><code>start</code> au début,</li>
+<li>puis <code>status</code> pour savoir en vous en êtes et ce qu'il reste à faire,</li>
+<li>ensuite <code>init</code> et après avoir créé vos foontions <code>compile</code>,</li>
+<li>éventuellement <code>execute</code> si vous voulez tester à la main et,</li>
+<li>finalement <code>test</code> pour vérifier que votre fonction est valide.</li>
+</ul>
+<p><strong>ATTENTION : ce n'est pas parce que vous avez tous les tests au VERT que vous aurez 20/20 ... la lisibilité du code et le fait de ne pas faire de calculs inutiles sont aussi évalués</strong></p>
+<h2>Révolution dans le langage <code>ijava</code> : naissance des tableaux !</h2>
+<p>Vous avez la chance d'être la première génération a bénéficié d'une nouvelle fonctionnalité du langage <code>ijava</code>: les tableaux !</p>
+<p>Cet outil fantastique va permettre de simplifier le programme de dessin sur lequel vous travaillez depuis plusieurs semaines. Fini de s'embêter avec cet encodage de couleurs sous la forme d'entiers, avec les soucis d'avoir toujours exactement 9 caractères pour retrouver les différentes composantes primaires de couleurs ...</p>
+<p>Afin d'évaluer la pertinence de ce nouvel outil, votre boss<em>e</em> vous demande de refaire votre projet en utilisant ce concept révolutionnaire appelé &quot;structure de donnée de type tableau&quot; !</p>
+<h3>Encodage d'un pixel de couleur et d'une image</h3>
+<p>Un pixel est toujours constitué de ses 3 composantes <code>RED</code>, <code>GREEN</code> et <code>BLUE</code> et chacune d'elle est toujours représentée par un entier dans l'intervalle <code>[0, 255]</code>. Une image est un ensemble de pixels, que l'on préférerait représenter sous la forme d'une grille à deux dimensions pour faciliter la gestion des indices de lignes et de colonnes.</p>
+<p>Votre boss<em>e</em> vous demnde donc de représeter un pixel par trois entiers et une image par un tableau à 2 dimensions avec pour chaque ligne 3 colonnes correspondant à chaque composante primaire pour un pixel, et une ligne représentant une ligne de l'image.</p>
+<p>Voici un exemple, <strong>attention</strong> les <code>|</code> sont là uniquement pour simplifier la lecture !</p>
+<pre><code>RVBR   -&gt; 255 0 0 | 0 255 0 | 0 0 255 | 255 0 0     
+BBBR   -&gt; 0 0 255 | 0 0 255 | 0 0 255 | 255 0 0
+RRRR   -&gt; 255 0 0 | 255 0 0 | 255 0 0 | 255 0 0
+</code></pre>
+<p>On voit ainsi qu'une image de <code>3 lignes x 4 colonnes</code> sera représentée par un tableau d'entiers de <code>3 lignes x 12 colonnes (4 pixels x 3 composantes)</code>.</p>
+<h4>Définition de <code>generate</code> pour créer une nouvelle image</h4>
+<p>On souhaite définir la fonction <code>int[][] generate(int nbLines, int nbColumns, int r, int g, int b)</code> pour créer facilement une image rectangulaire dont chaque pixel est initialisée avec une couleur par défaut.</p>
+<table>
+<tr><th>Type de retour </th><th>Nom de la fonction</th><th>Paramètres</th></tr>
+<tr><td><code>int[][]
+</code></td><td><code>generate
+</code></td><td><code>(int nbLines, int nbColumns, int r, int g, int b)
+</code></td></tr>
+<tr><td colspan="3">Crée une nouvelle image de <code>nbLines x nbColonnes</code> pixels avec la couleur précisée par les paramètres <code>(r,g,b)</code>.
+</td></tr>
+</table>
+<h4>Définition de <code>get</code> pour obtenir les 3 composantes d'un pixel</h4>
+<p>On souhaite maintenant disposer de la fonction <code>int[] get(int[][] image, int line, int column)</code> facilitant l'accès à un pixel dans une image. Cette fonction retourne un tableau de 3 entiers correspondant respectivement à la valeur de <code>RED</code>, <code>GREEN</code> et <code>BLUE</code> du pixel aux coordonnées <code>(line, colum)</code> dans l'<code>image</code>.</p>
+<table>
+<tr><th>Type de retour </th><th>Nom de la fonction</th><th>Paramètres</th></tr>
+<tr><td><code>int[]
+</code></td><td><code>get
+</code></td><td><code>(int[][] image, int line, int column)
+</code></td></tr>
+<tr><td colspan="3">Retourne les composantes de couleur du pixel de coordonnées <code>(line, column)</code> dans l'<code>image</code> et un tableau vide si les coordonnées sont invalides.
+</td></tr>
+</table>
+<h4>Définition de <code>set</code> pour modifier l'une des 3 composantes d'un pixel</h4>
+<p>Réciproquement à la fonction précédente, on souhaite pouvoir facilement modifier une composante de couleur d'un pixel dans une image donnée, on souhaite donc disposer de la fonction <code>boolean set(int[][] image, int line, int column, int component, int value)</code> pour réaliser cela.</p>
+<table>
+<tr><th>Type de retour </th><th>Nom de la fonction</th><th>Paramètres</th></tr>
+<tr><td><code>boolean
+</code></td><td><code>set
+</code></td><td><code>(int[][] image, int line, int column, int component, int value)
+</code></td></tr>
+<tr><td colspan="3">Modifie la composante de couleur <code>component</code> du pixel situé en <code>(line, column)</code> dans l'<code>image</code> et indique si l'opération a réussi. Cette fonction ne retourne faux que si la valeur n'est pas dans le bon intervalle, ou si la composante ou la position du pixel sont invalides.
+</td></tr>
+</table>
+<h4>Définition de <code>show</code> pour afficher une image dans le terminal</h4>
+<p>Maintenant que nous disposons des outils permettant de créer et manipuler une image, bien plus simplement qu'avec notre implémentation précédente avec les chaînes (!), on souhaiterait pouvoir visualier une image.</p>
+<p>Pour cela, on vous demande de créer la fonction <code>void show(int[][] image)</code>, qui nécessitera d'utiliser la fonction <code>rgb</code> que vous aviez mobilisé durant votre projet.</p>
+<table>
+<tr><th>Type de retour </th><th>Nom de la fonction</th><th>Paramètres</th></tr>
+<tr><td><code>void
+</code></td><td><code>show
+</code></td><td><code>(int[][] image)
+</code></td></tr>
+<tr><td colspan="3">Affiche l'<code>image</code> sur le terminal.
+</td></tr>
+</table>
+
+    </main>
+</body>
+</html>
