@@ -1,0 +1,3 @@
+class Demineur extends Program {
+
+}

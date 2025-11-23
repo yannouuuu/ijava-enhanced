@@ -1,0 +1,3 @@
+class DeMultiface extends Program {
+
+}

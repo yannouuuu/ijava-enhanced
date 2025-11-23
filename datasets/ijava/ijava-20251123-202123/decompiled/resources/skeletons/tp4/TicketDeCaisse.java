@@ -1,0 +1,3 @@
+class TicketDeCaisse extends Program {
+
+}

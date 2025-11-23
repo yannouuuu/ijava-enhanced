@@ -1,0 +1,3 @@
+class ChiffreAuHasard extends Program {
+
+}
