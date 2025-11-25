@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CTPPreTD - tp-ctp</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Images et tableau à 2 dimensions</h1>
+        <p class="session-info">tp-ctp / CTPPreTD.java</p>
+    </header>
+    <main>
+
+<p>On souhaite changer la représentation de nos images en utilisant un tableau à deux dimensions d'entiers. Cette représentation permet de supprimer la gestion des conversions entre chaînes de caractères et nombres entiers.</p>
+<p>Voici la description du nouvel encodage d'une image : un tableau à deux dimensions d'entiers constitué de 3 lignes (une pour chaque couleur primaire) et de <code>n x n</code> colonnes pour une image de taille <code>n</code>.</p>
+<p>Ainsi, une image de taille 3 avec un damier noir et blanch est représentée par :</p>
+<pre><code class="language-bash">0 255 0 255 0 255 0 255 0
+0 255 0 255 0 255 0 255 0
+0 255 0 255 0 255 0 255 0
+</code></pre>
+<p>La première ligne correspond à la composante <code>RED</code>, la deuxième à <code>GREEN</code> et la troisième à <code>BLUE</code>. La première colonne correspond au premier pixel de coordonnée (0, 0), la deuxième colonne au pixel de coordonnées (0, 1), la troisième colonne au pixel de coordonnées (0, 2) ce qui correspond donc à la première ligne du damier.</p>
+<h2><code>int[][] creer(int taille, int r, int g, int b)</code></h2>
+<p>Définissez la fonction <code>creer</code> qui fabrique une nouvelle image de taille <code>taille</code> dont les pixels sont initialisés avec les composantes <code>r</code>, <code>g</code>et <code>b</code>. Ainsi, l'appel <code>creer(2, 0, 32, 64)</code> produira ce tableau d'entier :</p>
+<pre><code class="language-bash"> 0  0  0  0
+32 32 32 32
+64 64 64 64
+</code></pre>
+<h2><code>String toString(int nb)</code> et <code>String debug(int[][] image)</code></h2>
+<p>Afin de déboguer plus facilement, on souhaite disposer d'une fonction <code>debug</code> qui permet de visaliser l'état de chacun des pixels d'une image. Voici le type de visualisation souhaité :</p>
+<pre><code class="language-bash">(000,000,000) (215,123,123) (255,255,255)
+(215,123,123) (255,255,255) (000,000,000)
+(255,255,255) (000,000,000) (215,123,123) 
+</code></pre>
+<p>Pour obtenir cet affichage, il faut d'abord définir la fonction <code>String toString(int nb)</code> permettant d'afficher un entier représentant une composante primaire sous la forme d'une chaîne de caractère faisant toujours 3 caractères.</p>
+<p>Créez la fonction <code>String toString(int nb)</code> réalisant cela.</p>
+<p>Une fois le test validé pour cette fonction, définissez la fonction <code>String debug(int[][] image)</code> qui réalise un affichage similaire à celui donné ci-dessus. Vous pourrez tester votre fonction à l'aide d'un court <code>void algorithm()</code> comme celul-ci :</p>
+<pre><code class="language-java">void algorithm() {
+    int[][] image2x2 = new int[][]{
+        {0, 32, 64, 128},
+        {0, 32, 64, 128},
+        {0, 32, 64, 128}};
+    println(debug(image2x2));
+}
+</code></pre>
+<p>qui devrait produire cet affichage:</p>
+<pre><code class="language-bash">(000,000,000) (032,032,032) 
+(064,064,064) (128,128,128) 
+</code></pre>
+<h2><code>void show(int[][] image)</code></h2>
+<p>Maintenant, on souhaite disposer de la fonction <code>show</code> qui à l'aidé de la fonction prédéfinie <code>rgb</code> affiche sur la console l'image en couleurs.</p>
+
+    </main>
+</body>
+</html>

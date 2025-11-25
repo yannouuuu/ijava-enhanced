@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Fichiers - tp12</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Opérations de base sur les fichiers textes</h1>
+        <p class="session-info">tp12 / Fichiers.java</p>
+    </header>
+    <main>
+
+<p>Nous allons dans cet exercice réaliser quelques opérations de base sur des fichiers textes :</p>
+<ul>
+<li>lister les fichiers présents dans un répertoire donné,</li>
+<li>calculer le nombre de lignes que contient un fichier,</li>
+<li>afficher l'ensemble des lignes d'un fichier texte.</li>
+</ul>
+<p>::: question
+<strong>Quel type allons-nous utiliser dans cet exercice ?</strong></p>
+<ul>
+<li>[ ] extensions.CSVFile
+<blockquote>
+<p>Le type CSV est effectivement un fichier textuel, mais avec une structure bien particulière. Or ici, on souhaite travailler avec n'importe quel fichier texte.</p>
+</blockquote>
+</li>
+<li>[x] extensions.File
+<blockquote>
+<p>Exactement ! C'est le type dédié à la manipulation de fichiers textuels</p>
+</blockquote>
+</li>
+<li>[ ] extension.Fichier
+<blockquote>
+<p>A part les types que nous créons parfois, tous les types prédéfinis en (i)java sont en anglais ...
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Afin de pouvoir réaliser ces opérations de base sur les fichiers, commencez par créer un répertoire <code>categories</code> dans le répertoire actuel. Faîtes un simple copier coller des données et après avoir validé la commande <code>cat</code>, faîtes un <code>CONTROL-C</code> pour copier le contenu et terminez par un <code>CONTROL-D</code> pour finir la saisie ce qui créera le fichier.</p>
+<p>Puis créez dans ce répertoire les fichiers suivants :</p>
+<pre><code class="language-bash">&gt; mkdir categories
+&gt; cat &gt; categories/animaux.txt
+Noms d'animaux
+brebis
+aigle
+perroquet
+lion
+mouche
+souris
+tigre
+chat
+loup
+koala
+kiwi
+pie
+(appuyez sur les touches Control-D pour terminer la saisie)
+&gt; cat &gt; categories/capitales.txt
+Capitales du monde
+paris
+londres
+rome
+amsterdam
+tokyo
+alger
+athenes
+berlin
+brasilia
+bruxelles
+(appuyez sur les touches Control-D pour terminer la saisie)
+&gt; cat categories/pays.txt
+Pays européens
+suisse
+france
+italie
+belgique
+espagne
+portugal
+allemagne
+autriche
+serbie
+croatie
+(appuyez sur les touches Control-D pour terminer la saisie)
+</code></pre>
+<p>Normalement, vous devriez avoir ceci :</p>
+<pre><code class="language-bash">&gt; tree
+.
+├── Fichiers.java
+├── Fichiers.md
+├── Files-cheat-sheet.md
+└── categories
+    ├── animaux.txt
+    ├── capitales.txt
+    └── pays.txt
+
+2 directories, 6 files&gt;
+</code></pre>
+<h2>Lister les fichiers présents dans un répertoire donné</h2>
+<p>A l'aide de la fonction <code>String[] getAllFilesFromDirectory(String repertoire)</code>, créez la fonction <code>String choixFichier(String repertoire)</code> qui affiche la liste des fichiers du <code>repertoire</code> donné en les préfixant de leur indice et effectue une saisie <strong>sans contrôle</strong> au niveau de l'usager puis retourne le nom du fichier correspondant à l'indice.</p>
+<p>Par exemple, en supposant que la fonction <code>choixFichier</code> est appellée avec le répertoire <code>categories</code>, on obtiendrait un affichage similaire à celui-ci:</p>
+<pre><code class="language-bash">0 : animaux.txt
+1 : capitales.txt
+2 : pays.txt
+Choisir un fichier en indiquant son numéro : 0
+</code></pre>
+<p>Et dans ce cas, la valeur de retour de la fonction aurait été <code>animaux.txt</code>.</p>
+<h2>Calculer le nombre de lignes que contient un fichier</h2>
+<p>On souhaite maintenant déterminer le nombre de lignes contenues dans un fichier quelconque. A l'aide des fonctions :</p>
+<ul>
+<li><code>File newFile(String filename)</code></li>
+<li><code>boolean ready(File file)</code></li>
+<li><code>String readLine(File file)</code>
+créez la fonction <code>int nbLignes(String nomFichier)</code> qui décompte le nombre de lignes de texte présentes dans le fichier nommé <code>nomFichier</code>.</li>
+</ul>
+<p>Définissez ensuite la procédure <code>test_nbLignes_animaux_txt</code> qui s'assure que le fichier <code>categories/animaux.txt</code> contient bien 13 lignes.</p>
+<h2>Afficher l'ensemble des lignes d'un fichier texte</h2>
+<p>Finalement, on souhaite pouvoir afficher le contenu d'un fichier donné. A l'aide des mêmes fonctions proposées pour <code>nbLignes</code>, définissez la procédure <code>void dump(File file)</code> qui affiche le contenu du fichier donné en paramètre.</p>
+<pre><code class="language-bash">ijava execute Fichiers
+0 : capitales.txt
+1 : animaux.txt
+2 : pays.txt
+Choisir un fichier en indiquant son numéro : 0
+Vous avez choisi le fichier : capitales.txt
+Ce fichier contient 11 lignes.
+Capitales du monde
+paris
+londres
+rome
+amsterdam
+tokyo
+alger
+athenes
+berlin
+brasilia
+bruxelles
+</code></pre>
+
+    </main>
+</body>
+</html>

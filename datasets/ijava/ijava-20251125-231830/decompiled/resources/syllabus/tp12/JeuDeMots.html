@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JeuDeMots - tp12</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Initialisations à partir de données externalisées dans un fichier</h1>
+        <p class="session-info">tp12 / JeuDeMots.java</p>
+    </header>
+    <main>
+
+<p>Afin d'automatiser et faciliter la mise à jour des données de notre jeu de mots, nous allons externaliser les données dans des fichiers.</p>
+<p>On ne souhaite pas réaliser l'ensemble des fonctionnalités du jeu modélisé en TD, mais se concentrer uniquement sur la partie externalisation et le chargement des données à partir d'un fichier. L'objectif est donc que ce court programme soit fonctionnel :</p>
+<pre><code class="language-java">    void algorithm(){
+        String nomFichier = choixFichier(NOM_REPERTOIRE);
+	    Categorie categorie = chargerCategorie(NOM_REPERTOIRE+&quot;/&quot;+nomFichier);
+	    affichageCategorie(categorie);
+    }
+</code></pre>
+<p>La première fonction (<code>choixFichier</code>) demande à l'usager le fichier qu'il ou elle souhaite charger. Suite à cela la fonction <code>chargerCategorie</code> charge le fichier correspondant pour créer une nouvelle categorie. Finalement, la procédure <code>affichageCategorie</code> permet de visualiser que la variable <code>categorie</code> a été correctement initialisée à partir des données présentes dans le fichier choisit.</p>
+<h2><code>String choixFichier(String nomRepertoire)</code></h2>
+<p>Vous avez déjà écrit cette fonction dans l'exercice <code>Fichiers</code>!
+Copiez tout simplement cette fonction dans <code>JeuDeMots</code> :)</p>
+<h2><code>Categorie newCategorie(Theme theme, String sujet, String[] mots)</code></h2>
+<p>On souhaite maintenant disposer d'<strong>un constructeur</strong> de valeur de type <code>Categorie</code>.
+Définissez le constructeur <code>newCategorie</code> qui suivra le schéma classique d'affectation des arguments aux champs de la variable de type <code>Categorie</code>.</p>
+<h2><code>Categorie chargerCategorie(String cheminFichier)</code></h2>
+<p>Maintenant que nous disposons du constructeur pour des <code>Categorie</code>, nous allons créer la focntion <code>chargerCategorie</code> qui va charger les données d'une catégorie dans un fichier donné et utiliser <code>newCategorie</code> (ainsi que <code>nbLignes</code> à recopier depuis <code>Fichiers</code>) pour créer une nouvelle <code>Categorie</code> initialisé grâce aux données présentes dans le fichier.</p>
+<h2><code>void affichageCategorie(Categorie categorie)</code></h2>
+<p>Finalement, pour vérifier que tout fonctionne correctement, la procédure <code>affichageCategorie</code> permet de visualiser le contenu d'une variable de type <code>Categorie</code>. Cette procédure doit produire un affichage similaire à celui ci-dessous :</p>
+<pre><code class="language-bash">&gt; ijava execute JeuDeMots
+0 : capitales.txt
+1 : animaux.txt
+2 : pays.txt
+Choisir un fichier en indiquant son numéro : 1
+[BIOLOGIE] Noms d'animaux : 
+brebis
+aigle
+perroquet
+lion
+mouche
+souris
+tigre
+chat
+loup
+koala
+kiwi
+pie
+&gt; ijava execute JeuDeMots
+0 : capitales.txt
+1 : animaux.txt
+2 : pays.txt
+Choisir un fichier en indiquant son numéro : 0
+[GEOGRAPHIE] Capitales du monde : 
+paris
+londres
+rome
+amsterdam
+tokyo
+alger
+athenes
+berlin
+brasilia
+bruxelles
+</code></pre>
+
+    </main>
+</body>
+</html>
