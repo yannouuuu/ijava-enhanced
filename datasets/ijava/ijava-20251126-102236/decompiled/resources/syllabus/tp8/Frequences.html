@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Frequences - tp8</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Calcul des fréquences</h1>
+        <p class="session-info">tp8 / Frequences.java</p>
+    </header>
+    <main>
+
+<p>On suppose qu’on dispose de deux tableaux de mots (<code>String[]</code>): un tableau <code>motsCles</code> et un tableau <code>mots</code>. Pour chaque <code>mot</code> dans <code>motsCles</code>, on voudrait calculer combien de fois il apparaît dans le tableau mots.</p>
+<p>Écrire la fonction <code>int[] frequences (String[] motsCles, String[] mots)</code> qui produit en résultat un tableau d’entiers <code>freq</code> ayant la même taille que <code>motsCles</code> et tel que pour chaque indice <code>idx</code>, la valeur <code>freq[idx]</code> est égale au nombre de fois que le mot <code>motsCles[idx]</code> apparaît dans le tableau mots.</p>
+<p>Il peut être utile de recopier la fonction <code>nbFois</code> écrite précédemment ...</p>
+<pre><code class="language-java">void testFrequences () {
+    String[] motsCles = new String[]{&quot;je&quot;, &quot;tu&quot;, &quot;elle&quot;};
+    int[] freq = new int[]{3, 2, 1};
+    String[] mots = new String[]{&quot;je&quot;, &quot;tu&quot;, &quot;tu&quot;, &quot;elle&quot;, &quot;je&quot;, &quot;je&quot;};
+    assertArrayEquals(freq, frequences(motsCles, mots));
+}
+</code></pre>
+
+    </main>
+</body>
+</html>

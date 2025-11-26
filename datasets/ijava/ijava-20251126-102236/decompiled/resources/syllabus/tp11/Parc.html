@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Parc - tp11</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Gestion de parc de véhicules</h1>
+        <p class="session-info">tp11 / Parc.java</p>
+    </header>
+    <main>
+
+<p>On s’intéresse maintenant à la gestion (très simplifiée) de parcs de véhicules.</p>
+<h2>Représentation d’un parc de véhicules</h2>
+<p>On souhaite représenter un parc pouvant contenir des véhicules. Un parc peut être caractérisé par le nombre véhicules qu'il peut accueillir et une fois ouvert le nombre de véhicules qu'il contient.</p>
+<p>::: question
+<strong>Quels champs proposeriez-vous pour modéliser un parc de véhicules ?</strong></p>
+<ul>
+<li>[ ] String[] et int
+<blockquote>
+<p>Alors un tableau de chaines de caractères pour les plaques d'immatriculation et un entier pour le nombre de voitures actuellement présentes ? Mais une voiture est plus que sa plaque d'immatriculation ...</p>
+</blockquote>
+</li>
+<li>[x] Voiture[] et int
+<blockquote>
+<p>Effectivement, bien vu : un parc contient des <code>Voiture</code>, mais comme il n'est pas toujours rempli, l'entier permet de savoir où débute la partie non occupée (non initialisée) du parc.</p>
+</blockquote>
+</li>
+<li>[ ] Voiture[][] et int
+<blockquote>
+<p>Wahou, 2 dimensions ? Quand bien même, cela serait un parc sur plusieurs étages, ce qui nous importe est la capacité totale ... trop complexe et peu judicieux comme choix de structure de données.</p>
+</blockquote>
+</li>
+<li>[ ] Voiture[]
+<blockquote>
+<p>Alors ceci permet de représenter le parc qui contient les voitures, mais comment déterminer le nombre de voitures présentes dans le parc ? On pourrait s'amuser à rechercher à chaque fois la première valeur <code>null</code> dans le tableau, mais cela serait peu efficient !
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Définissez le type <code>Parc</code> constitué de deux champs :</p>
+<ul>
+<li><code>vehicules</code> qui est un tableau à une dimension de véhicules;</li>
+<li><code>nbVehicules</code> de type entier qui permet de stocker le nombre effectif de véhicules dans le parc (et donc 0 initialement).</li>
+</ul>
+<h2>Constructeur pour un parc de véhicules</h2>
+<p>Créez maintenant un fichier <code>GestionParc.java</code> dans laquelle vous allez créer les fonctions de gestion de parcs de voitures.</p>
+<p>Pour simplifier les choses, déclarer une constante globale NB_MAX initialisée à 100 qui correspondra à la capacité du parc.</p>
+<ul>
+<li>Définissez la fonction <code>Parc newParc()</code> qui crée un parc de véhicules pouvant contenir le nombre maximal de véhicules, mais qui est pour l’instant vide.</li>
+<li>Définissez une fonction <code>test_newParc()</code> ... effectuant les assertions pertinentes !</li>
+</ul>
+<h2>Ajout d’un véhicule</h2>
+<ul>
+<li>Définissez la fonction <code>boolean ajouter(Parc parking, Vehicule v)</code> qui ajoute un nouveau véhicule au parc de véhicules. Si le parking est déjà plein, cette fonction n’ajoute pas le véhicule, laisse donc le parc inchangé et retourne la valeur <code>false</code>. A l’inverse, si le véhicule a été ajouté, la fonction retourne <code>true</code>.</li>
+<li>Définissez une fonction <code>test_ajouter()</code> ... effectuant les assertions pertinentes !</li>
+</ul>
+<h2>Représentation d’un parc de véhicules</h2>
+<ul>
+<li>Définissez la fonction <code>String toString (Parc p)</code> qui crée une chaîne de caractères permettant de représenter un parc de véhicules. La fonction devra valider le test suivant :</li>
+</ul>
+<pre><code class="language-java">void testToStringParc(){
+    Parc p = newParc();
+    Vehicule v1 = newVehicule(&quot;309DF21&quot;, Gabarit.CITADINE);
+    Vehicule v2 = newVehicule(&quot;204XZ99&quot;, Gabarit.SUV);
+    ajouterVehicule(p, v1);
+    ajouterVehicule(p, v2);
+    assertEquals(&quot;CITADINE (309DF21)\nSUV (204XZ99)\n&quot;, toString(p));
+}
+</code></pre>
+<h2>Nombre de voitures d’un certain gabarit</h2>
+<ul>
+<li>Définissez la fonction `int nbVoitures(Parc p, Gabarit g) qui retourne le nombre de véhicules d’un certain gabarit présents dans le parc de voitures.</li>
+</ul>
+<h2>Fusion de deux parcs de véhicules</h2>
+<ul>
+<li>Définissez la fonction <code>boolean fusionParcs (Parc p1, Parc p2)</code> qui déplace un maximum de véhicules du parc <code>p2</code> au parc <code>p1</code> dans la limite des places disponibles de <code>p1</code>. C’est-à-dire que si <code>p2</code> contient plus de véhicules que ne peut
+en contenir <code>p1</code>, on déplace le maximum de véhicule dans <code>p1</code> et on s’arrange pour que <code>p2</code> reste bien organisé (ie. sans trou).</li>
+</ul>
+<h2>Suppression d’un véhicule</h2>
+<ul>
+<li>Définissez la fonction <code>boolean enlever(Parc p, String immatriculation)</code> qui enlève du parc <code>p</code> le véhicule ayant la plaque d'<code>immatriculation</code>. Si le véhicule n'est pas présent dans le parc alors la fonction retourne <code>false</code>, sinon <code>true</code>.</li>
+</ul>
+<p><strong>Attention, les véhicules doivent toujours être sur le début du tableau (pas de trou dans le tableau).</strong></p>
+
+    </main>
+</body>
+</html>
