@@ -1,0 +1,32 @@
+TITLE: Un peu plus loin sur les fonctions
+
+Q: Quelle est la meilleure pratique concernant les noms des fonctions en ijava ?
+A) Ils doivent être en majuscules.
+EXPLAIN: Non, la convention est d'utiliser la casse camel (commeCeciParExemple).
+B) Ils doivent commencer par une minuscule et suivre la casse camel.
+EXPLAIN: Correct, c'est la convention standard en ijava.
+C) Ils peuvent être appelés n'importe comment sans aucune règle.
+EXPLAIN: Non, il est recommandé de suivre les conventions de nommage.
+D) Ils doivent toujours inclure un préfixe "fn".
+EXPLAIN: Non, il n'y a pas de tel préfixe requis.
+ANSWER: B
+
+Q: Que signifie surcharger (overloading) une fonction ?
+A) Définir plusieurs fonctions avec le même nom mais des types de retour différents.
+EXPLAIN: Non, cela dépend des paramètres, pas du type de retour.
+B) Définir plusieurs fonctions avec le même nom mais des paramètres différents.
+EXPLAIN: Effectivement, la surcharge se base sur des signatures différentes.
+C) Modifier le corps d'une fonction existante.
+EXPLAIN: Non, cela ne définit pas la surcharge.
+D) Appeler une fonction de manière récurrente.
+EXPLAIN: Non, ce n'est pas du tout la définition de la surcharge.
+ANSWER: B
+
+Q: Que se passe-t-il lorsqu'une fonction appelée se termine par une boucle infinie ?
+A) Le programme continue sans problème.
+EXPLAIN: Non, la boucle infinie bloque l'exécution de la fonction.
+B) La fonction s'arrête et retourne une valeur.
+EXPLAIN: Non, elle ne s'arrête pas si elle est infinie ...
+C) Le programme se bloque ou génère une exception.
+EXPLAIN: Effectivement, cela peut entraîner le gel du programme.
+ANSWER: C

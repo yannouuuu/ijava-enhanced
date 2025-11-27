@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JeuxDeNombres - tp1</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Autour des nombres</h1>
+        <p class="session-info">tp1 / JeuxDeNombres.java</p>
+    </header>
+    <main>
+
+<h2>Instructions</h2>
+<p>\begin{question}
+On souhaite calculer le nombre entier situé au milieu de deux nombres entiers donnés. Dans le cas où l'exact milieu n'est pas un nombre entier, on prendra l'entier inférieur. Par exemple, on considérera que le milieu de <code>1</code> et <code>6</code> est <code>3</code>.
+Faites fonctionner ce programme <code>iJava</code> en complétant la fonction <code>milieu</code>.</p>
+<pre><code class="language-java">class JeuxDeNombres extends Program {
+void testMilieu() {
+assertEquals(10,milieu(0,20));
+assertEquals(-5,milieu(0,-10));
+assertEquals(42,milieu(21,64));
+}
+int milieu(int nombre1, int nombre2) {
+...
+}
+}
+</code></pre>
+<p>\end{question}
+\begin{question}
+En <code>iJava</code> on peut créer des valeurs aléatoires en utilisant la fonction <code>double random()</code> qui retourne un réel compris dans l'intervalle <code>[0.0, 1.0[</code> (entre 0.0 inclus et 1.0 exclus). On remarquera que cette fonction un peu particulière ne prend aucun paramètre. Ajoutez et complétez la fonction ci-dessous <code>double aleaEntre(double min, double max)</code> afin qu'elle retourne un nombre réel aléatoire compris entre <code>min</code> inclus et <code>max</code> exclus. Une fonction principale est aussi fournie afin de tester le bon fonctionnement de votre fonction en l'incluant dans votre programme, compilant et exécutant.
+\begin{correction}
+Une partie des étudiants vont avoir du mal sur cette question. Pour les guider, vous pouvez la découper en deux sous-questions :</p>
+<ul>
+<li>le redimensionnement de l'intervalle (multiplication par la taille de l'intervalle souhaitée)</li>
+<li>le décalage de l'intervalle (ajout de la borne min de l'intervalle souhaitée)
+C'est aussi l'occasion de leur montrer l'intérêt de recourir au papier-crayon pour faire des schémas pour s'attaquer à un problème un peu consistant, ce qui est moins aisé sur un ordinateur.
+\end{correction}</li>
+</ul>
+<pre><code class="language-java">double aleaEntre(double min, double max){
+double alea = random(); // donne à alea une valeur dans [0.0,1.0[
+...
+}
+void algorithm(){
+println(aleaEntre(1.0,100.0));
+println(aleaEntre(0.5,19.75));
+}
+</code></pre>
+<p>Une fois que vous avez un programme qui semble correct (dans le doute, demandez à votre enseignant), exécutez le plusieurs fois d'affilé sans le recompiler. Les nombres qu'il produit sont-ils les mêmes ?
+\end{question}</p>
+<h2>Related Commands</h2>
+<ul>
+<li><code>ijava init JeuxDeNombres</code></li>
+<li><code>ijava compile JeuxDeNombres.java</code></li>
+<li><code>ijava execute JeuxDeNombres</code></li>
+<li><code>ijava test JeuxDeNombres</code></li>
+</ul>
+<hr />
+<p><em>Time: 25 minutes</em></p>
+
+    </main>
+</body>
+</html>

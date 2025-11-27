@@ -1,0 +1,3 @@
+class DoublerCaracteres extends Program {
+
+}
