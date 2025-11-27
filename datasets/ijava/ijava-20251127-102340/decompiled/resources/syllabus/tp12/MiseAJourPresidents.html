@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MiseAJourPresidents - tp12</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Programme principal pour l'analyse des présidences</h1>
+        <p class="session-info">tp12 / MiseAJourPresidents.java</p>
+    </header>
+    <main>
+
+<p>Maintenant que nous disposons de nos types <code>Date</code> et <code>President</code>, nous allons pouvoir nous concentrer sur les traitements associés. A commencer par les fonctions classiques :</p>
+<ul>
+<li>les constructeurs <code>newDate</code> et <code>newPresident</code>,</li>
+<li>les fonctions de représentation des valeurs sous forme de chaînes <code>toString</code>.</li>
+</ul>
+<h2>Fonctions liées au type <code>Date</code></h2>
+<p>Définissez les fonctions de création et représentation du type <code>Date</code>:</p>
+<ul>
+<li><code>Date newDate(String date)</code> avec la chaîne <code>date</code> formatée ainsi <code>jj/mm/aaaa</code> (et on supposera cette donnée correctement formatée),</li>
+<li><code>String toString(Date d)</code> qui affichera une date sous la forme <code>jj/mm/aaaa</code>.</li>
+</ul>
+<h2>Fonctions liées au type <code>President</code></h2>
+<p>Définissez les fonctions de création et représentation du type <code>President</code>:</p>
+<ul>
+<li><code>President newPresident(String nom, String parti, Date debut, Date fin)</code>,</li>
+<li><code>String toString(Presient p)</code> qui affichera un president sous la forme <code>jj/mm/aaaa</code>.</li>
+</ul>
+<h2>Fonction d'initialisation de la structure de données des présidents</h2>
+<p>Afin de réaliser des traitements plus facilement sur les données, il est intéressant de créer une structure de données dédiées. De plus, le fichier est un peu daté et il serait souhaitable de pouvoir le mettre à jour.</p>
+<p>Nous allons donc ajouter deux fonctions : la première pour charger les données du CSV dans un tableau de présidents et à l'inverse et la seconde pour sauvegarder un tableau de présidents sous la forme d'un fichier CSV.</p>
+<h3><code>President[] load(String nomFichier, int presidentsEnPlus)</code></h3>
+<p>Pour pouvoir mettre à jour les données, il est nécessaire de disposer d'une structure de données plus volumineuse que notre source de données initiales. On se propose donc de créer la fonction <code>load</code> qui prend en paramètre le nombre de présidents que l'on souhaiterait ajouter afin d'allouer un tableau plus grand que celui présent dans le fichier CSV.</p>
+<p>Définissez la fonction <code>load</code> et décommentez ensuite le corps d'<code>algorithm()</code> afin de vérifier que le chargement s'est bien déroulé et que la structure de données est bien initialisée (enfin, au moins sa première ligne, mais n'hésitez pas à remplacer par une boucle ;)).</p>
+<h3><code>void save(President[] presidents, String nomFichier)</code></h3>
+<p>Ajoutez dans l'algorithme principal quelques lignes afin d'ajouter un nouveau président dans la structure de données (à la main, en dur). Ainsi, nous pourrons vérifier que la fonction <code>save</code> fonctionne correctement.</p>
+<p>Cette fonction prend en paramètre un tableau de président et le nom du fichier CSV à créer (ou écraser si il existe). La fonction doit d'abord convertir la structure de données en un tableau à 2 dimensions de chaînes de caractères afin d'utiliser la procédure de sauvegarde proposée pour les CSV (<code>void saveCSV(String[][] content, String filename)</code>).</p>
+<p>Définissez la fonction <code>save</code> et vérifiez que le nouveau fichier créé contient bien le président que vous avez ajouté.</p>
+<h2>Fonctions d'analyse de notre structure de données</h2>
+<p>Maintenant que nous avons une structure de données évolutives et persistante grâce aux fichiers, nous allons pouvoir passer à une phase d'analyse des données.</p>
+<h3>Déterminer le nombre de présidents issus d'un parti donné</h3>
+<p>Écrivez une fonction <code>int nombreDe(President[] presidents, String parti)</code> qui calcule le nombre de présidents d’un parti donné.</p>
+<h3>Déterminer la durée maximale durant laquelle un parti est resté au pouvoir</h3>
+<p>Écrivez une fonction <code>int regneMaximal(President[] presidents, String parti)</code> qui calcule la durée maximale en années pendant laquelle un même parti est resté au pouvoir.</p>
+
+    </main>
+</body>
+</html>

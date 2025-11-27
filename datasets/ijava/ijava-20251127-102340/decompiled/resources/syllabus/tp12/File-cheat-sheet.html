@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>File-cheat-sheet - tp12</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Guide de manipulation des fichiers</h1>
+        <p class="session-info">tp12 / File-cheat-sheet.java</p>
+    </header>
+    <main>
+
+<p>Ce document présente les fonctions disponibles pour manipuler des fichiers texte dans vos programmes <em>ijava</em>.</p>
+<p>Avant de pouvoir utiliser ce type, il est important d'ajouter la ligne d'importation au tout début de votre fichier, car <code>File</code> n'est pas un type disponible par défaut :</p>
+<pre><code class="language-java">import extensions.File;
+</code></pre>
+<p>On indique ainsi au compilateur que pour trouver la déclaration du type <code>File</code>, il faut la rechercher dans la librairie <code>extensions</code>.</p>
+<h2>Lister les fichiers d'un répertoire</h2>
+<p>Afin de trouver les fichiers disponibles, il existe deux fonctions permettant de lister le contenu d'un répertoire. Ces deux fonctions retournent des tableaux de chaînes contenant les noms de l'ensemble des fichiers présents dans un répertoire.</p>
+<table>
+<thead>
+<tr><th>Retour</th><th>Fonction</th><th>Paramètres</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>String[]</code></td><td><code>getAllFilesFromDirectory(directory)</code></td><td><code>String directory</code> : chemin du répertoire</td><td>Liste les fichiers d'un répertoire spécifié</td></tr>
+<tr><td><code>String[]</code></td><td><code>getAllFilesFromCurrentDirectory()</code></td><td>aucun</td><td>Liste les fichiers du répertoire courant</td></tr>
+</tbody>
+</table>
+<p><strong>Exemple d'utilisation :</strong></p>
+<pre><code class="language-java">void algorithm() {
+    String[] fichiers = getAllFilesFromDirectory(&quot;data&quot;);
+    for (int idx = 0; idx &lt; length(fichiers); idx++) {
+        println(fichiers[idx]);
+    }
+}
+</code></pre>
+<hr />
+<h2>Lecture de fichiers texte (type <code>File</code>)</h2>
+<p>Afin de lire un fichier texte, il faut d'abord créer une variable de ce type grâce au constructeur <code>newFile</code>. Ensuite, ce fichier est géré avec les deux fonctions <code>ready</code>et <code>readLine</code> qui permettent respectivement de déterminer si il y a encore des lignes à lire dans le fichier et d'obtenir la prochaine ligne disponible.</p>
+<table>
+<thead>
+<tr><th>Retour</th><th>Fonction</th><th>Paramètres</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>File</code></td><td><code>newFile(filename)</code></td><td><code>String filename</code> : nom du fichier</td><td>Ouvre un fichier texte en lecture</td></tr>
+<tr><td><code>boolean</code></td><td><code>ready(file)</code></td><td><code>File file</code> : fichier à tester</td><td>Indique s'il reste des lignes à lire</td></tr>
+<tr><td><code>String</code></td><td><code>readLine(file)</code></td><td><code>File file</code> : fichier à lire</td><td>Lit la ligne courante et avance</td></tr>
+</tbody>
+</table>
+<p><strong>Exemple d'utilisation :</strong></p>
+<pre><code class="language-java">void algorithm() {
+    File fichier = newFile(&quot;texte.txt&quot;);
+    while (ready(fichier)) {
+        println(readLine(fichier));
+    }
+}
+</code></pre>
+<p>::: question
+**Si l'on souhaite lire un fichier texte, il faut ... **</p>
+<ul>
+<li>[ ] appeller le constructeur et lire les lignes.
+<blockquote>
+<p>C'est un peu dangereux : si jamais le fichier est vide, alors une exception se produira !</p>
+</blockquote>
+</li>
+<li>[x] appeler le constructeur, vérifier qu'il y a des lignes et lire les lignes.
+<blockquote>
+<p>Tout à fait, on crée d'abord une valeur de type <code>File</code>, puis on l'utilise pour vérifier d'abord qu'elle contient au moins une ligne et finalement on la lit.</p>
+</blockquote>
+</li>
+<li>[ ] appeller le constructeur, allouer le fichier, vérifier qu'il y a des lignes et les lire.
+<blockquote>
+<p>Heu ... allouer un fichier ?! Ce n'est pas un tableau ! Toute l'allocation est gérée par le constructeur <code>newFile</code> de la même manière que vous le faîtes lorsque vous créez vos propres types.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<hr />
+
+    </main>
+</body>
+</html>
