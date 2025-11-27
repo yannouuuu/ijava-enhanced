@@ -1,0 +1,3 @@
+class HeureUsVersEu extends Program {
+
+}

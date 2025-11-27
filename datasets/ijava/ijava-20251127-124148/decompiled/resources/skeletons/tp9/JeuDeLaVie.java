@@ -1,0 +1,3 @@
+class JeuDeLaVie extends Program {
+
+}
