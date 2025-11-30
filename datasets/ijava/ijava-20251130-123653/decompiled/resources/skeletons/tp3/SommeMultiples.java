@@ -1,0 +1,3 @@
+class SommeMultiples extends Program {
+
+}

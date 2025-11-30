@@ -1,0 +1,3 @@
+class DevinerNombre extends Program {
+
+}

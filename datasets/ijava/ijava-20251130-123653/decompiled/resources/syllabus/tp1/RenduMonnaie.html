@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>RenduMonnaie - tp1</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Rendre efficacement la monnaie</h1>
+        <p class="session-info">tp1 / RenduMonnaie.java</p>
+    </header>
+    <main>
+
+<h2>... sans utiliser <code>if</code> !</h2>
+<p>Sachant que l’on dispose de coupures de 20, 10, 5, 2 et 1 euro, comment procéder pour rendre la monnaie de la manière la plus efficace possible, c'est-à-dire en rendant le moins de coupure possible ?</p>
+<p>On supposera que l’on a en entrée un nombre représentant la somme à rendre et que l’on affiche en sortie le nombre minimum de billets de 20 euros, de 10 euros, de 5 euros et de pièces de 2 et de 1 euro à rendre.</p>
+<p>**ATTENTION : comme nous n'avons pas encore vu cela en cours, il est bien sûr interdit d'utiliser le mot-clé <code>if</code> ...</p>
+<p>Voici le squelette qu'il vous faut compléter :</p>
+<pre><code class="language-java">/**
+* Ce programme détermine le nombre minimal de coupures
+* à restituer pour une somme donnée. Les coupures utilisables
+* sont les billets de 20, 10, 5 et les pièces de 2 et 1 euros.
+*
+*/
+class RenduMonnaie extends Program {
+    void algorithm(){
+        int somme, nb20, nb10, nb5, nb2, nb1, reste;
+        print(&quot;Quelle est le montant que vous souhaitez rendre en monnaie ?&quot;);
+        somme = readInt();
+        // à vous de compléter ce qui suit par les calculs permettant de 
+        // déterminer le nombre minimal de chaque coupure nécessaire.
+        // ne pas modifier les lignes ci-dessous, ni les déplacer 
+        println(&quot;Nombre de billets de 20 : &quot; + nb20);
+        println(&quot;Nombre de billets de 10 : &quot; + nb10);
+        println(&quot;Nombre de billets de  5 : &quot; + nb5);
+        println(&quot;Nombre de pièces  de  2 : &quot; + nb2);
+        println(&quot;Nombre de pièces  de  1 : &quot; + nb1);
+    }
+}
+</code></pre>
+<ul>
+<li>Ecrivez le programme permettant de rendre la monnaie en un minimum de coupure. Voici 2 exemples d'exécutions attendues :</li>
+</ul>
+<pre><code class="language-bash">Quelle est le montant que vous souhaitez rendre en monnaie ? 4 
+Nombre de billets de 20 : 0 
+Nombre de billets de 10 : 0 
+Nombre de billets de \  5 : 0 
+Nombre de billets de \  2 : 2 
+Nombre de billets de \  1 : 0
+</code></pre>
+<pre><code class="language-bash">Quelle est le montant que vous souhaitez rendre en monnaie ? 38\
+Nombre de billets de 20 : 1 
+Nombre de billets de 10 : 1 
+Nombre de billets de \  5 : 1 
+Nombre de billets de \  2 : 1 
+Nombre de billets de \  1 : 1
+</code></pre>
+<ul>
+<li>Combien de variables avez-vous utilisé ? Est-il possible d’utiliser moins de variables ? Si c’est le cas, quel est le nombre minimal de variables nécessaire ! :)</li>
+<li>Essayer votre programme avec au moins 2 autres exemples de votre choix.</li>
+<li>Tester votre programme à l'aide de la commande dédiée de ijava !</li>
+</ul>
+<h2>Étapes à suivre</h2>
+<ul>
+<li><code>ijava init RenduMonnaie</code></li>
+<li><em>complétez le code source, sans modifier ce qui est fourni !</em></li>
+<li><code>ijava compile RenduMonnaie.java</code></li>
+<li><code>ijava execute RenduMonnaie</code></li>
+<li><code>ijava test RenduMonnaie</code></li>
+</ul>
+<hr />
+
+    </main>
+</body>
+</html>
