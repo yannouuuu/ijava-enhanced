@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Occurences - tp13</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Nombre d'occurrences d'un caractère dans une chaîne : version récursive !</h1>
+        <p class="session-info">tp13 / Occurences.java</p>
+    </header>
+    <main>
+
+<p>Nous avons déjà réalisé un programme calculant le nombre d'occurrences dans une chaîne de caractère, mais de manière classique avec une boucle à compteur pour parcourir les indices de la chaîne et un accumulateur pour mémoriser les occurrences rencontrées.</p>
+<p>Nous souhaitons maintenant résoudre ce même problème, mais en tirant partie d'une approche récursive. Il est donc important d'identifier les cas de bases et de trouver ensuite le ou les appels récursifs.</p>
+<p>Nous allons réaliser cela de deux manières différentes :</p>
+<ul>
+<li>la première, plus intuitive, mais moins performante (récursivité non terminale),</li>
+<li>la seconde, plus complexe, mais plus efficiente (récursivité terminale).</li>
+</ul>
+<h1>Version intuitive non récursive terminale</h1>
+<p>Pour la première version, on souhaite résoudre ce problème en ne définissant qu'une seule fonction <code>int nbOccurrences(String mot, char lettre)</code>.</p>
+<p>::: question
+<strong>A votre avis, sur lequel des deux paramètres porte la récursivité ?</strong></p>
+<ul>
+<li>[ ] char lettre
+<blockquote>
+<p>Voilà qui est étonnant ! La donnée sur laquelle porte la récursivité évolue lors appels récursif, or le caractère étant celui que l'on recherche, si il évolue, le calcul du nombre d'occurrences ne ferait plus aucun sens :(</p>
+</blockquote>
+</li>
+<li>[x] String mot
+<blockquote>
+<p>Exactement : c'est cette information que l'on va faire évoluer d'appel récursif en appel récursif (généralement en la faisant diminuer).</p>
+</blockquote>
+</li>
+<li>[ ] Les deux !
+<blockquote>
+<p>Intéressant, on change donc le mot et la lettre recherchée à chaque étape ? Cela va être difficile de calculer un nombre d'occurrence <strong>d'un</strong> caractère dans une chaîne dans ces conditions !
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Tout à coup, cette phrase surgit de votre mémoire : <em>&quot;concentre-toi sur les cas les plus simples, sachant qu'on travaille sur une chaîne de caractères ... &quot;</em>.</p>
+<p>Sur ce problème, avec la chaîne la plus simple, le nombre d'occurrence est assez évident, non ?</p>
+<p>Par contre, lorsque l'on traite un caractère, deux situations se produisent :</p>
+<ul>
+<li>soit c'est celui que l'on recherche et cela indique que l'on a trouvé une nouvelle occurrence,</li>
+<li>soit ce n'est pas le cas, et du coup, le nombre d'occurrences restent le même.</li>
+</ul>
+<p>Néanmoins, que l'on soit dans l'une ou l'autre de ces situations, il faut étudier le reste de la chaîne ...</p>
+<p>Rappelez-vous la démarche pour l'écriture d'une fonction récursive :</p>
+<ul>
+<li>identifiez d'abord les cas d'arrêts, qui correspondent généralement aux situations où la donnée sur laquelle porte la récursivité est réduite à sa plus simple expression ou presque.</li>
+<li>intéressez-vous ensuite à où aux appels récursifs, c'est-à-dire lorsque l'on rappelle la fonction que l'on est en train de définir, mais en effectuant juste une petite étape du calcul et au fait de faire &quot;diminuer&quot; la donnée sur laquelle porte la récursivité (ainsi on se rapproche du ou des cas d'arrêt).</li>
+</ul>
+<p>Définissez maintenant la fonction <code>int nbOccurrences(String mot, char lettre)</code>.</p>
+<h1>Version plus efficiente en récursive terminale</h1>
+<p>La version précédente s'écrit en quelques lignes, mais n'est pas très performante (rappel : dessinez l'arbre d'évaluation pour vous en convaincre !). Nous allons donc écrire une nouvelle version plus efficace. Comme il est nécessaire de maintenir un état (le nombre d'occurrences actuellement rencontré) d'appel récursif en appel récursif ...</p>
+<p>::: question
+** ... quelle technique est-il nécessaire de mobiliser pour ces situations ?**</p>
+<ul>
+<li>[ ] une boucle <code>for</code> et une alternative imbriquée dedans
+<blockquote>
+<p>Hum, certes si l'on résoud ce problème de manière impérative, sauf que là on souhaite le faire de manière récursive.</p>
+</blockquote>
+</li>
+<li>[ ] introduire une variable globale pour accéder à l'état.
+<blockquote>
+<p>Techniquement, cela serait possible, mais on souhaite limiter au maximum l'usage des variables globales car cela rend plus difficile de tester les programmes.</p>
+</blockquote>
+</li>
+<li>[x] introduire une fonction auxiliaire pour transmettre l'état d'appel en appel.
+<blockquote>
+<p>Tout à fait ! Cette fonction aura un paramètre en plus afin de transmettre le nombre d'occurrences d'appel récursif en appel récursif : <code>int nbOccurrencesTerminale(String mot, char lettre, int compteur)</code>.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Définissez la(les) fonction(s) <code>int nbOccurencesTerminale(String mot, char lettre)</code>.</p>
+
+    </main>
+</body>
+</html>

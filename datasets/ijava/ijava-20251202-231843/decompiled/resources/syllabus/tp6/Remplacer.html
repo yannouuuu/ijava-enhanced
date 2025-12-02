@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Remplacer - tp6</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Remplacer dans une chaine</h1>
+        <p class="session-info">tp6 / Remplacer.java</p>
+    </header>
+    <main>
+
+<p>On souhaite créer la fonctionnalité <em>Rechercher-remplacer</em> dans un éditeur de texte. On vous demande pour cela d’écrire une fonction qui prend en paramètre trois chaînes de caractères (<code>phrase</code>, <code>avant</code>, <code>apres</code>) et retourne en résultat une nouvelle chaîne dans laquelle toutes les occurrences de <code>avant</code> ont été remplacées par <code>apres</code>.</p>
+<p>Créez le programme <code>Remplacer</code> validant la fonction de test suivante :</p>
+<pre><code class="language-java">void testCopieEnRemplacant () {
+    assertEquals(&quot;15x35&quot;  , copieEnRemplacant(&quot;15*35&quot;     , &quot;*&quot;   , &quot;x&quot;));
+    assertEquals(&quot;15 + 35&quot;, copieEnRemplacant(&quot;15 plus 35&quot;, &quot;plus&quot;, &quot;+&quot;));
+    assertEquals(&quot;abcd&quot;   , copieEnRemplacant(&quot;abcd&quot;      , &quot;cb&quot;  , &quot;xy&quot;));
+    assertEquals(&quot;abcd&quot;   , copieEnRemplacant(&quot;abcd&quot;      , &quot;&quot;    , &quot;x&quot;));
+    assertEquals(&quot;abcd&quot;   , copieEnRemplacant(&quot;-ab-cd-&quot;   , &quot;-&quot;   , &quot;&quot;));
+    assertEquals(&quot;xx&quot;     , copieEnRemplacant(&quot;aaaa&quot;      , &quot;aa&quot;  , &quot;x&quot;));
+    assertEquals(&quot;xxa&quot;    , copieEnRemplacant(&quot;aaaaa&quot;     , &quot;aa&quot;  , &quot;x&quot;));
+    assertEquals(&quot;9 plus 3 plus 3&quot;, copieEnRemplacant(&quot;9 moins 3 moins 3&quot;, &quot;moins&quot;, &quot;plus&quot;));
+}
+</code></pre>
+
+    </main>
+</body>
+</html>

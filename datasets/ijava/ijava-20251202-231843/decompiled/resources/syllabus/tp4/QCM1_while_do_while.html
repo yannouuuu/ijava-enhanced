@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>QCM1_while_do_while - tp4</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Répétitions à évènements : while et do while</h1>
+        <p class="session-info">tp4 / QCM1_while_do_while.java</p>
+    </header>
+    <main>
+
+<p>::: question
+<strong>Quelle est la différence entre while et do while ?</strong></p>
+<ul>
+<li>[x] while test la condition en début de boucle et do while en fin
+<blockquote>
+<p>Oui, exactement !</p>
+</blockquote>
+</li>
+<li>[ ] while test la condition en fin de boucle et do while en début
+<blockquote>
+<p>Incorrect, c'est exactement l'inverse :(</p>
+</blockquote>
+</li>
+<li>[ ] aucune différence c'est le même type de boucle
+<blockquote>
+<p>Certes, ce sont toutes deux des répétitions à évènement, mais pourquoi en existe-t-il deux si elles n'ont aucune différence ?</p>
+</blockquote>
+</li>
+<li>[ ] do while est beaucoup moins utilisée que while
+<blockquote>
+<p>Certes, mais ce n'est pas la différence la plus importante sur la nature de ces répétitions !
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>int cpt=0; while (cpt&lt;5) { cpt=cpt+1;} Que vaut cpt à la fin de l'exécution ?</strong></p>
+<ul>
+<li>[ ] 6
+<blockquote>
+<p>Incorrect car lorsque cpt vaut 5, la condition bascule à faux et l'on sort de la boucle.</p>
+</blockquote>
+</li>
+<li>[ ] 0
+<blockquote>
+<p>Incorrect au début cpt vaut zero, donc 0 &lt; 5 est vrai et l'on entre dans la boucle.</p>
+</blockquote>
+</li>
+<li>[ ] 4
+<blockquote>
+<p>Incorrect car lorsque cpt vaut 4, 4 &lt; 5 est toujours vrai donc l'on fait un tour de plus !</p>
+</blockquote>
+</li>
+<li>[ ] 5
+<blockquote>
+<p>Exactement, on itère sur 0, 1, 2, 3, 4 (soit 5 fois) et lorsque cpt vaut 5, on sort de la boucle.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>int cpt=0; while (cpt&lt;5) { cpt=cpt+1;} L'addition est exécutée combien de fois ?</strong></p>
+<ul>
+<li>[ ] 0
+<blockquote>
+<p>0 &lt; 5 est vrai donc on fait au moins un tour de boucle ...</p>
+</blockquote>
+</li>
+<li>[ ] 6
+<blockquote>
+<p>5 &lt; 5 est faux et cela se produit avant que le compteur atteigne la valeur 6.</p>
+</blockquote>
+</li>
+<li>[x] 5
+<blockquote>
+<p>Exactement, bien vu car lorsque cpt vaut 5, on sort de la boucle grâce à 5 &lt; 5 qui est faux.</p>
+</blockquote>
+</li>
+<li>[ ] 4
+<blockquote>
+<p>Hum, testons : 4 &lt; 5 est vrai donc l'on fait un tour de plus !
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>int cpt=0; while (cpt&lt;5) { cpt=cpt-1;} Combien y-a-t-il de tours de boucle ?</strong></p>
+<ul>
+<li>[ ] 0
+<blockquote>
+<p>0&lt;5 donc on rentre bien dans la boucle et réalisons au moins un tour !</p>
+</blockquote>
+</li>
+<li>[x] une &quot;infinité&quot; ou presque
+<blockquote>
+<p>Tout à fait, comme on décrémente cpt, on &quot;fuit&quot; vers les valeurs négatives et c'est une boucle infinie qui s'enclenche :(</p>
+</blockquote>
+</li>
+<li>[ ] 5
+<blockquote>
+<p>Non, non, bien plus que cela, regardez attentivement comment le compteur est mis à jour !</p>
+</blockquote>
+</li>
+<li>[ ] 4
+<blockquote>
+<p>Non, non, bien plus que cela, regardez attentivement comment le compteur est mis à jour !
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Est-il préférable d'utiliser while ou do while pour du contrôle de saisie ?</strong></p>
+<ul>
+<li>[ ] while
+<blockquote>
+<p>C'est possible d'utiliser while, mais il faut alors initialiser judicieusement la variable présente dans la condition avec une valeur ne perturbant pas le calcul ... c'est donc moins pratique que le do while pour ce type de traitement.</p>
+</blockquote>
+</li>
+<li>[x] do while
+<blockquote>
+<p>Tout à fait car il faut réaliser une saisie avant de pouvoir la vérifier.</p>
+</blockquote>
+</li>
+<li>[ ] peu importe
+<blockquote>
+<p>Incorrect, do while est plus appropriée.</p>
+</blockquote>
+</li>
+<li>[ ] for
+<blockquote>
+<p>ARGL !!! La boucle for est à utiliser lorsque l'on connaît à priori le nombre d'itérations !
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>
