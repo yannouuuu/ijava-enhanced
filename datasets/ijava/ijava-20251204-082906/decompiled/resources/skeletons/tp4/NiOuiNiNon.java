@@ -1,0 +1,3 @@
+class NiOuiNiNon extends Program {
+
+}

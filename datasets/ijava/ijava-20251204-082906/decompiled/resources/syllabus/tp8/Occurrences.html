@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Occurrences - tp8</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Nombre d’occurrences d’un mot dans un tableau</h1>
+        <p class="session-info">tp8 / Occurrences.java</p>
+    </header>
+    <main>
+
+<p>Écrire la fonction <code>int nbFois(String[] tab, String mot)</code> qui calcule le nombre de fois que <code>mot</code> apparait dans le tableau <code>tab</code>. Lisez attentivement le test ci-dessous afin de trouver la signature de <code>nbFois</code>.</p>
+<pre><code class="language-java">void testNbFois () {
+    String[] tab = new String[]{&quot;je&quot;, &quot;tu&quot;, &quot;tu&quot;, &quot;elle&quot;, &quot;je&quot;, &quot;je&quot;};
+    // &quot;je&quot; apparait 3 fois dans tab
+    assertEquals(3, nbFois(tab, &quot;je&quot;));
+    assertEquals(2, nbFois(tab, &quot;tu&quot;));
+    assertEquals(0, nbFois(tab, &quot;il&quot;));
+}
+</code></pre>
+
+    </main>
+</body>
+</html>

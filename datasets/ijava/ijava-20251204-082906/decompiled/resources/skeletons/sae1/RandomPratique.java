@@ -1,0 +1,3 @@
+class RandomPratique extends Program {
+
+}
