@@ -1,0 +1,5 @@
+QCM1_introduction : [] | questions:1
+QCM2_blocage : [] | questions:2
+StructureDeDonnees : [] | student_tests:6,prof_tests:0
+QCM3_analyse : [] | questions:3
+SauteMouton : [] | student_tests:15,prof_tests:0

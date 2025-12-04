@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Etdeslettres - tp1</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>... et des lettres !</h1>
+        <p class="session-info">tp1 / Etdeslettres.java</p>
+    </header>
+    <main>
+
+<h2>Instructions</h2>
+<p>De manière similaire à l'exercice précédent, on souhaite désormais créer un programme <code>LettreAuHasard</code> qui affiche une lettre au hasard parmi les majuscules (par exemple pour jouer au mot le plus long en l'appelant autant de fois que de lettres souhaitées).
+\begin{correction}
+On peut les amener à un raisonnement du même genre que le précédent ici. Attention, là encore, des étudiants seront tentés d'aller chercher le code ASCII pour écrire leur programme avec des valeurs entières en dur.</p>
+<pre><code class="language-java">void algorithm() {
+int numLettre = (int) 'A' + (int) (26 * random()); 
+println( (char) numLettre );
+}
+</code></pre>
+<p>\end{correction}</p>
+<h2>Related Commands</h2>
+<ul>
+<li><code>ijava init Etdeslettres</code></li>
+<li><code>ijava compile Etdeslettres.java</code></li>
+<li><code>ijava execute Etdeslettres</code></li>
+<li><code>ijava test Etdeslettres</code></li>
+</ul>
+<hr />
+<p><em>Time: 15 minutes</em></p>
+
+    </main>
+</body>
+</html>
