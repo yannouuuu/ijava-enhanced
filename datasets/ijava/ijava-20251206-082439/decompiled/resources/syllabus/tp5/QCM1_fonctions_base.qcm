@@ -1,0 +1,56 @@
+TITLE: Bases sur la notion de fonction
+
+Q: Qu'est-ce qu'une fonction en ijava ?
+A) Un bloc de code qui s'exécute lorsque le programme est lancé.
+EXPLAIN: Non, c'est la classe principale qui s'exécute en premier lieu.
+B) Une méthode qui effectue une tâche spécifique et peut retourner une valeur.
+EXPLAIN: Effectivement, c'est la définition d'une fonction en ijava.
+C) Une instruction qui permet de déclarer des variables.
+EXPLAIN: Non, la déclaration de variables se fait avec un type comme int, String, etc.
+D) Un opérateur pour effectuer des calculs.
+EXPLAIN: Ce sont les opérateurs qui effectuent des calculs, pas les fonctions.
+ANSWER: B
+
+Q: Quel est le mot-clé pour déclarer une fonction en ijava ?
+A) function
+EXPLAIN: Non, "function" n'est pas un mot-clé en ijava.
+B) def
+EXPLAIN: Non, "def" est utilisé en Python.
+C) method
+EXPLAIN: Non, le mot-clé "method" n'existe pas non plus en ijava.
+D) il ne faut pas de mot-clé !
+EXPLAIN: Exact !
+ANSWER: D
+
+Q: Que signifie le mot-clé void dans la déclaration d'une fonction ?
+A) La fonction ne retourne pas de valeur.
+EXPLAIN: Effectivement, "void" indique qu'aucune valeur n'est retournée.
+B) La fonction retourne un entier.
+EXPLAIN: Non, "void" signifie qu'il n'y a pas de retour, c'est int pour un entier.
+C) La fonction retourne une chaîne de caractères.
+EXPLAIN: Non, cela doit être spécifié par un type de retour, comme String.
+D) La fonction ne fait rien.
+EXPLAIN: Non, c'est juste qu'elle ne retourne aucun résultat.
+ANSWER: A
+
+Q: Comment appelle-t-on une fonction ?
+A) En utilisant le nom de la fonction suivi de parenthèses.
+EXPLAIN: Effectivement, c'est la bonne syntaxe pour appeler une fonction.
+B) En utilisant le mot-clé "call".
+EXPLAIN: Non, "call" n'est pas utilisé en ijava pour appeler des fonctions.
+C) En déclarant la fonction à nouveau.
+EXPLAIN: Non, il n'est pas nécessaire (ni possible !) de redéclarer une fonction pour l'appeler.
+D) En utilisant le mot-clé "invoke".
+EXPLAIN: Non, "invoke" n'est pas un mot-clé en ijava.
+ANSWER: A
+
+Q: Quelle est la signification des paramètres d'une fonction ?
+A) Les valeurs qu'une fonction retourne.
+EXPLAIN: Non, ce sont les valeurs que la fonction reçoit en entrée.
+B) Les entrées que la fonction peut accepter.
+EXPLAIN: Correct, ce sont les variables placées dans les parenthèses de la fonction.
+C) Les types de données que la fonction peut retourner.
+EXPLAIN: Non, les types de données sont définis par le type de retour de la fonction.
+D) Les valeurs constantes définies dans la fonction.
+EXPLAIN: Non, ce sont des variables qui peuvent être utilisées à l'intérieur de la fonction.
+ANSWER: B
