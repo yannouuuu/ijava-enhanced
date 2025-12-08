@@ -6,7 +6,7 @@ $OutputEncoding = [System.Text.Encoding]::UTF8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $script:IJAVA_VERSION = "1.0.0"
 $script:JAR_URL = "https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar"
-$script:DEFAULT_INSTALL_DIR = Join-Path $env:USERPROFILE ".ijava2"
+$script:DEFAULT_INSTALL_DIR = "$env:USERPROFILE\.ijava2"
 
 # ==============================================================================
 # FONCTIONS DE LOGGING

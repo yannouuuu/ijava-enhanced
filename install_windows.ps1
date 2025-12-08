@@ -21,7 +21,7 @@ $OutputEncoding = [System.Text.Encoding]::UTF8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $script:IJAVA_VERSION = "1.0.0"
 $script:JAR_URL = "https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar"
-$script:DEFAULT_INSTALL_DIR = Join-Path $env:USERPROFILE ".ijava2"
+$script:DEFAULT_INSTALL_DIR = "$env:USERPROFILE\.ijava2"
 
 # ==============================================================================
 # FONCTIONS DE LOGGING
@@ -583,7 +583,7 @@ else {
     }
 }
 
-$INSTALL_DIR = if ($env:IJAVA_HOME) { $env:IJAVA_HOME } else { Join-Path $env:USERPROFILE ".ijava2" }
+$INSTALL_DIR = if ($env:IJAVA_HOME) { $env:IJAVA_HOME } else { "$env:USERPROFILE\.ijava2" }
 $BIN_DIR = Join-Path $INSTALL_DIR "bin"
 $JAR_PATH = Join-Path $INSTALL_DIR "ijava.jar"
 $WRAPPER_PATH = Join-Path $BIN_DIR "ijava.ps1"
@@ -637,7 +637,7 @@ function New-WrapperScript {
 $OutputEncoding = [System.Text.Encoding]::UTF8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
-$INSTALL_DIR = if ($env:IJAVA_HOME) { $env:IJAVA_HOME } else { Join-Path $env:USERPROFILE ".ijava2" }
+$INSTALL_DIR = if ($env:IJAVA_HOME) { $env:IJAVA_HOME } else { "$env:USERPROFILE\.ijava2" }
 $BIN_DIR = Join-Path $INSTALL_DIR "bin"
 $JAR_PATH = Join-Path $INSTALL_DIR "ijava.jar"
 $JAR_URL = "https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar"
