@@ -178,27 +178,7 @@ function Get-FileFromUrl {
             New-Item -ItemType Directory -Path $parentDir -Force | Out-Null
         }
         
-        $webClient = New-Object System.Net.WebClient
-        $webClient.Encoding = [System.Text.Encoding]::UTF8
-        
-        Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged -Action {
-            $percent = $EventArgs.ProgressPercentage
-            Write-Progress -Activity "Téléchargement" -Status "$percent% terminé" -PercentComplete $percent
-        } | Out-Null
-        
-        Register-ObjectEvent -InputObject $webClient -EventName DownloadFileCompleted -SourceIdentifier WebClient.DownloadFileCompleted | Out-Null
-        
-        $webClient.DownloadFileAsync($Url, $Destination)
-        
-        while ($webClient.IsBusy) {
-            Start-Sleep -Milliseconds 100
-        }
-        
-        Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged -ErrorAction SilentlyContinue
-        Unregister-Event -SourceIdentifier WebClient.DownloadFileCompleted -ErrorAction SilentlyContinue
-        $webClient.Dispose()
-        
-        Write-Progress -Activity "Téléchargement" -Completed
+        Invoke-WebRequest -Uri $Url -OutFile $Destination -UseBasicParsing
         
         if (Test-Path $Destination) {
             Write-Success "Téléchargement terminé"

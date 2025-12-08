@@ -29,16 +29,14 @@ if ($IS_PIPED) {
     try {
         Write-Host "Téléchargement du module commun..." -ForegroundColor Cyan
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        $webClient = New-Object System.Net.WebClient
-        $webClient.Encoding = [System.Text.Encoding]::UTF8
-        $webClient.DownloadFile($COMMON_URL, $TEMP_MODULE)
-        $webClient.Dispose()
+        Invoke-WebRequest -Uri $COMMON_URL -OutFile $TEMP_MODULE -UseBasicParsing
         
         Import-Module $TEMP_MODULE -Force
     }
     catch {
         Write-Host "ERREUR: Impossible de télécharger le module commun" -ForegroundColor Red
         Write-Host "URL: $COMMON_URL" -ForegroundColor Red
+        Write-Host "Détails: $($_.Exception.Message)" -ForegroundColor Red
         if (Test-Path $TEMP_MODULE) {
             Remove-Item $TEMP_MODULE -Force
         }
@@ -139,10 +137,7 @@ function Update-IJava {
     
     try {
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        $webClient = New-Object System.Net.WebClient
-        $webClient.Encoding = [System.Text.Encoding]::UTF8
-        $webClient.DownloadFile($JAR_URL, $JAR_PATH)
-        $webClient.Dispose()
+        Invoke-WebRequest -Uri $JAR_URL -OutFile $JAR_PATH -UseBasicParsing
         
         Write-Host "✓ Toolkit mis à jour avec succès !" -ForegroundColor Green
         return $true
