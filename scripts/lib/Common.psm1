@@ -124,7 +124,11 @@ function Test-JavaInstalled {
     }
     
     try {
+        $oldPreference = $ErrorActionPreference
+        $ErrorActionPreference = 'Continue'
         $javaVersion = & java -version 2>&1 | Select-Object -First 1 | Out-String
+        $ErrorActionPreference = $oldPreference
+        
         $javaVersion = $javaVersion.Trim()
         Write-Success "Java détecté"
         Write-Detail $javaVersion
