@@ -124,11 +124,16 @@ function Test-JavaInstalled {
     }
     
     try {
-        $oldPreference = $ErrorActionPreference
-        $ErrorActionPreference = 'Continue'
-        $javaVersion = & java -version 2>&1 | Select-Object -First 1 | Out-String
-        $ErrorActionPreference = $oldPreference
+        $tempFile = [System.IO.Path]::GetTempFileName()
+        $process = Start-Process -FilePath "java" -ArgumentList "-version" -RedirectStandardError $tempFile -NoNewWindow -PassThru -Wait
         
+        $javaVersion = Get-Content $tempFile -ErrorAction SilentlyContinue | Select-Object -First 1 | Out-String
+        Remove-Item $tempFile -ErrorAction SilentlyContinue
+        
+        if ([string]::IsNullOrWhiteSpace($javaVersion)) {
+             $javaVersion = "Version inconnue"
+        }
+
         $javaVersion = $javaVersion.Trim()
         Write-Success "Java détecté"
         Write-Detail $javaVersion
