@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LettresCrush - tp13</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Mini jeu d'élimination de zones contiguës</h1>
+        <p class="session-info">tp13 / LettresCrush.java</p>
+    </header>
+    <main>
+
+<p>Vous allez implémenter un mini jeu vaguement inspiré du célèbre jeu Candy Crush.
+On part d'une chaine de caractères, dans laquelle on a le droit d'éliminer des groupes d'au moins trois lettres consécutives. Le but est d'éliminer toute la chaine.</p>
+<p>Voici deux exemples.</p>
+<p>En partant de la chaine <code>&quot;xxxooooxx&quot;</code>, on peut commencer par éliminer les <code>o</code> du milieu pour obtenir <code>&quot;xxxxx</code>, qu'on peut ensuite éliminer pour gagner.</p>
+<p>En partant de la même chaine <code>&quot;xxxooooxx&quot;</code>, on peut commencer par éliminer les <code>x</code> du début pour obtenir <code>&quot;ooooxx&quot;</code>, puis éliminer les <code>o</code>, et arriver à la chaine <code>&quot;xx&quot;</code> qui est une configuration perdante.</p>
+<p>Voici un exemple d'exécution, ainsi que l'algorithme principal correspondant.</p>
+<pre><code>xxxooooxx
+Saisir indice à éliminer, ou 'fin' pour arrêter : 1
+ooooxx
+Saisir indice à éliminer, ou 'fin' pour arrêter : 4
+ooooxx
+Saisir indice à éliminer, ou 'fin' pour arrêter : 2
+xx
+Saisir indice à éliminer, ou 'fin' pour arrêter : fin
+Perdu !
+</code></pre>
+<pre><code>final int TAILLE_MIN_ZONE = 3;
+
+String eliminer (String s, int indiceDepart) {
+    int indiceAvant = explorer(s, indiceDepart, charAt(s, indiceDepart), -1);
+    int indiceApres = explorer(s, indiceDepart, charAt(s, indiceDepart), 1);
+    if (indiceApres - indiceAvant - 1 &gt;= TAILLE_MIN_ZONE) {
+        return substring(s, 0, indiceAvant+1) + substring(s, indiceApres, length(s));
+   } else {
+        return s;
+   }
+}
+
+void algorithm() {
+    String s = &quot;xxxooooxx&quot;;
+    boolean fin = false;
+
+    while (! fin &amp;&amp; length(s) != 0) {
+        println(s);
+        print(&quot;Saisir indice à éliminer, ou 'fin' pour arrêter : &quot;);
+        String saisie = readString();
+        if (equals(&quot;fin&quot;, saisie)) {
+            fin = true;
+        } else {
+            int indice = stringToInt(saisie);
+            s = eliminer(s, indice);
+        }
+    }
+    if (fin) {
+        println(&quot;Perdu!&quot;);
+    } else {
+        println(&quot;Gagné!&quot;);
+    }
+}
+</code></pre>
+<p>Il vous reste alors à écrire la fonction <strong>récursive</strong> <code>int explorer (String s, int indiceDepart, char car, int direction)</code> qui part de <code>indiceDepart</code> et explore la chaine <code>s</code> de proche en proche pour trouver le premier indice sur son chemin dont la lettre est diffèrente de <code>car</code>.
+L'exploration se fait vers la gauche si <code>direction</code> est égal à <code>-1</code>, et vers la droite si <code>direction</code> est égal à <code>1</code>.</p>
+<p>Voici le test que la fonction doit passer.</p>
+<pre><code>void test_explorer () {
+	assertEquals(2, explorer(&quot;xxxooooxx&quot;, 4, 'o', -1));
+	assertEquals(7, explorer(&quot;xxxooooxx&quot;, 4, 'o', 1));
+
+	assertEquals(-1, explorer(&quot;xxxooooxx&quot;, 1, 'x', -1));
+	assertEquals(9, explorer(&quot;xxxooooxx&quot;, 7, 'x', 1));
+
+	assertEquals(2, explorer(&quot;xxxooooxx&quot;, 2, 'o', -1));
+	assertEquals(2, explorer(&quot;xxxooooxx&quot;, 2, 'o', 1));
+}
+</code></pre>
+<p>:::question
+<strong>Est-ce que votre fonction explorer est récursive terminale ?</strong></p>
+<ul>
+<li>[X] Oui
+<blockquote>
+<p>Très bien.</p>
+</blockquote>
+</li>
+<li>[ ] Non
+<blockquote>
+<p>Alors, il faut la réécrire en utilisant une récursivité terminale.</p>
+</blockquote>
+</li>
+<li>[ ] Je ne sais pas
+<blockquote>
+<p>Vous devriez revoir la notion de récursivité terminale.
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>QCM1_tableaux_usages - tp8</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Notion de tableau : manipulations</h1>
+        <p class="session-info">tp8 / QCM1_tableaux_usages.java</p>
+    </header>
+    <main>
+
+<p>::: question
+<strong>Quelle proposition indique la bonne séquence d'étape d'usage d'un tableau ?</strong></p>
+<ul>
+<li>[ ] déclaration, initiatilisation, allocation, lecture/écriture
+<blockquote>
+<p>Non, non, non, il faut d'abord allouer la mémoire avant d'initialiser le tableau.</p>
+</blockquote>
+</li>
+<li>[ ] déclaration et initiatilisation, allocation, lecture/écriture
+<blockquote>
+<p>Sans avoir réserver la mémoire avant, impossible d'initialiser quoique ce soit.</p>
+</blockquote>
+</li>
+<li>[x] déclaration, allocation, initiatilisation, lecture/écriture
+<blockquote>
+<p>Exactement : bien joué !</p>
+</blockquote>
+</li>
+<li>[ ] allocation, déclaration, initiatilisation, lecture/écriture
+<blockquote>
+<p>Hum, avant de demander de la mémoire, il faut expliquer pour quoi on en a besoin.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Que se passe-t-il si vous tentez d'accéder à un indice en dehors des limites d'un tableau ?</strong></p>
+<ul>
+<li>[ ] Le programme s'exécute normalement.
+<blockquote>
+<p>Incorrect. Accéder à un indice invalide entraînera une erreur.</p>
+</blockquote>
+</li>
+<li>[x] Une exception ArrayIndexOutOfBoundsException est lancée.
+<blockquote>
+<p>Exact. Cela se produit lorsque l'indice est inférieur à 0 ou supérieur ou égal à la longueur du tableau.</p>
+</blockquote>
+</li>
+<li>[ ] L'indice est automatiquement ajusté à la limite du tableau.
+<blockquote>
+<p>Faux, cela ne se produit pas en Java. Un indice invalide n'est pas corrigé.</p>
+</blockquote>
+</li>
+<li>[ ] Le tableau retourne une valeur par défaut.
+<blockquote>
+<p>Ceci est incorrect, car aucun accès ne peut être fait à un indice invalide.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Comment déclarer et allouer un tableau d'entiers de taille 5 en Java ?</strong></p>
+<ul>
+<li>[ ] int tableau[5];
+<blockquote>
+<p>Incorrect. En Java, la syntaxe de déclaration ne permet pas de spécifier la taille ainsi à la déclaration et surtout les crochets doivent être avec le type !</p>
+</blockquote>
+</li>
+<li>[ ] int tableau = new int[5];
+<blockquote>
+<p>Faux, la déclaration doit inclure les crochets pour déclarer un tableau d'entiers et pas juste un entier.</p>
+</blockquote>
+</li>
+<li>[ ] int tableau[0] = new int[5];
+<blockquote>
+<p>Cela est incorrect, cette syntaxe n'existe pas en Java.</p>
+</blockquote>
+</li>
+<li>[x] int[] tableau = new int[5];
+<blockquote>
+<p>Exact, c'est la bonne syntaxe pour déclarer et allouer un tableau d'entiers grâce à l'opérateur new.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quel est le format correct pour déclarer un tableau à deux dimensions ?</strong></p>
+<ul>
+<li>[x] int[][] tableau;
+<blockquote>
+<p>Correct. C'est la bonne syntaxe pour déclarer un tableau à deux dimensions.</p>
+</blockquote>
+</li>
+<li>[ ] int tableau[][];
+<blockquote>
+<p>Bien que cela fonctionne également, c'est à déconseiller fortement car cela éclate la définition du type à deux endroites différents de l'expression.</p>
+</blockquote>
+</li>
+<li>[ ] int[2][2] tableau;
+<blockquote>
+<p>Incorrect, car il ne s'agit pas de la syntaxe de déclaration en Java.</p>
+</blockquote>
+</li>
+<li>[ ] tableau[2][2] int;
+<blockquote>
+<p>Ce format est incorrect ; la déclaration doit être faite avant la définition des dimensions.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Lorsque l'on calcule le nombre d'occurences d'un caractère dans une chaîne, on utilise ...</strong></p>
+<ul>
+<li>[ ] un parcours partiel, une alternative et un accumulateur
+<blockquote>
+<p>Non, il faut parcourir tous les caractères !</p>
+</blockquote>
+</li>
+<li>[x] un parcours complet, une alternative et un accumulateur
+<blockquote>
+<p>Oui, bien vu !</p>
+</blockquote>
+</li>
+<li>[ ] un parcours partiel, une cascade d'alternative et un accumulateur
+<blockquote>
+<p>Déjà si l'on n'étudie pas tous les caractères, c'est mal parti ...</p>
+</blockquote>
+</li>
+<li>[ ] un parcours complet, une cascade alternative et un accumulateur
+<blockquote>
+<p>Non ... pourquoi plusieurs alternatives, il n'y a qu'une cas à vérifier !
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>

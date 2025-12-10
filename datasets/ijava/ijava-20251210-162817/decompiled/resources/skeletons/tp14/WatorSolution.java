@@ -1,0 +1,3 @@
+class WatorSolution extends Program {
+
+}

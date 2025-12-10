@@ -1,0 +1,3 @@
+class LettreAuHasard extends Program {
+
+}

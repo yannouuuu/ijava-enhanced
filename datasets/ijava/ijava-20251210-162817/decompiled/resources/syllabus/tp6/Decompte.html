@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Decompte - tp6</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Chaînes de nombres décroissants</h1>
+        <p class="session-info">tp6 / Decompte.java</p>
+    </header>
+    <main>
+
+<p>On désire concevoir une fonction générant une chaîne de caractères contenant les nombres pairs décroissants entre <code>n</code> (dont on supposera qu’il est pair et supérieur ou égal à 2) et <code>1</code>, sans espace entre les différents nombres.</p>
+<p>Créez le programme <code>Decompte</code> dans lequel vous veillerez à ne pas utiliser d’alternative (oui, oui, c’est possible !).</p>
+<ul>
+<li>Écrire la fonction genereNombresPairs qui passe ce test.</li>
+</ul>
+<pre><code class="language-java">void testGenereNombresPairs1() {
+    assertEquals(&quot;8642&quot;, genereNombresPairs1(8));
+    assertEquals(&quot;12108642&quot;, genereNombresPairs1(12));
+    assertEquals(&quot;2&quot;, genereNombresPairs1(2));
+}
+</code></pre>
+<ul>
+<li>Écrire une fonction similaire mais qui produit une étoile avant et après la suite de nombres:</li>
+</ul>
+<pre><code class="language-java">void testGenereNombresPairs2() {
+    assertEquals(&quot;*8642*&quot;, genereNombresPairs2(8));
+    assertEquals(&quot;*12108642*&quot;, genereNombresPairs2(12));
+    assertEquals(&quot;*2*&quot;, genereNombresPairs2(2));
+}
+</code></pre>
+<ul>
+<li>Écrire une troisième version de la fonction, qui produit une étoile entre chaque paire de nombres consécutifs.</li>
+</ul>
+<pre><code class="language-java">void testGenereNombresPairs3() {
+    assertEquals(&quot;8*6*4*2&quot;, genereNombresPairs3(8));
+    assertEquals(&quot;12*10*8*6*4*2&quot;, genereNombresPairs3(12));
+    assertEquals(&quot;2&quot;, genereNombresPairs3(2));
+}
+</code></pre>
+
+    </main>
+</body>
+</html>

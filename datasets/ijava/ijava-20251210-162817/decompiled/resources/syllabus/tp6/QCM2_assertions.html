@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>QCM2_assertions - tp6</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Notion d'assertion</h1>
+        <p class="session-info">tp6 / QCM2_assertions.java</p>
+    </header>
+    <main>
+
+<p>::: question
+<strong>Qu'est-ce qu'une assertion en programmation ?</strong></p>
+<ul>
+<li>[x] Un moyen d'affirmer quelque chose de vrai dans le code.
+<blockquote>
+<p>Exactement, une assertion vérifie qu'une condition est vraie à un certain moment, ce qui aide à déboguer le programme.</p>
+</blockquote>
+</li>
+<li>[ ] Une condition.
+<blockquote>
+<p>Non, bien qu'une assertion puisse ressembler à une condition, elle n'est pas utilisée pour contrôler le flux du programme.</p>
+</blockquote>
+</li>
+<li>[ ] Un type de boucle.
+<blockquote>
+<p>Non, non, non, une assertion n'est pas utilisée pour itérer mais pour vérifier qu'une situation est vérifié et produit une erreur sinon.</p>
+</blockquote>
+</li>
+<li>[ ] Un moyen de documenter le code.
+<blockquote>
+<p>C'est vrai, la documentation est importante, mais une assertion n'est pas principalement utilisée à cette fin.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quelle est la syntaxe correcte pour utiliser assertEquals en Java ?</strong></p>
+<ul>
+<li>[ ] assertEqual(expected, actual);
+<blockquote>
+<p>Incorrect, la méthode est assertEquals, avec un &quot;s&quot; à la fin.</p>
+</blockquote>
+</li>
+<li>[ ] equalsAssert(expected, actual);
+<blockquote>
+<p>Aïe, la fonction  utilisée pour les assertions s’appelle assertEquals, et non equalsAssert.</p>
+</blockquote>
+</li>
+<li>[x] assertEquals(expected, actual);
+<blockquote>
+<p>Exact, c'est la syntaxe correcte pour comparer deux valeurs en utilisant assertEquals.</p>
+</blockquote>
+</li>
+<li>[ ] assertEquals(actual, expected);
+<blockquote>
+<p>Bien que cela soit syntaxiquement valide, l'ordre des paramètres n'est pas bon : il faut d'abord donner la valeur attendue et ensuite celle qui est calculée par la fonction testée.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quel type de valeur assertEquals peut-il comparer ?</strong></p>
+<ul>
+<li>[ ] Seulement des entiers.
+<blockquote>
+<p>Non, assertEquals peut comparer différents types de valeurs, pas seulement des entiers.</p>
+</blockquote>
+</li>
+<li>[x] Tous les types.
+<blockquote>
+<p>C'est vrai, assertEquals peut être utilisé pour comparer divers types.</p>
+</blockquote>
+</li>
+<li>[ ] Uniquement des chaînes de caractères.
+<blockquote>
+<p>Faux, bien qu'il soit souvent utilisé pour les chaînes, il peut également comparer d'autres types.</p>
+</blockquote>
+</li>
+<li>[ ] Uniquement des types primitifs (int, double, char, boolean ...).
+<blockquote>
+<p>Ce n'est pas correct, assertEquals peut aussi être utilisé avec des chaînes de caractères (String).
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Qu'est-ce qu'une fonction de test ?</strong></p>
+<ul>
+<li>[ ] Une fonction dont le nom débute par test.
+<blockquote>
+<p>Presque, mais si l'on fait uniquement cela, ce n'est pas une fonction de test tant qu'elle ne contient pas d'assertion.</p>
+</blockquote>
+</li>
+<li>[ ] Une fonction contenant des assertions.
+<blockquote>
+<p>Presque, mais si l'on fait uniquement cela et que le nom de la fonction ne débute pas par test, cette fonction ne sera jamais appelé automatiquement lorsque l'on utilise la commande test !</p>
+</blockquote>
+</li>
+<li>[ ] Une fonction contenant des alternatives.
+<blockquote>
+<p>Alors là, aucun rapport, désolé !</p>
+</blockquote>
+</li>
+<li>[x] Une fonction dont le nom débute par test et contenant des assertions.
+<blockquote>
+<p>Exactement, il faut que ces deux éléments soient présents pour avoir une fonction de test :)
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>
