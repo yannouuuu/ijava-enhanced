@@ -1,0 +1,3 @@
+class DoublerPonctuation extends Program {
+
+}

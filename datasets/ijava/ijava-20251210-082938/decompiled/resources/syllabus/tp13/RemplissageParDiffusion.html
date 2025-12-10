@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>RemplissageParDiffusion - tp13</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Remplissage par diffusion</h1>
+        <p class="session-info">tp13 / RemplissageParDiffusion.java</p>
+    </header>
+    <main>
+
+<p>Vous connaissez sans doute l'outil &quot;seau&quot; des logiciels de dessin, qui permet de modifier la couleur d'une zone contiguë. Cette fonctionnalité utilise un algorithme récursif qui propage la nouvelle couleur de proche en proche depuis un pixel initial, comme c'est illustré par <a href="https://fr.wikipedia.org/wiki/Algorithme_de_remplissage_par_diffusion#/media/Fichier:Recursive_Flood_Fill_4_(aka).gif">cette animation</a>.</p>
+<p>Afin de nous concentrer sur l'algorithme récursif lui-même et non sur la représentation des images, nous allons considérer qu'une image est un tableau à deux dimensions <code>char[][]</code>.
+Voici deux traces d'exécution de l'algorithme que vous devez écrire.</p>
+<pre><code>Image initiale
+XXOXX
+XOOXO
+OOXOX
+XOXXX
+XOOXX
+
+Saisir les indices du point de départ, ainsi que la nouvelle couleur
+Indice ligne : 2
+Indice colonne : 1
+Nouvelle couleur : ·
+XX·XX
+X··XO
+··XOX
+X·XXX
+X··XX
+</code></pre>
+<pre><code>Image initiale
+XXOXX
+XOOXO
+OOXOX
+XOXXX
+XOOXX
+
+Saisir les indices du point de départ, ainsi que la nouvelle couleur
+Indice ligne : 2
+Indice colonne : 3
+Nouvelle couleur : ·
+XXOXX
+XOOXO
+OOX·X
+XOXXX
+XOOXX
+</code></pre>
+<p>Et voici l'algorithme principal qui devra vous permettre de tester la fonction récursive.</p>
+<pre><code>void algorithm() {	
+	char[][] image = new char [][]{{'X', 'X', 'O', 'X', 'X'},
+	                               {'X', 'O', 'O', 'X', 'O'},
+                                    {'O', 'O', 'X', 'O', 'X'},
+                                    {'X', 'O', 'X', 'X', 'X'},
+                                    {'X', 'O', 'O', 'X', 'X'}};
+	
+	println(&quot;Image initiale&quot;);
+	println(toString(image));
+	println(&quot;Saisir les indices du point de départ, ainsi que la nouvelle couleur&quot;);
+	print(&quot;Indice ligne : &quot;);
+	int ligne = readInt();
+	print(&quot;Indice colonne : &quot;);
+	int colonne = readInt();
+	print(&quot;Nouvelle couleur : &quot;);
+	char couleur = readChar();
+	
+	diffuser(image, ligne, colonne, image[ligne][colonne], couleur);
+	println(toString(image));
+}
+</code></pre>
+<h2>Affichage d'une image sur le terminal</h2>
+<p>Pour vous échauffer, écrire la fonction <code>String toString(char[][] image)</code> permettant d'afficher le tableau de caractères comme dans l'exemple.</p>
+<h2>Algorithme de diffusion</h2>
+<p>Écrire la fonction récursive <code>void diffuser(char[][] image, int indiceLigne, int indiceColonne, char ancienneCouleur, char nouvelleCouleur)</code> qui doit colorier avec <code>nouvelleCouleur</code> toute la zone autour de <code>indiceLigne</code> et <code>indiceColonne</code> ayant <code>ancienneCouleur</code>.
+Le principe est simple : colorier le pixel aux indices donnés, et faire la même chose récursivement sur ses voisins.
+Vous devrez trouver les conditions d'arrêt adéquates pour que votre fonction s'écrive le plus simplement possible.
+Si votre fonction fait plus de 10 lignes de code, elle est sans doute plus compliquée que nécessaire.</p>
+<p>:::question
+<strong>Est-ce que votre fonction <code>diffuser</code> est récursive terminale ?</strong></p>
+<ul>
+<li>[ ] Oui
+<blockquote>
+<p>C'est étonnant. Ou bien vous ne comprenez pas encore bien la récursivité terminale, ou bien votre fonction n'est pas correcte. En effet, elle doit faire plusieurs appels récursifs, donc ne peut pas être récursive terminale.</p>
+</blockquote>
+</li>
+<li>[X] Non
+<blockquote>
+<p>C'est normal, cet algorithme ne peut pas s'écrire avec une fonction récursive terminale, car il nécessite plusieurs appels récursifs.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<h2>Voir la trace d'exécution de l'algorithme récursif</h2>
+<p>Vous pouvez ajouter les trois lignes ci-dessous au début de votre fonction <code>diffuser</code> pour voir les appels récursifs qui sont faits, et comment l'image change.</p>
+<pre><code>println(&quot;indiceLigne = &quot; + indiceLigne + &quot;, indiceColonne = &quot; + indiceColonne +
+        &quot;, ancienneCouleur = &quot; + ancienneCouleur + &quot;, nouvelleCouleur = &quot; + nouvelleCouleur);
+println(toString(image));
+readString();                   // Sert à arrêter l'exécution pour qu'on puisse lire le résultat
+                                // Il suffit d'appuyer sur Entrée pour relancer l'exécution
+</code></pre>
+
+    </main>
+</body>
+</html>
