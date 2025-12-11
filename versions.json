@@ -187,5 +187,12 @@
     "sha256": "670de35c4c92484cf25e35309e965b5a7e5084ce9cd7fcf44a5c7b5eb003698a",
     "path": "datasets/ijava/ijava-20251210-162817/ijava.jar",
     "reason": "Différences détectées dans le code décompilé"
+  },
+  {
+    "version": "ijava-20251211-124459",
+    "date": "2025-12-11T12:44:59Z",
+    "sha256": "127cdc41aab6566e189fcbca8b2345a2fb88837dd9daaecd68150403b759bdc6",
+    "path": "datasets/ijava/ijava-20251211-124459/ijava.jar",
+    "reason": "Différences détectées dans le code décompilé"
   }
 ]

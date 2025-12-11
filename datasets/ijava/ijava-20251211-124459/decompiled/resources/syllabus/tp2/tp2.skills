@@ -1,0 +1,13 @@
+QCM1_type_boolean : [] | questions:5
+QCM2_connecteurs_logiques : [] | questions:5
+ConditionsSurEntiers : ['condition-operator', 'condition-evaluation']
+ConditionsSurChaines : ['condition-operator', 'condition-evaluation']
+QCM3_alternatives_simples : [] | questions:4
+MemeLongueur : ['io-basic', 'variable-declaration', 'boolean-equality']
+BlaBla : []
+Menu : ['io-basic', 'alternative-cascade']
+Suffixe : ['io-basic', 'alternative-simple']
+NettoyerChaine : []
+PlusPetitNombre : ['io-basic', 'alternative-simple']
+FizzBuzz : ['io-basic', 'alternative-simple', 'alternative-sequence', 'math-modulo']
+Cinema : ['io-basic', 'alternative-simple', 'alternative-sequence', 'condition-and', 'condition-or', 'math-modulo']

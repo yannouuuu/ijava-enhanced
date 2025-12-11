@@ -1,0 +1,3 @@
+class TvaPasDeUn extends Program {
+
+}

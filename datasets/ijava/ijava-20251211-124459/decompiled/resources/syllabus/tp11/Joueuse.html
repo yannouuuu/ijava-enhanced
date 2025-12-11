@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Joueuse - tp11</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Tableau d'un tournoi</h1>
+        <p class="session-info">tp11 / Joueuse.java</p>
+    </header>
+    <main>
+
+<p>Vous êtes contacté par une association qui organise un tournoi de fléchettes et a besoin de gérer un tableau de scores pour l'ensemble des participants.</p>
+<p>L'organisatrice t'explique qu'ils utilisent depuis toujours la bonne vieille méthode du papier et crayon ... en notant manuellement le résultat de chaque partie (avec un 1 quand une partie est gagnée et un 0 lorsque c'est perdu), et décompte ensuite le nombre total de victoires pour chaque joueurs. Elle te temps une feuille de l'an passé :</p>
+<table>
+  <tr>
+    <td>Nom</td>    <td>Parties</td>  <td>Total</td>
+  </tr>
+  <tr>
+    <td>Jeanne</td> <td>O1O1OO1O</td> <td>3</td>
+  </tr>
+  <tr>
+    <td>Pierre</td> <td>11OOO11O</td> <td>4</td>
+  </tr>
+  <tr>
+    <td>Aksil</td>  <td>O1O1OO1O</td> <td>3</td>
+  </tr>
+  <tr>
+    <td>Paloma</td> <td>11O1OO1O</td> <td>4</td>
+  </tr>
+  <tr>
+    <td>Victor</td> <td>OOO1O111</td> <td>4</td>
+  </tr>
+  <tr>
+    <td>Salwa</td>  <td>11O11O1O</td> <td>5</td>
+  </tr>
+  <tr>
+    <td>...</td>
+  </tr>
+</table<>>
+<p>L'organisatrice : <em>&quot;Alors qu'en penses-tu ? Tu peux me faire une app' pour gérer tout ça plus facilement ?&quot;.</em></p>
+<p>Dans ta tête, différentes pistes se bousculent et avant de lui répondre, tu réfléchis d'abord à la structure de données qui te semble la plus appropriée.</p>
+<p>::: question
+<strong>Quel type permettrait de représenter un joueuse ou une joueur ?</strong></p>
+<ul>
+<li>[ ] Un type <code>Joueuse</code> avec deux champs : une chaîne pour son nom, une chaîne pour les parties et une chaîne pour le total
+<blockquote>
+<p>Hum, cela pourrait être une piste, mais une chaîne de caractères pour représenter le total qui est un nombre n'est pas très judicieux</p>
+</blockquote>
+</li>
+<li>[x] Un type <code>Joueuse</code> avec deux champs : une chaîne pour son nom et un un tableau de booléens pour les parties
+<blockquote>
+<p>Intéressant ! Effectivement, ce choix permet de représenter de manière concise les informations concernant un joueur. Comme une partie est soit gagnée, soit perdue, le booléen est le plus approprié. Et puis, le total n'est pas vraiment nécessaire puisqu'avec les parties il est possible de le calculer !</p>
+</blockquote>
+</li>
+<li>[ ] Un type <code>Joueuse</code> avec trois champs : une chaîne pour son nom, une autre pour les parties et un entier pour le total
+<blockquote>
+<p>Cela pourrait être un choix possible, il y a une redondance d'information entre les parties et le score et du coup, il faudrait être attentif à ce que le score soit toujours bien synchronisé avec les parties. Possible, mais proposition pouvant amener à des erreurs en cas de mauvaise mises à jour des informations.</p>
+</blockquote>
+</li>
+<li>[ ] Pas besoin de type : une seule chaîne avec toutes les informations dedans, en les séparant juste par une virgule pour s'y retrouver !
+<blockquote>
+<p>Alors dans l'absolu, on pourrait toujours tout représenter avec des chaînes, mais êtes-vous si fan des parcours de chaînes et des conversions de type ?! ;)
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Vous : <em>&quot;Après quelques réflexions, oui pas de soucis : je peux m'occuper de ça pour ton tournoi. Tu peux compter sur moi !&quot;</em>.</p>
+<p>Définissez maintenant le type <code>Joueuse</code> avec le type le plus approprié proposé en réponse aux questions ci-dessus.</p>
+
+    </main>
+</body>
+</html>
