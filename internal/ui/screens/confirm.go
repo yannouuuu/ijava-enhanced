@@ -2,6 +2,7 @@ package screens
 
 import (
 	"fmt"
+	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -16,12 +17,14 @@ type ConfirmModel struct {
 	height int
 	config *config.InstallConfig
 	paths  *installer.InstallPaths
+	shells []installer.Shell
 }
 
-func NewConfirmModel(cfg *config.InstallConfig, paths *installer.InstallPaths) ConfirmModel {
+func NewConfirmModel(cfg *config.InstallConfig, paths *installer.InstallPaths, shells []installer.Shell) ConfirmModel {
 	return ConfirmModel{
 		config: cfg,
 		paths:  paths,
+		shells: shells,
 	}
 }
 
@@ -51,15 +54,34 @@ func (m ConfirmModel) View() string {
 	content += components.RenderHeaderSimple("Confirmer l'installation", m.width)
 	content += "\n\n"
 
-	// Récapitulatif dans une box
+	// Récapitulatif détaillé
 	summary := ""
 	summary += styles.LabelStyle.Render("Récapitulatif:") + "\n\n"
+	
 	summary += styles.RenderKeyValue("Type", m.config.InstallType) + "\n"
 	summary += styles.RenderKeyValue("Répertoire", m.paths.InstallDir) + "\n"
-	summary += styles.RenderKeyValue("Shells", fmt.Sprintf("%d configuré(s)", len(m.config.SelectedShells))) + "\n"
+	
+	// Afficher les shells sélectionnés
+	selectedCount := len(m.config.SelectedShells)
+	if selectedCount > 0 {
+		shellNames := []string{}
+		for _, shellName := range m.config.SelectedShells {
+			for _, shell := range m.shells {
+				if shell.Name == shellName {
+					shellNames = append(shellNames, shell.DisplayName)
+					break
+				}
+			}
+		}
+		summary += styles.RenderKeyValue("Shells", fmt.Sprintf("%d: %s", selectedCount, strings.Join(shellNames, ", "))) + "\n"
+	} else {
+		// Détecter le shell actuel qui sera utilisé par défaut
+		currentShell := installer.GetCurrentShell()
+		summary += styles.RenderKeyValue("Shells", fmt.Sprintf("Auto (%s détecté)", currentShell)) + "\n"
+	}
 	
 	if m.config.CreateAliases {
-		summary += styles.RenderKeyValue("Alias", "Oui (ijavai, ijavac, etc.)") + "\n"
+		summary += styles.RenderKeyValue("Alias", "Oui (ijavai, ijavac, ijavat, ijavae, ijavas)") + "\n"
 	} else {
 		summary += styles.RenderKeyValue("Alias", "Non") + "\n"
 	}
@@ -74,7 +96,7 @@ func (m ConfirmModel) View() string {
 	content += "\n\n"
 
 	// Question de confirmation
-	question := styles.WarningTextStyle.Render("⚠ Voulez-vous vraiment démarrer l'installation ?")
+	question := styles.WarningTextStyle.Render("Voulez-vous démarrer l'installation ?")
 	content += lipgloss.Place(m.width, 0, lipgloss.Center, lipgloss.Top, question)
 	content += "\n\n"
 

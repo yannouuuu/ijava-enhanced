@@ -172,16 +172,24 @@ func (m AppModel) nextScreen() (tea.Model, tea.Cmd) {
 		// Récupérer la configuration
 		m.cfg = m.configureModel.GetConfig()
 
-		// Passer à l\'écran de confirmation
+		// SI AUCUN SHELL SÉLECTIONNÉ, utiliser le shell actuel par défaut
+		if len(m.cfg.SelectedShells) == 0 {
+			currentShell := installer.GetCurrentShell()
+			for _, shell := range m.shells {
+				if shell.Name == currentShell && shell.Detected {
+					m.cfg.SelectedShells = []string{shell.Name}
+					break
+				}
+			}
+		}
+
+		// Passer à l'écran de confirmation
 		m.currentScreen = ScreenConfirm
 		m.paths = installer.GetInstallPaths(m.cfg.InstallDir)
-		m.confirmModel = screens.NewConfirmModel(m.cfg, m.paths)
+		m.confirmModel = screens.NewConfirmModel(m.cfg, m.paths, m.shells)
 		return m, m.confirmModel.Init()
 
 	case ScreenConfirm:
-		// Récupérer la configuration (déjà fait)
-		// m.cfg et m.paths sont déjà définis
-
 		// Installer Java si demandé
 		if m.cfg.AutoInstallJava && (m.javaInfo == nil || !m.javaInfo.Installed) {
 			_ = installer.InstallJava()
@@ -193,7 +201,7 @@ func (m AppModel) nextScreen() (tea.Model, tea.Cmd) {
 		return m, m.downloadModel.Init()
 
 	case ScreenDownload:
-		// Télécharger le JAR
+		// TÉLÉCHARGEMENT du JAR
 		m.paths = installer.GetInstallPaths(m.cfg.InstallDir)
 		_ = installer.CreateDirectories(m.paths)
 		_ = installer.DownloadFile(config.JarURL, m.paths.JarPath, nil)
@@ -204,13 +212,13 @@ func (m AppModel) nextScreen() (tea.Model, tea.Cmd) {
 		return m, m.installModel.Init()
 
 	case ScreenInstall:
-		// Effectuer l'installation
+		// INSTALLATION 
 		_ = installer.CreateWrapper(m.paths)
 
-		// Configurer les shells
+		// Configurer les shells sélectionnés (ou shell actuel par défaut)
 		for _, shellName := range m.cfg.SelectedShells {
 			for _, shell := range m.shells {
-				if shell.Name == shellName {
+				if shell.Name == shellName && shell.Detected {
 					_ = installer.ConfigureShell(shell, m.cfg.InstallDir, m.cfg.CreateAliases)
 					break
 				}
