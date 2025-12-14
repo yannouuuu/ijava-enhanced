@@ -303,44 +303,22 @@ jobs:
             echo "✓ Changements poussés vers le dépôt"
           fi
 
-      - name: 🎉 Création de la release GitHub
+      - name: 📝 Archivage dans le dataset (sans release)
         if: steps.compare.outputs.update == 'true'
         env:
           TAG: ${{ steps.metadata.outputs.tag }}
           SHA: ${{ steps.download.outputs.sha }}
           HUMAN_DATE: ${{ steps.metadata.outputs.human_date }}
-          REASON: ${{ steps.compare.outputs.reason }}
         run: |
           set -euo pipefail
           
-          notes_file=$(mktemp)
-          {
-            echo "# 🎓 Nouvelle version iJava détectée"
-            echo
-            echo "Cette version a été automatiquement détectée et publiée par analyse"
-            echo "du contenu décompilé des fichiers \`.class\`."
-            echo
-            echo "## 📊 Informations"
-            echo
-            echo "- **Date de détection**: $HUMAN_DATE"
-            echo "- **SHA256**: \`$SHA\`"
-            echo "- **Raison**: $REASON"
-            echo
-            echo "## 🔗 Source"
-            echo
-            echo "Le JAR a été récupéré depuis: $JAR_URL"
-            echo
-            echo "---"
-            echo
-            echo "_Cette release a été créée automatiquement par GitHub Actions._"
-          } > "$notes_file"
-          
-          gh release create "$TAG" \
-            "$DATASET_DIR/$TAG/ijava.jar" \
-            --title "🎓 iJava $TAG" \
-            --notes-file "$notes_file"
-          
-          echo "✓ Release $TAG créée avec succès"
+          echo "✓ Nouvelle version archivée dans le dataset"
+          echo "  🏷️  Tag: $TAG"
+          echo "  📦 Dataset: $DATASET_DIR/$TAG/"
+          echo "  🔐 SHA256: $SHA"
+          echo ""
+          echo "ℹ️  Note: Pas de release GitHub créée (seul l'installeur crée des releases)"
+          echo "         Le JAR est disponible dans le dataset du dépôt."
 
       - name: 📢 Notification Discord
         if: steps.compare.outputs.update == 'true'
