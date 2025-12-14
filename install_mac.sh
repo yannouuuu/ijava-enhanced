@@ -10,6 +10,36 @@
 set -euo pipefail
 
 # ==============================================================================
+# ⚠️  AVERTISSEMENT DE DÉPRÉCIATION
+# ==============================================================================
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "⚠️  ATTENTION: Ce script est DÉPRÉCIÉ"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "Un nouvel installeur moderne avec interface interactive"
+echo "est maintenant disponible !"
+echo ""
+echo "📦 Pour utiliser le nouvel installeur (recommandé) :"
+echo ""
+echo "   curl -fsSL https://raw.githubusercontent.com/yannouuuu/ijava-enhanced/main/scripts/install.sh | bash"
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+read -p "Voulez-vous continuer avec l'ancien script? [o/N] " -r response
+echo ""
+
+if [[ ! "$response" =~ ^[oOyY]$ ]]; then
+    echo "Installation annulée."
+    echo "Utilisez le nouveau script pour une meilleure expérience !"
+    exit 0
+fi
+
+echo "⚠️  Poursuite avec l'ancien script..."
+echo ""
+# ==============================================================================
+
+# ==============================================================================
 # CONFIGURATION
 # ==============================================================================
 

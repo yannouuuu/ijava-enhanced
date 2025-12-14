@@ -1,0 +1,97 @@
+name: Release Installer
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (ex: installer-v2.0.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Build all platforms
+        run: |
+          mkdir -p dist
+          
+          echo "Building Linux AMD64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-s -w" -o dist/ijava-installer-linux-amd64 ./cmd/installer
+          
+          echo "Building Linux ARM64..."
+          GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -ldflags="-s -w" -o dist/ijava-installer-linux-arm64 ./cmd/installer
+          
+          echo "Building macOS Intel..."
+          GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-s -w" -o dist/ijava-installer-darwin-amd64 ./cmd/installer
+          
+          echo "Building macOS Apple Silicon..."
+          GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -ldflags="-s -w" -o dist/ijava-installer-darwin-arm64 ./cmd/installer
+          
+          echo "Building Windows AMD64..."
+          GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-s -w" -o dist/ijava-installer-windows-amd64.exe ./cmd/installer
+          
+          echo "Building Windows ARM64..."
+          GOOS=windows GOARCH=arm64 CGO_ENABLED=0 go build -ldflags="-s -w" -o dist/ijava-installer-windows-arm64.exe ./cmd/installer
+          
+          ls -lh dist/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          name: iJava Enhanced Installer ${{ github.event.inputs.version }}
+          body: |
+            # 🎨 iJava Enhanced Installer
+            
+            Installeur moderne avec interface TUI interactive.
+            
+            ## ✨ Fonctionnalités
+            
+            - Interface avec Bubble Tea + Lipgloss + Huh
+            - Animation avec Harmonica
+            - Détection automatique de Java
+            - Configuration intelligente des shells
+            
+            ## 📦 Installation rapide
+            
+            **Linux / macOS:**
+            ```bash
+            curl -fsSL https://raw.githubusercontent.com/yannouuuu/ijava-enhanced/main/scripts/install.sh | bash
+            ```
+            
+            **Windows (PowerShell):**
+            ```powershell
+            iex (iwr -useb https://raw.githubusercontent.com/yannouuuu/ijava-enhanced/main/scripts/install.ps1).Content
+            ```
+            
+            ## 📥 Installation manuelle
+            
+            Téléchargez le binaire pour votre plateforme et exécutez-le.
+            
+            | Plateforme | Binaire |
+            |------------|---------|
+            | Linux x86_64 | `ijava-installer-linux-amd64` |
+            | Linux ARM64 | `ijava-installer-linux-arm64` |
+            | macOS Intel | `ijava-installer-darwin-amd64` |
+            | macOS Apple Silicon | `ijava-installer-darwin-arm64` |
+            | Windows x86_64 | `ijava-installer-windows-amd64.exe` |
+          files: |
+            dist/*
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -12,6 +12,37 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 $IS_PIPED = -not $PSScriptRoot
 
+# ==============================================================================
+# ⚠️  AVERTISSEMENT DE DÉPRÉCIATION
+# ==============================================================================
+Write-Host ""
+Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Yellow
+Write-Host "⚠️  ATTENTION: Ce script est DÉPRÉCIÉ" -ForegroundColor Yellow
+Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Yellow
+Write-Host ""
+Write-Host "Un nouvel installeur moderne avec interface interactive"
+Write-Host "est maintenant disponible !"
+Write-Host ""
+Write-Host "📦 Pour utiliser le nouvel installeur (recommandé) :" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "   iex (iwr -useb https://raw.githubusercontent.com/yannouuuu/ijava-enhanced/main/scripts/install.ps1).Content" -ForegroundColor Green
+Write-Host ""
+Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Yellow
+Write-Host ""
+
+$response = Read-Host "Voulez-vous continuer avec l'ancien script? [o/N]"
+Write-Host ""
+
+if ($response -notmatch '^[oOyY]') {
+    Write-Host "Installation annulée."
+    Write-Host "Utilisez le nouveau script pour une meilleure expérience !"
+    exit 0
+}
+
+Write-Host "⚠️  Poursuite avec l'ancien script..." -ForegroundColor Yellow
+Write-Host ""
+# ==============================================================================
+
 $COMMON_MODULE_CONTENT = @'
 # ==============================================================================
 # iJava Enhanced - Module PowerShell commun
