@@ -248,6 +248,7 @@ if "%1"=="update" goto :update
 if "%1"=="self-update" goto :update
 if "%1"=="--info" goto :info
 if "%1"=="uninstall" goto :uninstall
+if "%1"=="compile" goto :compile
 
 if not exist "%JAR_PATH%" (
     echo Toolkit manquant, telechargement en cours...
@@ -255,6 +256,10 @@ if not exist "%JAR_PATH%" (
 )
 
 java -jar "%JAR_PATH%" %*
+goto :eof
+
+:compile
+javac -cp ".;%JAR_PATH%" %2 %3 %4 %5 %6 %7 %8 %9
 goto :eof
 
 :update
