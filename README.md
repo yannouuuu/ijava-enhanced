@@ -1,15 +1,21 @@
-# iJava Enhanced - Installeur Moderne
+<br/>
+<p align="center">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/yannouuuu/IUT-SAE1.01/raw/main/.github/assets/header_univlille_light.png" width="200px">
+        <img alt="UnivLilleLogo" src="https://github.com/yannouuuu/IUT-SAE1.01/raw/main/.github/assets/header_univlille_dark.png" width="200px">
+    </picture>
+  <h1 align="center">iJava Enhanced</h1>
+</p>
 
-**iJava Enhanced** est un installeur moderne et interactif pour [iJava](https://www.iut-info.univ-lille.fr/~yann.secq/ijava/), le toolkit Java pédagogique développé par Yann Secq à l'Université de Lille.
+**iJava Enhanced** est un installeur interactif pour [iJava](https://www.iut-info.univ-lille.fr/~yann.secq/ijava/), le toolkit Java pédagogique développé par Yann Secq à l'Université de Lille.
 
 Installez facilement **iJava** sur votre système avec une interface TUI élégante et des animations fluides !
 
 ---
 
-## ✨ Fonctionnalités
+## Fonctionnalités
 
 - **Interface TUI interactive** - Guidage pas à pas avec Bubble Tea et Lipgloss
-- **Animation multicolore** - Bordures pulsantes et barre rainbow (Harmonica)
 - **Détection automatique de Java** - Proposition d'installation si absent
 - **Configuration des shells** - Support de bash, zsh, fish et PowerShell
 - **Installation personnalisée** - Choix du répertoire, des shells et des alias
@@ -19,7 +25,7 @@ Installez facilement **iJava** sur votre système avec une interface TUI éléga
 
 ---
 
-## 📦 Installation
+## Installation
 
 ### Installation rapide (recommandée)
 
@@ -79,7 +85,7 @@ Invoke-WebRequest -Uri "https://github.com/yannouuuu/ijava-enhanced/releases/lat
 
 ---
 
-## 🚀 Utilisation
+## Utilisation
 
 ### Première utilisation
 
@@ -102,7 +108,7 @@ ijava init              # Initialiser un projet iJava
 ijava compile           # Compiler les sources
 ijava test              # Lancer les tests
 ijava execute           # Exécuter le programme principal
-ijava status            # Afficher l'état du projet
+ijava status            # Afficher l'avancement du tp
 ```
 
 ### Commandes du wrapper
@@ -125,7 +131,7 @@ ijavas                  # Alias pour ijava status
 
 ---
 
-## 🗑️ Désinstallation
+## Désinstallation
 
 Pour désinstaller complètement iJava de votre système :
 
@@ -142,7 +148,7 @@ Le script de désinstallation va :
 
 ---
 
-## 🎨 Stack
+## Stack
 
 L'installeur utilise les bibliothèques de l'écosystème [Charm](https://github.com/charmbracelet) :
 
@@ -154,7 +160,7 @@ L'installeur utilise les bibliothèques de l'écosystème [Charm](https://github
 
 ---
 
-## 🔧 Développement
+## Développement
 
 ### Prérequis
 
@@ -232,7 +238,7 @@ gh workflow run release-installer.yml -f version=installer-v2.0.0
 
 ---
 
-## 📚 À propos d'iJava
+## À propos d'iJava
 
 iJava est un toolkit Java pédagogique développé par **Yann Secq** pour l'enseignement de la programmation Java à l'IUT de Lille.
 
@@ -240,7 +246,7 @@ iJava est un toolkit Java pédagogique développé par **Yann Secq** pour l'ense
 
 ---
 
-## 👥 Auteurs
+## Auteurs
 
 **iJava Enhanced Installer :**
 - Yann Renard ([@yannouuuu](https://github.com/yannouuuu))
@@ -250,7 +256,7 @@ iJava est un toolkit Java pédagogique développé par **Yann Secq** pour l'ense
 
 ---
 
-## 🐛 Support
+## Support
 
 Si vous rencontrez des problèmes :
 
