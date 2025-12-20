@@ -100,7 +100,22 @@ func detectUnixShells() []Shell {
 
 // detectWindowsShells détecte les shells Windows
 func detectWindowsShells() []Shell {
-	profile := os.ExpandEnv("$PROFILE")
+	var profile string
+
+	// 1. Tenter de récupérer le profil via PowerShell
+	cmd := exec.Command("powershell", "-NoProfile", "-Command", "Write-Output $PROFILE")
+	out, err := cmd.Output()
+	if err == nil && len(out) > 0 {
+		profile = strings.TrimSpace(string(out))
+	}
+
+	// 2. Fallback sur le chemin standard si non trouvé
+	if profile == "" {
+		home, err := os.UserHomeDir()
+		if err == nil {
+			profile = filepath.Join(home, "Documents", "WindowsPowerShell", "Microsoft.PowerShell_profile.ps1")
+		}
+	}
 
 	return []Shell{
 		{
