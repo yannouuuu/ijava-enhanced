@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -36,6 +37,7 @@ func detectUnixShells() []Shell {
 
 	candidates := []struct {
 		name        string
+		command     string
 		displayName string
 		configPath  string
 		pathExport  string
@@ -43,6 +45,7 @@ func detectUnixShells() []Shell {
 	}{
 		{
 			name:        "bash",
+			command:     "bash",
 			displayName: "Bash",
 			configPath:  filepath.Join(home, ".bashrc"),
 			pathExport:  `export PATH="$HOME/.ijava2/bin:$PATH"`,
@@ -50,6 +53,7 @@ func detectUnixShells() []Shell {
 		},
 		{
 			name:        "zsh",
+			command:     "zsh",
 			displayName: "Zsh",
 			configPath:  filepath.Join(home, ".zshrc"),
 			pathExport:  `export PATH="$HOME/.ijava2/bin:$PATH"`,
@@ -57,21 +61,36 @@ func detectUnixShells() []Shell {
 		},
 		{
 			name:        "fish",
+			command:     "fish",
 			displayName: "Fish",
 			configPath:  filepath.Join(home, ".config/fish/config.fish"),
 			pathExport:  `set -gx PATH $HOME/.ijava2/bin $PATH`,
 			aliasFormat: `alias %s "%s"`,
 		},
+		{
+			name:        "powershell",
+			command:     "pwsh",
+			displayName: "PowerShell",
+			configPath:  filepath.Join(home, ".config/powershell/Microsoft.PowerShell_profile.ps1"),
+			pathExport:  `$env:PATH = "$HOME/.ijava2/bin:" + $env:PATH`,
+			aliasFormat: `function %s { %s @args }`,
+		},
 	}
 
 	for _, candidate := range candidates {
+		detected := fileExists(candidate.configPath)
+		if !detected && candidate.command != "" {
+			_, err := exec.LookPath(candidate.command)
+			detected = err == nil
+		}
+
 		shell := Shell{
 			Name:        candidate.name,
 			DisplayName: candidate.displayName,
 			ConfigPath:  candidate.configPath,
 			PathExport:  candidate.pathExport,
 			AliasFormat: candidate.aliasFormat,
-			Detected:    fileExists(candidate.configPath),
+			Detected:    detected,
 		}
 		shells = append(shells, shell)
 	}
@@ -89,7 +108,7 @@ func detectWindowsShells() []Shell {
 			DisplayName: "PowerShell",
 			ConfigPath:  profile,
 			PathExport:  `$env:PATH = "$env:USERPROFILE\.ijava2\bin;" + $env:PATH`,
-			AliasFormat: `Set-Alias -Name %s -Value %s`,
+			AliasFormat: `function %s { %s @args }`,
 			Detected:    true, // PowerShell toujours présent sur Windows
 		},
 	}
