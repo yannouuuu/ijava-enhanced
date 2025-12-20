@@ -1,9 +1,9 @@
 package config
 
-const (
-	// Version de l'installeur
-	Version = "2.0.0"
+// Version de l'installeur (peut être surchargé à la compilation via -ldflags)
+var Version = "2025.12.3"
 
+const (
 	// URL du JAR iJava officiel
 	JarURL = "https://www.iut-info.univ-lille.fr/~yann.secq/ijava/ijava.jar"
 
