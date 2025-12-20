@@ -87,14 +87,37 @@ func installJavaLinux() error {
 	return fmt.Errorf("aucun gestionnaire de paquets supporté trouvé")
 }
 
-// installJavaMacOS installe Java sur macOS
 func installJavaMacOS() error {
 	// Vérifier si Homebrew est installé
 	if _, err := exec.LookPath("brew"); err != nil {
-		return fmt.Errorf("Homebrew n'est pas installé. Installez-le depuis https://brew.sh")
+		// Homebrew n'est pas installé, on l'installe
+		fmt.Println("Homebrew non détecté. Installation automatique...")
+		installCmd := exec.Command("/bin/bash", "-c", "NONINTERACTIVE=1 /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"")
+		if err := installCmd.Run(); err != nil {
+			return fmt.Errorf("échec de l'installation de Homebrew: %w", err)
+		}
+
+		// Ajouter Homebrew au PATH pour la session courante (tentative)
+		// Note: Cela dépend de l'architecture (Intel vs Apple Silicon)
+		// On essaie les chemins communs
+		paths := []string{"/opt/homebrew/bin/brew", "/usr/local/bin/brew"}
+		for _, p := range paths {
+			if _, err := exec.LookPath(p); err == nil {
+				break
+			}
+		}
 	}
 
-	cmd := exec.Command("brew", "install", "openjdk")
+	brewCmd := "brew"
+	if _, err := exec.LookPath("brew"); err != nil {
+		if _, err := exec.LookPath("/opt/homebrew/bin/brew"); err == nil {
+			brewCmd = "/opt/homebrew/bin/brew"
+		} else if _, err := exec.LookPath("/usr/local/bin/brew"); err == nil {
+			brewCmd = "/usr/local/bin/brew"
+		}
+	}
+
+	cmd := exec.Command(brewCmd, "install", "openjdk")
 	if err := cmd.Run(); err != nil {
 		return fmt.Errorf("échec de l'installation de Java via Homebrew: %w", err)
 	}
@@ -104,16 +127,22 @@ func installJavaMacOS() error {
 
 // installJavaWindows installe Java sur Windows
 func installJavaWindows() error {
-	// Sur Windows, on suggère un téléchargement manuel ou winget
+	// Sur Windows, on utilise winget comme demandé
 	if _, err := exec.LookPath("winget"); err == nil {
-		cmd := exec.Command("winget", "install", "Microsoft.OpenJDK.21")
+		// Installation de Microsoft.OpenJDK.25 (ou version demandée)
+		cmd := exec.Command("winget", "install", "Microsoft.OpenJDK.25")
 		if err := cmd.Run(); err != nil {
-			return fmt.Errorf("échec de l'installation de Java via winget: %w", err)
+			// Fallback sur une version LTS si la 25 échoue (car elle n'existe peut-être pas encore)
+			fmt.Println("Échec de l'installation de OpenJDK 25, tentative avec OpenJDK 21 (LTS)...")
+			cmd = exec.Command("winget", "install", "Microsoft.OpenJDK.21")
+			if err := cmd.Run(); err != nil {
+				return fmt.Errorf("échec de l'installation de Java via winget: %w", err)
+			}
 		}
 		return nil
 	}
 
-	return fmt.Errorf("winget non disponible. Téléchargez Java manuellement depuis https://adoptium.net")
+	return fmt.Errorf("winget non disponible. Veuillez installer Java manuellement ou installer winget")
 }
 
 // HasCommand vérifie si une commande est disponible dans le PATH
