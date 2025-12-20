@@ -1,7 +1,7 @@
 package config
 
 // Version de l'installeur (peut être surchargé à la compilation via -ldflags)
-var Version = "2025.12.3"
+var Version = "2025.12.4"
 
 const (
 	// URL du JAR iJava officiel
@@ -24,7 +24,7 @@ const (
 // InstallConfig contient la configuration de l'installation
 type InstallConfig struct {
 	InstallDir      string
-	InstallType     string   // "express" ou "custom"
+	InstallType     string // "express" ou "custom"
 	SelectedShells  []string
 	CreateAliases   bool
 	AutoInstallJava bool
