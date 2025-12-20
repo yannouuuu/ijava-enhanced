@@ -27,21 +27,21 @@ jobs:
 
     steps:
       # ═══════════════════════════════════════════════════════════════
-      # 📦 PHASE 1: Préparation de l'environnement
+      # PHASE 1: Préparation de l'environnement
       # ═══════════════════════════════════════════════════════════════
       
-      - name: 📥 Récupération du dépôt
+      - name: Récupération du dépôt
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: 🗂️ Création des dossiers de travail
+      - name: Création des dossiers de travail
         run: |
           set -euo pipefail
           mkdir -p workspace/remote workspace/reference artifacts
           echo "✓ Dossiers de travail créés"
 
-      - name: 🔧 Installation des outils système
+      - name: Installation des outils système
         run: |
           set -euo pipefail
           echo "Installation des dépendances..."
@@ -49,7 +49,7 @@ jobs:
           sudo apt-get install -y -qq wget git jq default-jre-headless
           echo "✓ Outils système installés"
 
-      - name: 🔨 Installation de JADX (décompilateur)
+      - name: Installation de JADX (décompilateur)
         run: |
           set -euo pipefail
           JADX_VERSION="1.5.0"
@@ -69,10 +69,10 @@ jobs:
           /usr/local/bin/jadx --version
 
       # ═══════════════════════════════════════════════════════════════
-      # 🌐 PHASE 2: Récupération du JAR distant
+      # PHASE 2: Récupération du JAR distant
       # ═══════════════════════════════════════════════════════════════
 
-      - name: 🌐 Téléchargement du JAR distant
+      - name: Téléchargement du JAR distant
         id: download
         run: |
           set -euo pipefail
@@ -96,10 +96,10 @@ jobs:
           fi
 
       # ═══════════════════════════════════════════════════════════════
-      # 📚 PHASE 3: Récupération de la version de référence
+      # PHASE 3: Récupération de la version de référence
       # ═══════════════════════════════════════════════════════════════
 
-      - name: 📚 Récupération de la dernière version connue
+      - name: Récupération de la dernière version connue
         id: reference
         run: |
           set -euo pipefail
@@ -146,10 +146,10 @@ jobs:
           fi
 
       # ═══════════════════════════════════════════════════════════════
-      # 🔍 PHASE 4: Comparaison
+      # PHASE 4: Comparaison
       # ═══════════════════════════════════════════════════════════════
 
-      - name: 🔍 Analyse comparative des fichiers .class
+      - name: Analyse comparative des fichiers .class
         id: compare
         run: |
           set -euo pipefail
@@ -188,10 +188,10 @@ jobs:
           fi
 
       # ═══════════════════════════════════════════════════════════════
-      # 🏷️ PHASE 5: Préparation de la nouvelle version
+      # PHASE 5: Préparation de la nouvelle version
       # ═══════════════════════════════════════════════════════════════
 
-      - name: 🏷️ Génération des métadonnées de version
+      - name: Génération des métadonnées de version
         id: metadata
         if: steps.compare.outputs.update == 'true'
         run: |
@@ -210,7 +210,7 @@ jobs:
           echo "  🏷️  Tag: $tag"
           echo "  📅 Date: $human_date"
 
-      - name: 📝 Mise à jour du registre versions.json
+      - name: Mise à jour du registre versions.json
         if: steps.compare.outputs.update == 'true'
         run: |
           set -euo pipefail
@@ -242,7 +242,7 @@ jobs:
           echo "✓ versions.json mis à jour"
           echo "  📊 Nombre de versions: $(jq 'length' versions.json)"
 
-      - name: 💾 Archivage du JAR dans le dataset
+      - name: Archivage du JAR dans le dataset
         if: steps.compare.outputs.update == 'true'
         env:
           TAG: ${{ steps.metadata.outputs.tag }}
@@ -270,11 +270,11 @@ jobs:
           ./scripts/process_ijava.sh --dataset-dir "$DATASET_DIR" --force
           
           echo "✓ Décompilation terminée"
-          echo "  📂 Structure créée:"
+          echo "  Structure créée:"
           ls -lh "$DATASET_DIR/$TAG"
 
       # ═══════════════════════════════════════════════════════════════
-      # 📤 PHASE 6: Publication
+      # PHASE 6: Publication
       # ═══════════════════════════════════════════════════════════════
 
       - name: 📤 Commit et push des changements
@@ -303,7 +303,7 @@ jobs:
             echo "✓ Changements poussés vers le dépôt"
           fi
 
-      - name: 📝 Archivage dans le dataset (sans release)
+      - name: Archivage dans le dataset (sans release)
         if: steps.compare.outputs.update == 'true'
         env:
           TAG: ${{ steps.metadata.outputs.tag }}
@@ -320,7 +320,7 @@ jobs:
           echo "ℹ️  Note: Pas de release GitHub créée (seul l'installeur crée des releases)"
           echo "         Le JAR est disponible dans le dataset du dépôt."
 
-      - name: 📢 Notification Discord
+      - name: Notification Discord
         if: steps.compare.outputs.update == 'true'
         env:
           DISCORD_WEBHOOK_INPUT: ${{ github.event.inputs.discordWebhook }}
@@ -354,10 +354,10 @@ jobs:
           fi
 
       # ═══════════════════════════════════════════════════════════════
-      # 📋 PHASE 7: Récapitulatif
+      # PHASE 7: Récapitulatif
       # ═══════════════════════════════════════════════════════════════
 
-      - name: 📋 Récapitulatif de l'exécution
+      - name: Récapitulatif de l'exécution
         if: always()
         run: |
           set -euo pipefail
@@ -371,7 +371,7 @@ jobs:
           if [ "${{ steps.compare.outputs.update }}" = "true" ]; then
             echo "✅ Nouvelle version publiée avec succès"
             echo
-            echo "  🏷️  Tag: ${{ steps.metadata.outputs.tag }}"
+            echo "  🏷️ Tag: ${{ steps.metadata.outputs.tag }}"
             echo "  📅 Date: ${{ steps.metadata.outputs.human_date }}"
             echo "  💡 Raison: ${{ steps.compare.outputs.reason }}"
             echo

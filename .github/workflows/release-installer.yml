@@ -55,18 +55,7 @@ jobs:
           tag_name: ${{ github.event.inputs.version }}
           name: iJava Enhanced Installer ${{ github.event.inputs.version }}
           body: |
-            # 🎨 iJava Enhanced Installer
-            
-            Installeur moderne avec interface TUI interactive.
-            
-            ## ✨ Fonctionnalités
-            
-            - Interface avec Bubble Tea + Lipgloss + Huh
-            - Animation avec Harmonica
-            - Détection automatique de Java
-            - Configuration intelligente des shells
-            
-            ## 📦 Installation rapide
+            ## Installation rapide
             
             **Linux / macOS:**
             ```bash
@@ -78,7 +67,7 @@ jobs:
             iex (iwr -useb https://raw.githubusercontent.com/yannouuuu/ijava-enhanced/main/scripts/install.ps1).Content
             ```
             
-            ## 📥 Installation manuelle
+            ## Installation manuelle
             
             Téléchargez le binaire pour votre plateforme et exécutez-le.
             
