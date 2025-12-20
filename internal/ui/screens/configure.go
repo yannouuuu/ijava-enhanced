@@ -33,6 +33,7 @@ func NewConfigureModel(shells []installer.Shell, javaInstalled bool) ConfigureMo
 				Options(
 					huh.NewOption("Installation rapide (recommandée)", "express"),
 					huh.NewOption("Installation personnalisée", "custom"),
+					huh.NewOption("Désinstallation de iJava Enhanced", "uninstall"),
 				).
 				Value(&cfg.InstallType),
 		),
@@ -58,7 +59,9 @@ func NewConfigureModel(shells []installer.Shell, javaInstalled bool) ConfigureMo
 				Title("Créer les alias pratiques?").
 				Description("ijavai, ijavac, ijavat, ijavae, ijavas").
 				Value(&cfg.CreateAliases),
-		),
+		).WithHideFunc(func() bool {
+			return cfg.InstallType == "uninstall"
+		}),
 
 		huh.NewGroup(
 			huh.NewConfirm().
@@ -66,7 +69,7 @@ func NewConfigureModel(shells []installer.Shell, javaInstalled bool) ConfigureMo
 				Description("Java n'est pas détecté. Voulez-vous l'installer maintenant?").
 				Value(&cfg.AutoInstallJava),
 		).WithHideFunc(func() bool {
-			return javaInstalled
+			return javaInstalled || cfg.InstallType == "uninstall"
 		}),
 	)
 

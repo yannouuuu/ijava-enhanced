@@ -17,6 +17,7 @@ const (
 	ScreenConfirm
 	ScreenDownload
 	ScreenInstall
+	ScreenUninstall
 	ScreenSuccess
 )
 
@@ -27,19 +28,20 @@ type AppModel struct {
 	height        int
 
 	// Modèles des écrans
-	welcomeModel        screens.WelcomeModel
-	prerequisitesModel  screens.PrerequisitesModel
-	configureModel      screens.ConfigureModel
-	confirmModel        screens.ConfirmModel
-	downloadModel       screens.DownloadModel
-	installModel        screens.InstallModel
-	successModel        screens.SuccessModel
+	welcomeModel       screens.WelcomeModel
+	prerequisitesModel screens.PrerequisitesModel
+	configureModel     screens.ConfigureModel
+	confirmModel       screens.ConfirmModel
+	downloadModel      screens.DownloadModel
+	installModel       screens.InstallModel
+	uninstallModel     screens.UninstallModel
+	successModel       screens.SuccessModel
 
 	// Données partagées
-	javaInfo *installer.JavaInfo
-	shells   []installer.Shell
-	cfg      *config.InstallConfig
-	paths    *installer.InstallPaths
+	javaInfo   *installer.JavaInfo
+	shells     []installer.Shell
+	cfg        *config.InstallConfig
+	paths      *installer.InstallPaths
 	validation *installer.ValidationReport
 }
 
@@ -117,6 +119,11 @@ func (m AppModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.installModel = model.(screens.InstallModel)
 		return m, cmd
 
+	case ScreenUninstall:
+		model, cmd := m.uninstallModel.Update(msg)
+		m.uninstallModel = model.(screens.UninstallModel)
+		return m, cmd
+
 	case ScreenSuccess:
 		model, cmd := m.successModel.Update(msg)
 		m.successModel = model.(screens.SuccessModel)
@@ -141,6 +148,8 @@ func (m AppModel) View() string {
 		return m.downloadModel.View()
 	case ScreenInstall:
 		return m.installModel.View()
+	case ScreenUninstall:
+		return m.uninstallModel.View()
 	case ScreenSuccess:
 		return m.successModel.View()
 	default:
@@ -171,6 +180,13 @@ func (m AppModel) nextScreen() (tea.Model, tea.Cmd) {
 	case ScreenConfigure:
 		// Récupérer la configuration
 		m.cfg = m.configureModel.GetConfig()
+
+		// Gérer la désinstallation
+		if m.cfg.InstallType == "uninstall" {
+			m.currentScreen = ScreenUninstall
+			m.uninstallModel = screens.NewUninstallModel()
+			return m, m.uninstallModel.Init()
+		}
 
 		// SI AUCUN SHELL SÉLECTIONNÉ, utiliser le shell actuel par défaut
 		if len(m.cfg.SelectedShells) == 0 {
@@ -212,7 +228,7 @@ func (m AppModel) nextScreen() (tea.Model, tea.Cmd) {
 		return m, m.installModel.Init()
 
 	case ScreenInstall:
-		// INSTALLATION 
+		// INSTALLATION
 		_ = installer.CreateWrapper(m.paths)
 
 		// Configurer les shells sélectionnés (ou shell actuel par défaut)
@@ -232,6 +248,11 @@ func (m AppModel) nextScreen() (tea.Model, tea.Cmd) {
 		m.currentScreen = ScreenSuccess
 		m.successModel = screens.NewSuccessModel(m.paths, m.validation)
 		return m, m.successModel.Init()
+
+	case ScreenUninstall:
+		// La désinstallation est gérée par le modèle UninstallModel
+		// Une fois terminée, on quitte
+		return m, tea.Quit
 
 	case ScreenSuccess:
 		// Fin
