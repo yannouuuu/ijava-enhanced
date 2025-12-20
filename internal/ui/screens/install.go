@@ -5,6 +5,8 @@ import (
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/yannouuuu/ijava-enhanced/internal/config"
+	"github.com/yannouuuu/ijava-enhanced/internal/installer"
 	"github.com/yannouuuu/ijava-enhanced/internal/ui/components"
 	"github.com/yannouuuu/ijava-enhanced/internal/ui/styles"
 )
@@ -17,33 +19,77 @@ type InstallModel struct {
 	logs        []string
 	done        bool
 	err         error
+
+	cfg    *config.InstallConfig
+	paths  *installer.InstallPaths
+	shells []installer.Shell
 }
 
-func NewInstallModel() InstallModel {
+func NewInstallModel(cfg *config.InstallConfig, paths *installer.InstallPaths, shells []installer.Shell) InstallModel {
 	return InstallModel{
 		steps: []string{
-			"Création des répertoires",
-			"Installation du JAR",
 			"Création du wrapper",
-			"Configuration du PATH",
-			"Configuration des alias",
+			"Configuration des shells",
+			"Finalisation",
 		},
-		logs: []string{},
+		logs:   []string{},
+		cfg:    cfg,
+		paths:  paths,
+		shells: shells,
 	}
 }
 
 func (m InstallModel) Init() tea.Cmd {
-	return tea.Tick(time.Millisecond*500, func(t time.Time) tea.Msg {
-		return installStepMsg{step: 0, log: "Préparation des répertoires..."}
-	})
+	return func() tea.Msg {
+		return performStepMsg{step: 0}
+	}
 }
 
-type installStepMsg struct {
+type performStepMsg struct {
+	step int
+}
+
+type stepResultMsg struct {
 	step int
 	log  string
+	err  error
 }
 
-type installCompleteMsg struct{}
+func (m InstallModel) performStep(step int) tea.Cmd {
+	return func() tea.Msg {
+		var log string
+		var err error
+
+		// Petit délai pour que l'utilisateur voie l'étape
+		time.Sleep(500 * time.Millisecond)
+
+		switch step {
+		case 0: // Wrapper
+			log = "Création du script wrapper ijava..."
+			err = installer.CreateWrapper(m.paths)
+		case 1: // Shells
+			log = "Configuration des shells..."
+			for _, shellName := range m.cfg.SelectedShells {
+				for _, shell := range m.shells {
+					if shell.Name == shellName && shell.Detected {
+						e := installer.ConfigureShell(shell, m.cfg.InstallDir, m.cfg.CreateAliases)
+						if e != nil {
+							if err == nil {
+								err = e
+							} else {
+								err = fmt.Errorf("%v; %v", err, e)
+							}
+						}
+					}
+				}
+			}
+		case 2: // Finalisation
+			log = "Installation terminée."
+		}
+
+		return stepResultMsg{step: step, log: log, err: err}
+	}
+}
 
 func (m InstallModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
@@ -52,37 +98,26 @@ func (m InstallModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.height = msg.Height
 		return m, nil
 
-	case installStepMsg:
+	case performStepMsg:
 		m.currentStep = msg.step
-		if msg.log != "" {
+		return m, m.performStep(msg.step)
+
+	case stepResultMsg:
+		if msg.err != nil {
+			m.err = msg.err
+			m.logs = append(m.logs, fmt.Sprintf("Erreur: %v", msg.err))
+			// On ne s'arrête pas forcément sur une erreur de shell, mais c'est mieux de le signaler
+			// Pour l'instant on continue
+		} else {
 			m.logs = append(m.logs, msg.log)
 		}
 
-		// Passer à l'étape suivante automatiquement
-		if m.currentStep < len(m.steps) {
+		if m.currentStep < len(m.steps)-1 {
 			nextStep := m.currentStep + 1
-			var nextLog string
-
-			switch nextStep {
-			case 1:
-				nextLog = "Téléchargement du toolkit iJava..."
-			case 2:
-				nextLog = "Création du script wrapper ijava..."
-			case 3:
-				nextLog = "Ajout au PATH..."
-			case 4:
-				nextLog = "Configuration des alias..."
-			case 5:
-				nextLog = "Finalisation..."
-			}
-
-			return m, tea.Tick(time.Millisecond*800, func(t time.Time) tea.Msg {
-				return installStepMsg{step: nextStep, log: nextLog}
-			})
+			return m, func() tea.Msg { return performStepMsg{step: nextStep} }
 		} else {
-			// Installation terminée
 			m.done = true
-			return m, tea.Tick(time.Second*2, func(t time.Time) tea.Msg {
+			return m, tea.Tick(time.Second*1, func(t time.Time) tea.Msg {
 				return NextScreenMsg{}
 			})
 		}
@@ -99,30 +134,31 @@ func (m InstallModel) View() string {
 
 	if m.err != nil {
 		content += styles.RenderError(fmt.Sprintf("Erreur: %v", m.err))
-	} else {
-		// Afficher les étapes
-		content += components.RenderStepIndicator(m.steps, m.currentStep)
-		content += "\n\n"
+		content += "\n"
+	}
 
-		// Afficher les logs récents
-		if len(m.logs) > 0 {
-			content += styles.LabelStyle.Render("Dernières actions:") + "\n"
-			maxLogs := 5
-			startIdx := len(m.logs) - maxLogs
-			if startIdx < 0 {
-				startIdx = 0
-			}
+	// Afficher les étapes
+	content += components.RenderStepIndicator(m.steps, m.currentStep)
+	content += "\n\n"
 
-			for _, log := range m.logs[startIdx:] {
-				content += styles.MutedTextStyle.Render("  " + log)
-				content += "\n"
-			}
+	// Afficher les logs récents
+	if len(m.logs) > 0 {
+		content += styles.LabelStyle.Render("Dernières actions:") + "\n"
+		maxLogs := 5
+		startIdx := len(m.logs) - maxLogs
+		if startIdx < 0 {
+			startIdx = 0
 		}
 
-		if m.done {
+		for _, log := range m.logs[startIdx:] {
+			content += styles.MutedTextStyle.Render("  " + log)
 			content += "\n"
-			content += styles.RenderSuccess("Installation terminée avec succès !")
 		}
+	}
+
+	if m.done {
+		content += "\n"
+		content += styles.RenderSuccess("Installation terminée avec succès !")
 	}
 
 	content += "\n"
