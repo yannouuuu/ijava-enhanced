@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Pendu - tp11</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Décomposition du jeu du Pendu</h1>
+        <p class="session-info">tp11 / Pendu.java</p>
+    </header>
+    <main>
+
+<p>Maintenant que les structures de données sont définies, on peut s’intéresser à la décomposition du jeu.</p>
+<p>Il y a plusieurs décompositions possibles, qui demanderont d’écrire des fonctions différentes. Dans tous les cas, chacune de ces fonctions doit être testée.</p>
+<p>::: question
+<strong>Est-il préférable d'écrire la procédure de test avant la fonction testée ou pas ?</strong></p>
+<ul>
+<li>[ ] D'abord le code fonctionnel et ensuite la procédure de test.
+<blockquote>
+<p>Hum, ce n'est pas l'idéal : si on écrit d'abord le code fonctionnel, cela nous biaise sur les tests à réaliser car l'on sait comment est implémenté la fonction.</p>
+</blockquote>
+</li>
+<li>[x] D'abord la procédure de test ensuite le code fonctionnel
+<blockquote>
+<p>Oui, c'est préférable ! Ainsi, on se pose d'abord la question des cas limites, ce qui nous aide dans l'analyse des situations que doit traiter la fonction. C'est l'approche utilisée en <em>Test Driven Development</em> qui est maintenant bien utilisé dans l'industrie du logiciel.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Les fonctions de saisie sont testées à l’aide de <code>void algorithm()</code>, toutes les
+autres fonctions sont testées avec des fonctions de test dédiées.</p>
+<p>Dans la suite vous serez guidés pour écrire les fonctions qui correspondent à une certaine décomposition. Si vous êtes aventureux, vous pouvez vous en inspirer et éventuellement les adapter à votre proposition de décomposition (mais l'on vous conseille fortement de suivre notre proposition ;)).</p>
+<h2>Définition de la fonction <code>String toString (Lettre lettre)</code></h2>
+<p>Une lettre est découverte ou pas ! Ainsi cette fonction retournera le caractère <code>*</code>si la lettre n'est pas encore découverte et le caractère associé à cette lettre sinon.</p>
+<ul>
+<li>
+<p>Définissez la procédure <code>void test_toString_Lettre()</code> qui contient au moins deux assertions permettant de tester que le résultat retourné par <code>toString</code> est correct. Ces assertions devront tester les deux cas : un pour une lettre non découverte, et l'autre pour une lettre découverte.</p>
+</li>
+<li>
+<p>Définissez ensuite la fonction <code>String toString (Lettre lettre)</code> qui retourne la chaîne  <code>&quot;*&quot;</code> si lettre n’est pas découverte, et le caractère correspondant sinon.</p>
+</li>
+</ul>
+<h2>Définition de la fonction <code>String toString (Lettre[] chaîne)</code></h2>
+<p>Cette fonction d'affichage se basera sur le fait que certaines lettres sont découvertes et d'autres pas. Ainsi, la chaîne retournée correspondra à l'état actuel du mot à deviner pour lequel les lettres non découvertes apparaissent sous la forme d'une étoile <code>*</code> et celles découvertes par leur caractère.</p>
+<ul>
+<li>Selon la même approche, définissez d'abord la procédure <code>void test_toString()</code> qui permettra de valider la fonction <code>String toString (Lettre[] chaîne)</code> que vous écrirez ensuite. Pour cela, soyez attentifs à réutiliser <code>toString(Lettre)</code>.</li>
+</ul>
+<p>::: question
+<strong>Comment déterminer si un mot, représenté sous la forme de <code>Lettre[] mot</code>, est totalement découvert ?</strong></p>
+<ul>
+<li>[ ] En vérifiant qu'aucun des cases de <code>mot</code> n'est <code>null</code> ?
+<blockquote>
+<p>Heu, pas vraiment, après l'appel à <code>creerMot</code>, toutes les cases sont initialisisées normalement !</p>
+</blockquote>
+</li>
+<li>[ ] En vérifiant simplement que <code>mot[0].decouvert</code> est à <code>true</code>.
+<blockquote>
+<p>Alors, ceci indiquerait que la première lettre est découverte, mais pour que le mot soit découvert, il faudrait que <strong>toutes</strong> les lettres soient découvertes !</p>
+</blockquote>
+</li>
+<li>[x] En vérifiant que tous les champs <code>decouvert</code> de chacune des <code>Lettre</code>valent bien <code>true</code>.
+<blockquote>
+<p>Bien vu ! Et c'est exactement ce qu'il faut faire juste après ;)
+:::</p>
+</blockquote>
+</li>
+</ul>
+<h2>Définition de la fonction <code>boolean estDecouvert(Lettre[] mot)</code></h2>
+<p>Nous allons maintenant nous intéresser au fait de déterminer si un mot à été totalement découvert. La fonction <code>estDecouvert</code> permet d'indiquer si la totalité du mot a été découvert, c'est-à-dire que toutes les lettres le composant sont découvertes.</p>
+<ul>
+<li>D'abord, commencez par définir la procédure <code>void test_estDecouvert()</code> qui doit au moins contenir trois assertions correspondant à ces cas:
+— mot entièrement découvert,
+— mot non entièrement découvert,
+— mot de longueur 0.</li>
+<li>Définissez ensuite la fonction <code>boolean estDecouvert(Lettre[] mot)</code> qui permet de déterminer si le <code>mot</code> donné en paramètre est entièrement découvert.</li>
+</ul>
+<h2>Définition de la fonction <code>boolean decouvrir(Lettre[] mot, char car)</code></h2>
+<p>Dernière étape au niveau des fonctionnalités nécessaire avant de pouvoir s'attaquer à l'algorithme principal, la fonction permettant de découvrir toutes les lettres correspond à celle proposée par la joueuse ... si jamais cette lettre est présente dans le mot bien sûr !</p>
+<ul>
+<li>Définissez d'abord la procédure <code>void testDecouvrir()</code> qui vérifiera ces trois situations :</li>
+</ul>
+<ul>
+<li>que le mot n'est pas modifié si la lettre proposée n'est pas présente,</li>
+<li>que le mot est mis à jour si la lettre est présente une fois dans le mot,</li>
+<li>que le mot est mis à jour si la lettre est présente plusieurs fois dans le mot.</li>
+</ul>
+<ul>
+<li>Définissez ensuite la fonction <code>boolean decouvrir(Lettre[] mot, char car)</code> qui découvre toutes les occurrences de la lettre <code>car</code> dans <code>mot</code>. La fonction retourne <code>true</code> si la lettre appartient au mot (càd au moins une occurrence a été découverte), et <code>false</code> sinon.</li>
+</ul>
+<p>Ça y est : après tout ces travaux préparatoire, il est maintenant possible d'écrire notre programme principal (<code>void algorithm()</code>) puis finalement jouer à notre nouvelle version du jeu du Pendu utilisant un type spécifique !</p>
+
+    </main>
+</body>
+</html>

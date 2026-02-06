@@ -1,0 +1,3 @@
+class De extends Program {
+
+}

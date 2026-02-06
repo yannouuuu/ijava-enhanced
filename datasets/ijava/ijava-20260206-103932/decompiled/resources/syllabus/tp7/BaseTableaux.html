@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>BaseTableaux - tp7</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Manipulations de base pour les tableaux</h1>
+        <p class="session-info">tp7 / BaseTableaux.java</p>
+    </header>
+    <main>
+
+<p>On souhaite créer des tableaux d'entiers initialisés de différentes manières. Pour cela, le programme <code>BaseTableaux</code> définit plusieurs fonctions facilitant ces créations, ainsi que des fonctions de test correspondantes.</p>
+<ul>
+<li>Écrivez, sans utiliser de déclaration en extension, une fonction <code>int[] creerTableau()</code> permettant de créer un tableau d’entiers de 10 cases dont les 5 premières cases contiennent la valeur 1 et les 5 suivantes la valeur 2.</li>
+</ul>
+<pre><code class="language-java">void testCreerTableau() {
+    assertArrayEquals(new int[]{1,1,1,1,1,2,2,2,2,2}, creerTableau());
+}
+</code></pre>
+<ul>
+<li>Que faut-il modifier dans votre fonction pour que l’initialisation se réalise avec une taille de tableau précisée en paramètre (ie. première moitié du tableau ne contenant que des 1 et seconde moitié des 2 ? Écrire cette nouvelle fonction qui prend en paramètre la taille, et qui passe ce test.</li>
+</ul>
+<pre><code class="language-java">void testCreerTableau2() {
+    assertArrayEquals(new int[]{1,1,1,1,1,2,2,2,2,2}, creerTableau(10));
+    assertArrayEquals(new int[]{1,1,2,2,2}, creerTableau(5));
+    assertArrayEquals(new int[]{}, creerTableau(0));
+}
+</code></pre>
+<ul>
+<li>Écrivez la fonction <code>int[] creerTableauAleatoire(int taille)</code> qui crée un tableau de <code>taille</code> cases contenant des valeurs tirées aléatoirement entre 0 et 20 inclus (utilisez pour cela la fonction de signature <code>double random()</code> qui retourne un nombre réel entre [0.0, 1.0[ et l’instruction de forçage de type <code>(int)</code> qui convertit un réel en entier).</li>
+<li>Définissez la fonction <code>testCreerTableauAleatoire</code> qui appelle dans un premier temps la fonction de création d’un tableau aléatoire (<code>creerTableauAleatoire</code>) et qui parcourt ensuite chacune des cases en testant l’assertion vérifiant que le contenu de la case est compris entre 0 et 20 inclus (pour cela, utilisez simplement un <code>assertEquals(true, ...)</code> prenant en paramètre une expression booléenne devant être vraie).</li>
+<li><strong>Optionnel</strong> Tester l’aléatoire n’est pas facile et le test réalisé ici a d’ailleurs ses limites. Par exemple, si toutes les valeurs de votre tableau sont à 0, le test passerait. Ajoutez les instructions nécessaires pour que votre test vérifie que toutes les valeurs de 0 à 20 sont bien sorties sur la création d’un tableau de taille 10000 (ça n’est pas certain, mais très fortement probable).</li>
+</ul>
+
+    </main>
+</body>
+</html>

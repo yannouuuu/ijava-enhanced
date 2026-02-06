@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>QCM2_fonctions_usage - tp5</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Usages sur les fonctions</h1>
+        <p class="session-info">tp5 / QCM2_fonctions_usage.java</p>
+    </header>
+    <main>
+
+<p>::: question
+<strong>Quelle syntaxe est correcte pour appeler une fonction nommée calculerSomme ?</strong></p>
+<ul>
+<li>[ ] calculerSomme;
+<blockquote>
+<p>Non, il manque les parenthèses.</p>
+</blockquote>
+</li>
+<li>[x] calculerSomme();
+<blockquote>
+<p>Correct, cette syntaxe appelle la fonction.</p>
+</blockquote>
+</li>
+<li>[ ] int calculerSomme()
+<blockquote>
+<p>Non, ceci correspond à sa signature</p>
+</blockquote>
+</li>
+<li>[ ] exec(calculerSomme);
+<blockquote>
+<p>Non, cette syntaxe n'existe pas en ijava.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quelle est la portée des variables définies à l'intérieur d'une fonction ?</strong></p>
+<ul>
+<li>[ ] Elles sont accessibles dans tout le programme.
+<blockquote>
+<p>Non, leur portée est limitée à la fonction elle-même.</p>
+</blockquote>
+</li>
+<li>[x] Elles sont accessibles uniquement dans la fonction où elles sont déclarées.
+<blockquote>
+<p>Effectivement, elles sont locales à la fonction.</p>
+</blockquote>
+</li>
+<li>[ ] Elles sont accessibles uniquement à partir d'autres fonctions.
+<blockquote>
+<p>Non, il est impossible d'accéder à une variable définit dans une autre fonction.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Que se passe-t-il si une fonction a une déclaration de type de retour, mais n'inclut pas d'instruction return ?</strong></p>
+<ul>
+<li>[ ] Le programme se compile normalement.
+<blockquote>
+<p>Non, cela engendrera une erreur de compilation.</p>
+</blockquote>
+</li>
+<li>[ ] La fonction retournera null.
+<blockquote>
+<p>Non, cela engendrera une erreur de compilation.</p>
+</blockquote>
+</li>
+<li>[x] La fonction ne compilera pas.
+<blockquote>
+<p>Correct, il est nécessaire d'avoir une instruction return si le type de retour n'est pas void.</p>
+</blockquote>
+</li>
+<li>[ ] La fonction retournera une valeur par défaut.
+<blockquote>
+<p>Non, cela engendrera une erreur de compilation.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quelle est la manière correcte de définir une fonction qui retourne un entier ?</strong></p>
+<ul>
+<li>[x] int maFonction() {}
+<blockquote>
+<p>Correct, la déclaration est valide.</p>
+</blockquote>
+</li>
+<li>[ ] void maFonction() { return 0; }
+<blockquote>
+<p>Non, cette fonction est définie pour ne pas retourner de valeur (cf. void).</p>
+</blockquote>
+</li>
+<li>[ ] int maFonction { return 0; }
+<blockquote>
+<p>Non, la syntaxe est incorrecte.</p>
+</blockquote>
+</li>
+<li>[ ] maFonction(int) {}
+<blockquote>
+<p>Non, cela n'est pas une déclaration valide.
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>
