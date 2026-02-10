@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CSVFile-cheat-sheet - tp12</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Manipulation de fichiers CSV (type `CSVFile`)</h1>
+        <p class="session-info">tp12 / CSVFile-cheat-sheet.java</p>
+    </header>
+    <main>
+
+<p>Le type <code>CSVFile</code> représente un fichier CSV chargé en mémoire.
+On accède à une valeur de manière similaire à un tableau à deux dimensions en précisant des indices de lignes et de colonnes.</p>
+<p>Lorsqu’un fichier CSV est chargé, il est stocké dans une variable de type <code>CSVFile</code> sous la forme d’un tableau à deux dimensions de chaînes de caractères. Il est possible de connaître le nombre de lignes grâce à l’instruction <code>rowCount(CSVFile)</code> et le nombre de colonnes avec <code>columnCount(CSVFile)</code>.</p>
+<p>Pour accéder à une case, il suffit d’appeler <code>getCell</code> en précisant les indices de ligne et de colonne (sachant que les indices commencent à 0).</p>
+<p>Finalement, si vous souhaitez créer un fichier CSV, vous pouvez sauver un tableau à deux dimensions de chaînes de caractères à l’aide de la fonction <code>saveCSV</code>.</p>
+<p>Comme pour le type <code>File</code>, le type <code>CSVFile</code> est défini dans la librairie <code>extensions</code>, du coup, il est nécessaire d'indiquer cela au compilateur au tout début des programmes nécessitant la manipulation de fichiers CSV :</p>
+<pre><code class="language-java">import extensions.CSVFile;
+</code></pre>
+<p><strong>⚠️ Les indices commencent à 0, comme pour les tableaux !</strong></p>
+<table>
+<thead>
+<tr><th>Retour</th><th>Fonction</th><th>Paramètres</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>CSVFile</code></td><td><code>loadCSV(String filename)</code></td><td><code>filename</code> : le nom du fichier à charger</td><td>Charge un CSV (séparateur <code>,</code> par défaut)</td></tr>
+<tr><td><code>CSVFile</code></td><td><code>loadCSV(String filename, char separator)</code></td><td><code>filename</code> : le nom du fichier à charger et <code>separator</code> le séparateur à utiliser</td><td>Charge un CSV avec séparateur personnalisé</td></tr>
+<tr><td><code>int</code></td><td><code>rowCount(CSVFile table)</code></td><td><code>table</code> la source de données à utiliser</td><td>Nombre de lignes du CSV</td></tr>
+<tr><td><code>int</code></td><td><code>columnCount(CSVFile table)</code></td><td><code>table</code> la source de données à utiliser</td><td>Nombre de colonnes (toutes lignes)</td></tr>
+<tr><td><code>int</code></td><td><code>columnCount(CSV table, int idxLine)</code></td><td><code>table</code> la source de données et  <code>idxLine</code> la ligne dont on souhaite connaître le nombre de colonnes</td><td>Nombre de colonnes d'une ligne donnée</td></tr>
+<tr><td><code>String</code></td><td><code>getCell(CSVFile table, int idxLine, int idxColumn)</code></td><td><code>table</code> la source de donnée à utiliser et <code>idxLine</code> l'indice de ligne et <code>idxColumn</code> de colonne de la valeur souhaitée</td><td>La valeur de la cellule de coordonnées ( <code>idxLine</code>,  <code>idxColumn</code>)</td></tr>
+<tr><td><code>void</code></td><td><code>saveCSV(String[][] content, String filename)</code></td><td><code>content</code> la table de chaîne de caractères à sauver sous la forme d'un fichier CSV, <code>filename</code> le nom du fichier à créer ou écraser</td><td>Sauvegarde des données dans un fichier CSV avec le séparateur <code>,</code>)</td></tr>
+<tr><td><code>void</code></td><td><code>saveCSV(String[][] content, String filename, char separator)</code></td><td><code>content</code> la table de chaîne de caractères à sauver sous la forme d'un fichier CSV, <code>filename</code> le nom du fichier à créer ou écraser et <code>separator</code> le séparateur à utiliser</td><td>Sauvegarde les données dans un fichier CSV avec le séparateur indiqué)</td></tr>
+</tbody>
+</table>
+<p><strong>Exemple d'utilisation :</strong></p>
+<pre><code class="language-java">void algorithm() {
+    CSVFile donnees = loadCSV(&quot;notes.csv&quot;);
+    for (int idxLigne = 0; idxLigne &lt; rowCount(donnees); idxLigne++) {
+        // Ici on n'a pas de boucle sur les colonnes car il n'y a que 2 colonnes
+        String nom  = getCell(donnees, idxLigne, 0);
+        String note = getCell(donnees, idxLigne, 1);
+        println(nom + &quot; : &quot; + note);
+    }
+}
+</code></pre>
+<hr />
+<h2>💡 Points importants</h2>
+<ul>
+<li><strong>Indices CSV</strong> : commencent à 0 (première ligne = 0, première colonne = 0)</li>
+<li><strong>Séparateurs CSV</strong> : virgule <code>,</code> (défaut), point-virgule <code>;</code> (France), tabulation <code>\t</code> pour les plus courants</li>
+<li><strong>Types de données</strong> : <code>getCell()</code> retourne toujours une <code>String</code>.</li>
+<li><strong>Gestion d'erreurs</strong> : si le fichier n'existe pas, une erreur sera levée ...</li>
+</ul>
+<p>::: question
+<strong>Pour intégrer de l'ASCII Art dans votre projet, quel type est le plus approprié ?</strong></p>
+<ul>
+<li>[x] <code>extensions.File</code>
+<blockquote>
+<p>Oui, a priori c'est le plus pertinent car l'ASCII Art est un ensemble de caractères contenus dans un simple fichier texte.</p>
+</blockquote>
+</li>
+<li>[ ] <code>extensions.CSVFile</code>
+<blockquote>
+<p>Hum peu probable, on utilise plutôt les fichiers pour des données structurées et mobilisant généralement plusieurs types d'information
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TicTacToe - tp9</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Jeu du Tic-Tac-Toe</h1>
+        <p class="session-info">tp9 / TicTacToe.java</p>
+    </header>
+    <main>
+
+<p>Dans ce jeu, deux joueurs ou joueuses s'affrontent en cherchant à créer un alignement de 3 symboles sur une grille de 3x3 cases. Les alignements peuvent se produire selon les lignes, les colonnes ou les diagonales. Par convention, le premier joueur est représenté par le symbole <code>X</code> et la seconde joueuse par <code>O</code>.</p>
+<p>Voici un exemple de partie :</p>
+<pre><code class="language-bash">1 2 3
+4 5 6
+7 8 9
+Joueur X : 5
+1 2 3
+4 X 6
+7 8 9
+Joueur O : 1
+O 2 3
+4 X 6
+7 8 9
+Joueur X : 2
+O X 3
+4 X 6
+7 8 9
+Joueur O : 4
+O X 3
+O X 6
+7 8 9
+Joueur X : 8
+O X 3
+O X 6
+7 X 9
+Bravo X a gagné !
+</code></pre>
+<h2>Représentation des joueurs et joueuses et du plateau</h2>
+<p>Choisissez une représentation adaptée afin de représenter les deux participants et la grille sur laquelle les symboles sont placés. Au début, la grille ne doit contenir aucun symbole.</p>
+<h2>Affichage de la grille</h2>
+<p>Créez la fonction <code>afficher</code> permettant de visualiser la grille ainsi que la fonction de test associée (<code>test_afficher</code>).</p>
+<h2>Saisie d'une coordonnée</h2>
+<p>Créez la fonction <code>saisir</code> saissant au clavier un nombre compris entre 1 et 9 en effectuant un contrôle de saisie et vérifiant aussi qu'il n'y a pas déjà un symbole présent dans la case désignée.</p>
+<p>Assurez-vous de sa validité à l'aide d'un court <code>void algorithm()</code>.</p>
+<h2>Mise à jour du plateau</h2>
+<p>Créez la fonction <code>jouer</code> qui à l'aide d'un nombre et d'un symbole met à jour le plateau. N'oubliez pas de créer la fonction de test correspondante, sachant que le coup est tjours valide car cela a été vérifié par la fonction <code>saisir</code>.</p>
+<p><strong>Avant d'écrire le code de cette fonction, créez auparavant la procédure <code>test_jouer()</code></strong> qui permettra de s'assurer de la validité de la fonction <code>jouer</code>.</p>
+<h2>Détection d'un alignement</h2>
+<p>Créez la fonction booléenne <code>alignement</code> détectant si un alignement est présent dans une grille, quelque soit le symbole provoquant l'alignement. Créez aussi la fonction <code>test_alignement()</code> s'assurant de la validité de votre fonction.</p>
+<h2>Algorithme principal</h2>
+<p>Maintenant que nous disposons des principales fonctionnalités, modifiez la procédure <code>void algorithm()</code> afin de pouvoir jouer au jeu de <em>Tic-Tac-Toe</em>.</p>
+
+    </main>
+</body>
+</html>
