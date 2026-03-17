@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MotsDifferents - tp8</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Extraire les mots différents d’un tableau de mots</h1>
+        <p class="session-info">tp8 / MotsDifferents.java</p>
+    </header>
+    <main>
+
+<p>Étant donné un tableau <code>mots</code> de <code>String</code>, dans lequel certains mots peuvent être répétés, on voudrait produire un autre tableau dans lequel chaque mot de <code>mots</code> apparait exactement une fois. Vous devez écrire la fonction <code>String[] motsDifferents (String[] mots)</code> qui passe ce test.</p>
+<pre><code class="language-java">void test_motsDifferents () {
+    String[] mots = new String[]{&quot;je&quot;, &quot;tu&quot;, &quot;tu&quot;, &quot;elle&quot;, &quot;je&quot;, &quot;je&quot;};
+    String[] motsDiff = motsDifferents(mots);
+    for (int idx = 0; idx &lt; length(mots); idx = idx+1){
+        assertEquals(1, nbFois(motsDiff,mots[idx]));
+        //on s’assure que chaque mot apparaît une et une seule fois dans motsDiff
+    }
+    //on vérifie que les mots sont bien à la bonne place
+    assertEquals(&quot;je&quot;, motsDifferents[0]);
+    assertEquals(&quot;tu&quot;, motsDifferents[1]);
+    assertEquals(&quot;elle&quot;, motsDifferents[2]);
+    for (int idx = 3; idx &lt; length(motsDifferents); idx = idx+1){
+        assertEquals(&quot;&quot;, motsDifferents[idx]);
+    }
+}
+</code></pre>
+<p>La difficulté vient du fait qu’on ne peut pas savoir par avance quel est le nombre de mots différents qui apparaîssent dans le tableau <code>mots</code> donné en paramètre. Par conséquent, on ne sait pas quelle va être la taille du tableau de résultat à créer.</p>
+<p>Pour contourner ce problème, vous allez d’abord créer un tableau temporaire <code>motsDiff</code> suffisamment grand. Pour cela, pensez que le cas le plus large est celui où mots contient des mots tous différents. Commencez par initialiser chaque case par le mot vide <code>&quot;&quot;</code>, pour vous assurez qu’aucune ne restera sans mot. Ajoutez à présent les nouveaux mots rencontrés au fur et à mesure. Pour savoir si un mot donné est déjà contenu dans <code>motsDiff</code>, on peut utiliser la fonction <code>nbFois</code> en la recopiant de l'exercice précédent (ou écrire une nouvelle fonction <code>estPresent</code> qui serait plus efficace).</p>
+<p>Voici une illustration des calculs qui doivent être effectués par la fonction <code>motsDifferents</code> si le paramètre <code>mots</code> est le tableau</p>
+<table>
+  <tr><td>"je"</td><td>"tu"</td><td>"tu"</td><td>"elle"</td><td>"je"</td><td>"je"</td></tr>
+  <tr><td>   0</td><td>   1</td><td>   2</td><td>     3</td><td>   4</td><td>   5</td></tr>
+</table>
+<p>Au départ, on initialise l’ensemble des cases de <code>motsDiff</code> avec le mot <code>&quot;&quot;</code>.</p>
+<table>
+  <tr><td>""</td><td>""</td><td>""</td><td>""</td><td>""</td><td>""</td></tr>
+  <tr><td> 0</td><td> 1</td><td> 2</td><td> 3</td><td> 4</td><td> 5</td></tr>
+</table>
+<p>Après avoir visité <code>mots[0]</code> (càd <code>&quot;je&quot;</code>), le tableau <code>motsDiff</code> devient</p>
+<table>
+  <tr><td>"je"</td><td>""</td><td>""</td><td>""</td><td>""</td><td>""</td></tr>
+  <tr><td>   0</td><td> 1</td><td> 2</td><td> 3</td><td> 4</td><td> 5</td></tr>
+</table>
+<p>Après avoir visité <code>mots[1]</code> (càd <code>&quot;tu&quot;</code>), le tableau <code>motsDiff</code> devient</p>
+<table>
+  <tr><td>"je"</td><td>"tu"</td><td>""</td><td>""</td><td>""</td><td>""</td></tr>
+  <tr><td>   0</td><td>  1</td><td> 2</td><td> 3</td><td> 4</td><td> 5</td></tr>
+</table>
+<p>Après avoir visité <code>mots[2]</code> (càd la deuxième occurrence de <code>&quot;tu&quot;</code>), le tableau <code>motsDiff</code> reste inchangé car le mot <code>&quot;tu&quot;</code> apparaît déjà dans la partie significative de <code>motsDiff</code>.</p>
+<p>Et ainsi de suite. Après avoir visité tout le tableau <code>mots</code>, le tableau <code>motsDiff</code> sera égal à</p>
+<table>
+  <tr><td>"je"</td><td>"tu"</td><td>"elle"</td><td>""</td><td>""</td><td>""</td></tr>
+  <tr><td>   0</td><td>  1</td><td>      2</td><td> 3</td><td> 4</td><td> 5</td></tr>
+</table>
+<p>Ainsi, à la fin, seules les <code>n</code> premières cases de <code>motsDiff</code> contiendront des informations utiles, où <code>n</code> est le nombre de mots différents qui apparaîssent dans <code>motsDiff</code>, les suivantes contiendront le mot vide.</p>
+<p>Testez déjà cette première version de votre fonction à l'aide de la fonction de test donné au début de l'énoncé (et présente dans le squelette).</p>
+<p>Une fois cette étape validée, nous allons améliorer <code>motsDiff</code> afin de retourner <strong>exactement</strong> les mots uniques et ne pas conserver les cases contenant les chaînes vides. Pour cela, il est sûrement judicieux de se rappeler l'existence de la fonction <code>sousTableau</code> écrite précédemment ...</p>
+<p>Modifier votre fonction en appelant <code>sousTableau</code> (après l'avoir recopié de l'exercice précédent) et modifiez aussi <code>test_motsDifferents</code> en commentant les trois dernières lignes qui vérifiaient les cases avec les chaînes vides afin de vous assurer que tout est valide.</p>
+
+    </main>
+</body>
+</html>
