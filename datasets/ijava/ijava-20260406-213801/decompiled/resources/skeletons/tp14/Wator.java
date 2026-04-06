@@ -1,0 +1,3 @@
+class Wator extends Program {
+
+}

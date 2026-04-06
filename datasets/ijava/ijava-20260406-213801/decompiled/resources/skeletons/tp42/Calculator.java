@@ -1,0 +1,3 @@
+class Calculator extends Program {
+
+}

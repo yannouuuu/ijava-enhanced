@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Categorie - tp12</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Création du type `Categorie`</h1>
+        <p class="session-info">tp12 / Categorie.java</p>
+    </header>
+    <main>
+
+<p>Une catégorie est caractérisée par <strong>un thème, le sujet dans ce thème et un ensemble de mots</strong> correspondant à ce sujet. Par exemple, dans le thème <code>BIOLOGIE</code>, on pourrait avoir <code>&quot;Noms d'animaux&quot;</code> et dans le thème <code>GEOGRAPHIE</code>, <code>&quot;Capitales du monde&quot;</code>.</p>
+<p>::: question
+<strong>Comment proposez-vous de modéliser cette notion de catégorie ?</strong></p>
+<ul>
+<li>[ ] Un champs de type <code>String</code> pour le thème, un autre champs de même type pour le sujet et une chaîne de caractères contenant les mots séparés par des virgules
+<blockquote>
+<p>Pourquoi s'être embêté à créer le type <code>Theme</code> dans ce cas ?!</p>
+</blockquote>
+</li>
+<li>[ ] Un champs de type <code>Theme</code>, un autre champs de même type pour le sujet et une chaîne de caractères contenant les mots séparés par des virgules
+<blockquote>
+<p>Il ne va pas être évident de parcourir les différents mots avec cette représentation ...</p>
+</blockquote>
+</li>
+<li>[x] Un champs de type <code>Theme</code>, un champs de type <code>String</code> pour le sujet et un tableau à une dimension de chaînes de caractères
+<blockquote>
+<p>Exactement ! Choix très judicieux :)
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Créez maintenant le nouveau type <code>Categorie</code>.</p>
+
+    </main>
+</body>
+</html>

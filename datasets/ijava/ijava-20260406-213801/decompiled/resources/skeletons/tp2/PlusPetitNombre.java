@@ -1,0 +1,3 @@
+class PlusPetitNombre extends Program {
+
+}
