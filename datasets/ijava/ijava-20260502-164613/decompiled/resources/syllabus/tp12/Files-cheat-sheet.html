@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Files-cheat-sheet - tp12</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Guide de manipulation des fichiers</h1>
+        <p class="session-info">tp12 / Files-cheat-sheet.java</p>
+    </header>
+    <main>
+
+<p>Ce document présente les fonctions disponibles pour manipuler des fichiers texte et CSV dans vos programmes Java.</p>
+<h2>Lister les fichiers d'un répertoire</h2>
+<table>
+<thead>
+<tr><th>Retour</th><th>Fonction</th><th>Paramètres</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>String[]</code></td><td><code>getAllFilesFromDirectory(directory)</code></td><td><code>String directory</code> : chemin du répertoire</td><td>Liste les fichiers d'un répertoire spécifié</td></tr>
+<tr><td><code>String[]</code></td><td><code>getAllFilesFromCurrentDirectory()</code></td><td>aucun</td><td>Liste les fichiers du répertoire courant</td></tr>
+</tbody>
+</table>
+<p><strong>Exemple d'utilisation :</strong></p>
+<pre><code class="language-java">void algorithm() {
+    String[] fichiers = getAllFilesFromDirectory(&quot;data&quot;);
+    for (int idx = 0; idx &lt; length(fichiers); idx++) {
+        println(fichiers[idx]);
+    }
+}
+</code></pre>
+<hr />
+<h2>Lecture de fichiers texte (type <code>File</code>)</h2>
+<table>
+<thead>
+<tr><th>Retour</th><th>Fonction</th><th>Paramètres</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>File</code></td><td><code>newFile(filename)</code></td><td><code>String filename</code> : nom du fichier</td><td>Ouvre un fichier texte en lecture</td></tr>
+<tr><td><code>boolean</code></td><td><code>ready(file)</code></td><td><code>File file</code> : fichier à tester</td><td>Indique s'il reste des lignes à lire</td></tr>
+<tr><td><code>String</code></td><td><code>readLine(file)</code></td><td><code>File file</code> : fichier à lire</td><td>Lit la ligne courante et avance</td></tr>
+</tbody>
+</table>
+<p><strong>Exemple d'utilisation :</strong></p>
+<pre><code class="language-java">void algorithm() {
+    File fichier = newFile(&quot;texte.txt&quot;);
+    while (ready(fichier)) {
+        println(readLine(fichier));
+    }
+}
+</code></pre>
+<hr />
+<h2>Manipulation de fichiers CSV (type <code>CSVFile</code>)</h2>
+<p>Le type <code>CSVFile</code> représente un fichier CSV chargé en mémoire. <strong>⚠️ Les indices commencent à 0.</strong></p>
+<table>
+<thead>
+<tr><th>Retour</th><th>Fonction</th><th>Paramètres</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>CSVFile</code></td><td><code>loadCSV(filename)</code></td><td><code>String filename</code></td><td>Charge un CSV (séparateur <code>,</code> par défaut)</td></tr>
+<tr><td><code>CSVFile</code></td><td><code>loadCSV(filename, separator)</code></td><td><code>String filename</code>, <code>char separator</code></td><td>Charge un CSV avec séparateur personnalisé</td></tr>
+<tr><td><code>int</code></td><td><code>rowCount(table)</code></td><td><code>CSVFile table</code></td><td>Nombre de lignes du CSV</td></tr>
+<tr><td><code>int</code></td><td><code>columnCount(table)</code></td><td><code>CSVFile table</code></td><td>Nombre de colonnes (toutes lignes)</td></tr>
+<tr><td><code>int</code></td><td><code>columnCount(table, idxLine)</code></td><td><code>CSVFile table</code>, <code>int idxLine</code></td><td>Nombre de colonnes d'une ligne</td></tr>
+<tr><td><code>String</code></td><td><code>getCell(table, idxLine, idxColumn)</code></td><td><code>CSVFile table</code>, <code>int idxLine</code>, <code>int idxColumn</code></td><td>Valeur d'une cellule</td></tr>
+<tr><td><code>void</code></td><td><code>saveCSV(content, filename)</code></td><td><code>String[][] content</code>, <code>String filename</code></td><td>Sauvegarde un CSV (séparateur <code>,</code>)</td></tr>
+<tr><td><code>void</code></td><td><code>saveCSV(content, filename, separator)</code></td><td><code>String[][] content</code>, <code>String filename</code>, <code>char separator</code></td><td>Sauvegarde un CSV avec séparateur</td></tr>
+</tbody>
+</table>
+<p><strong>Exemple d'utilisation :</strong></p>
+<pre><code class="language-java">void algorithm() {
+    CSVFile donnees = loadCSV(&quot;notes.csv&quot;);
+    for (int idxLigne = 0; idxLigne &lt; rowCount(donnees); idxLigne++) {
+        String nom  = getCell(donnees, idxLigne, 0);
+        String note = getCell(donnees, idxLigne, 1);
+        println(nom + &quot; : &quot; + note);
+    }
+}
+</code></pre>
+<hr />
+<h2>💡 Points importants</h2>
+<ul>
+<li><strong>Indices CSV</strong> : commencent à 0 (première ligne = 0, première colonne = 0)</li>
+<li><strong>Séparateurs CSV</strong> : virgule <code>,</code> (défaut), point-virgule <code>;</code> (France), tabulation <code>\t</code></li>
+<li><strong>Types de données</strong> : <code>getCell()</code> retourne toujours une <code>String</code>.</li>
+<li><strong>Gestion d'erreurs</strong> : si le fichier n'existe pas, une erreur sera levée ...</li>
+</ul>
+<p>::: question
+<strong>Pour intégrer de l'ASCII Art dans votre projet, quel type est le plus approprié ?</strong></p>
+<ul>
+<li>[x] <code>extensions.File</code>
+<blockquote>
+<p>Oui, a priori c'est le plus pertinent car l'ASCII Art est un ensemble de caractères contenus dans un simple fichier texte.</p>
+</blockquote>
+</li>
+<li>[ ] <code>extensions.CSVFile</code>
+<blockquote>
+<p>Hum peu probable, on utilise plutôt les fichiers pour des données structurées et mobilisant généralement plusieurs types d'information
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AffichageTableau - tp7</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Affichage de tableaux</h1>
+        <p class="session-info">tp7 / AffichageTableau.java</p>
+    </header>
+    <main>
+
+<p>En java, la fonction <code>print</code> n'affiche pas les valeurs contenues dans un tableau, mais la <em>référence</em> (i.e. l'adresse mémoire) du tableau.
+Exécutez le programme fourni pour voir à quoi ressemble la référence d'un tableau.</p>
+<pre><code class="language-java">void algorithm() {
+    int[] tabInt = new int[]{1,2,3};
+    String[] tabString = new String[]{&quot;un&quot;, &quot;deux&quot;, &quot;trois&quot;};
+    println(tabInt);
+    println(tabString);
+}
+</code></pre>
+<p>Dans la suite vous allez écrire des fonctions permettant d'afficher les valeurs contenues dans un tableau.</p>
+<h3>Affichage d'un tableau d'entiers</h3>
+<ul>
+<li>Modifiez la fonction <code>void algorithm()</code> comme ceci.</li>
+</ul>
+<pre><code class="language-java">void algorithm() {
+    int[] tabInt = new int[]{1,2,3};
+    String[] tabString = new String[]{&quot;un&quot;, &quot;deux&quot;, &quot;trois&quot;};
+    println(toString(tabInt));  // &lt;- appel d'une foncion qu'il faudra écrire
+    println(tabString);
+}
+</code></pre>
+<ul>
+<li>Enlevez le commentaire de la fonction de test <code>test_toString_tab_int</code>, puis implémentez la fonction concernée par ce test.</li>
+<li>Exécutez le programme avec <code>ijava execute</code> pour vérifier si l'affichage correspond à ce qui est attendu. Il est normal que tous les tests automatiques ne passent pas encore, car il vous manque des fonctions.</li>
+</ul>
+<h3>Affichage d'un tableau de chaines de caractère</h3>
+<p>Vous allez procéder de la même manière.</p>
+<ul>
+<li>Modifiez la fonction <code>void algorithm()</code> comme ceci</li>
+</ul>
+<pre><code class="language-java">void algorithm() {
+    int[] tabInt = new int[]{1,2,3};
+    String[] tabString = new String[]{&quot;un&quot;, &quot;deux&quot;, &quot;trois&quot;};
+    println(toString(tabInt));  
+    println(toString(tabString)); // &lt;- appel d'une foncion qu'il faudra écrire
+}
+</code></pre>
+<ul>
+<li>Enlevez le commentaire de la fonction de test <code>test_toString_tab_string</code>, puis implémentez la fonction concernée par ce test.</li>
+<li>Exécutez le programme avec <code>ijava execute</code> pour vérifier que l'affichage correspond à ce qui est attendu.</li>
+</ul>
+<p><strong>Surcharge de fonctions</strong> Vous avez remarqué que votre programme contient maintenant deux fonctions ayant le même nom <code>toString</code>. C'est possible car elles n'attendent pas les mêmes paramètres. Le compilateur peut reconnaitre laquelle de ces deux fonctions doit être appelées grâce aux arguments d'appel: <code>toString(new String[]{&quot;un&quot;, &quot;deux&quot;, &quot;trois&quot;})</code> appelle la fonction toString qui prend en paramètre un tableau de String, tandis que <code>toString(new int[]{1,2,3})</code> appelle la fonction toString qui prend en paramètre un tableau de int.</p>
+<h3>Tests automatiques</h3>
+<p>Maintenant que les deux fonctions sont implémentées, vous pouvez exécuter les tests automatiques avec <code>ijava test</code>.</p>
+
+    </main>
+</body>
+</html>

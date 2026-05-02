@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Pendu_reconception - tp11</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Pendu : reconception avec les types</h1>
+        <p class="session-info">tp11 / Pendu_reconception.java</p>
+    </header>
+    <main>
+
+<p>Vous allez refaire un programme qui permet de jouer au jeu du pendu, mais cette fois vous allez décomposer le problème en sous-fonctions, et définir deux nouveaux types pour représenter les données manipulées.</p>
+<p>Le joueur doit découvrir un mot caché. Au début, toutes les lettres du mot sont cachées et représentée à l’écran par des étoiles, indiquant la longueur du mot à découvrir. À chaque tour du jeu le joueur propose une lettre de l’alphabet. Si la lettre est présente dans le mot, elle est découverte. Sinon, le joueur perd un essai. Généralement le joueur a droit à 5 essais pour découvrir la totalité du mot.</p>
+<h2>Choix de la structure de données et définition des nouveaux types</h2>
+<p>Dans le jeu du pendu, nous devons manipuler des lettres et des mots. Ce sont donc deux types assez naturels à définir. Le type <code>Lettre</code> est défini par un caractère <code>caractere</code>, et un booléen <code>decouverte</code> qui indique si la lettre est découverte ou non.</p>
+<p><strong>Rappelons que chaque nouveau type doit être défini dans un fichier séparé.</strong></p>
+<ul>
+<li>Définir le type <code>Lettre</code> contenant les champs décrits ci-dessus.</li>
+</ul>
+<p>::: question
+<strong>Dans quel fichier doit être créé le type <code>Lettre</code>?</strong></p>
+<ul>
+<li>[ ] Pendu.java
+<blockquote>
+<p>Ah non, ce fichier sera pour le programme principal, pas pour le nouveau type.</p>
+</blockquote>
+</li>
+<li>[x] Lettre.java
+<blockquote>
+<p>Exactement : il faut créer un fichier nommé avec le nom du type que l'on souhaite définir.</p>
+</blockquote>
+</li>
+<li>[ ] Il n'est pas nécessaire de créer un fichier spécifique.
+<blockquote>
+<p>Hé bien si, un type = un fichier.</p>
+</blockquote>
+</li>
+<li>[ ] Je ne sais pas
+<blockquote>
+<p>Hum, il est tant de relire les supports de cours ...
+:::</p>
+</blockquote>
+</li>
+</ul>
+<h3>Création de la fonction <code>Lettre newLettre(char car)</code></h3>
+<p>Cette fonction sera notre constructeur permettant de créer de nouvelles valeurs de type <code>Lettre</code> en fonction d'un caractère donné.</p>
+<ul>
+<li>Dans le fichier <code>Pendu.java</code>, définissez la fonction <code>void test_newLettre()</code> qui contiendra 2 assertions. Chaque assertion va créer une lettre, la stocker dans une variable, puis tester que le champ <code>caractere</code> de cette lettre est bien celui donné à la création, et que le champs <code>decouvert</code> est faux. Ajoutez la signature de la fonction testée avec une valeur de retour par défaut, par exemple <code>null</code>, puis exécutez le test : il est censé être au rouge !</li>
+<li>Définissez maintenant la fonction <code>Lettre newLettre(char car)</code> qui crée une <strong>lettre non découverte</strong>. Le test devrait être maintenant au vert.</li>
+</ul>
+<h3>Est-il intéressant ou pas de créer un type <code>Mot</code> ?</h3>
+<p>Nous allons maintenant nous intéresser à la représentation d'un mot à l'aide du type <code>Lettre</code>. Le mot à deviner est constitué d'un ensemble de <code>Lettre</code>. La structure de donnée dont on dispose étant le tableau, un mot pourrait être représenté par un tableau de <code>Lettre</code>: <code>Lettre[] mot</code>. Du coup, est-ce qu'il serait judicieux d'un nouveau type <code>Mot</code> qui aurait pour champs ce tableau de lettres, ou est-ce préférable de travailler directement avec <code>Lettre[]</code> ?</p>
+<p>::: question
+<strong>La création d'un type <code>Mot</code> est-il pertinent ?</strong></p>
+<ul>
+<li>[ ] Oui, tout à fait.
+<blockquote>
+<p>Que pourrait contenir ce type, à part un tableau de <code>Lettre</code> ? Il serait possible de créer ce type, mais à part pour la lisibilité, il apporterait assez peu car il ne contiendrait que le champs <code>lettres</code>.</p>
+</blockquote>
+</li>
+<li>[x] Non, pas du tout.
+<blockquote>
+<p>Effectivement, lorsqu'un type ne contient qu'un seul champs, on peut s'interroger sur l'intérêt de l'introduire.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<h3>Création de la fonction <code>Lettre[] creerMot(String mot)</code></h3>
+<p>Puisque que l'on ne crée pas un type spécifique pour le mot, on propose l'usage d'un autre nom de fonction n'utilisant pas la convention de nommage (ie. <code>creerMot</code> plutôt que <code>newMot</code> qui induirait qu'un type <code>Mot</code> existe).</p>
+<ul>
+<li>Définissez d'abord la fonction <code>void test_creerMot()</code> qui teste la validité de la fonction <code>Lettre[] creerMot(String mot)</code> qui retourne le tableau de lettres correspondant au <code>mot</code>. Pour cela, vous allez déclarer une variable <code>mot</code> de type <code>Lettre[]</code> initialisée avec <code>&quot;unix&quot;</code>, puis tester que <code>mot</code> a bien une longueur de 4, que <code>mot[0].caractere</code> est bien le caractère <code>’u’</code>, et ainsi de suite pour tous les caractères et que l'ensemble des champs <code>decouvert</code> des différentes <code>Lettre</code> est bien à <code>false</code>.</li>
+<li>Définissez maintenant la fonction <code>Lettre[] creerMot(String mot)</code> qui crée un tableau qui contient les lettres de la chaine <code>mot</code>. Pensez bien à utiliser <code>newLettre</code>.</li>
+</ul>
+
+    </main>
+</body>
+</html>
