@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>QCM1_fonctions_bases - tp6</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Notion de fonction</h1>
+        <p class="session-info">tp6 / QCM1_fonctions_bases.java</p>
+    </header>
+    <main>
+
+<p>::: question
+<strong>Une fonction permet de ...</strong></p>
+<ul>
+<li>[x] d'enrichir le langage en lui ajoutant une nouvelle fonctionnalité
+<blockquote>
+<p>Tout à fait, c'est ce qui permet de modéliser le problème que l'on traite et donner du sens aux algorithmes.</p>
+</blockquote>
+</li>
+<li>[ ] d'exprimer des calculs mathématiques
+<blockquote>
+<p>Alors en mathématiques oui, mais là en informatique, ce n'est pas ce qui est le plus utile (même si c'est bien sûr possible)</p>
+</blockquote>
+</li>
+<li>[ ] disposer de nouvelles responsabilités
+<blockquote>
+<p>Certes, si l'on parle d'une fonction politique, mais la notion de responsabilité aura un autre sens en informatique.</p>
+</blockquote>
+</li>
+<li>[ ] déplacer du code ailleurs
+<blockquote>
+<p>D'une certaine manière oui, mais ce n'est pas la réponse la plus précise parmi celles proposées.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quel est le type de retour de : <code>int présent(String texte, char lettre)</code></strong></p>
+<ul>
+<li>[ ] texte
+<blockquote>
+<p>Heu ... ceci n'est pas un type !</p>
+</blockquote>
+</li>
+<li>[x] int
+<blockquote>
+<p>Tout à fait, cela correspond à la première information indiquée.</p>
+</blockquote>
+</li>
+<li>[ ] boolean
+<blockquote>
+<p>Ce n'est pas ce qui est déclaré, même si cela aurait peut-être pu faire sens.</p>
+</blockquote>
+</li>
+<li>[ ] char
+<blockquote>
+<p>Ah non, ça c'est le type d'un des paramètres de la fonction.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Combien de paramètre(s) a cette fontion : <code>int présent(String texte, char lettre)</code></strong></p>
+<ul>
+<li>[ ] 0
+<blockquote>
+<p>Hum, il faudrait que cela soit <code>présent()</code> pour que cette réponse soit acceptable.</p>
+</blockquote>
+</li>
+<li>[ ] 1
+<blockquote>
+<p>Hum, il faudrait que cela soit <code>présent(&lt;type&gt;)</code> pour que cette réponse soit acceptable.</p>
+</blockquote>
+</li>
+<li>[x] 2
+<blockquote>
+<p>Exactement ! Les paramètres sont : <code>String texte</code> et <code>char lettre</code>.</p>
+</blockquote>
+</li>
+<li>[ ] 3
+<blockquote>
+<p>Hum, il faudrait que cela soit <code>présent(&lt;type&gt;, &lt;type&gt;, &lt;type&gt;)</code> pour que cette réponse soit acceptable.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Une signature de fonction est ...</strong></p>
+<ul>
+<li>[ ] la description du traitement réalisée par la fonction.
+<blockquote>
+<p>Incorrect : ceci correspondrait plutôt au corps de la fonction !</p>
+</blockquote>
+</li>
+<li>[ ] la documentation technique détaillant ce que fait la fonction.
+<blockquote>
+<p>Non, ceci correspondrait plutôt à la Javadoc que nous verrons plus tard ...</p>
+</blockquote>
+</li>
+<li>[x] le type de retour, le nom de la fonction et la liste des paramètres.
+<blockquote>
+<p>Tout a fait !</p>
+</blockquote>
+</li>
+<li>[ ] une trace laissée par la fonction lors de son appel.
+<blockquote>
+<p>Ah, cela pourrait être amusant, mais cela n'existe pas :)
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+**Le corps d'une fonction est ... **</p>
+<ul>
+<li>[ ] ce qui l'a fait vivre.
+<blockquote>
+<p>Amusant, mais soyons sérieux 2mn :p</p>
+</blockquote>
+</li>
+<li>[x] le programme exprimant le traitement réalisé.
+<blockquote>
+<p>Tout à fait : bien joué !</p>
+</blockquote>
+</li>
+<li>[ ] tout ce qu'il faut écrire pour la définir.
+<blockquote>
+<p>Non : le corps de la fonction ne contient pas sa signature ...</p>
+</blockquote>
+</li>
+<li>[ ] le nom de la fonction et la liste des valeurs qu'elle doit traiter.
+<blockquote>
+<p>Non, ceci correspondrait à l'appel de la fonction.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>En supposant que la fonction <code>void saluer(String messsage)</code> existe, quel appel est valide ?</strong></p>
+<ul>
+<li>[ ] saluer{&quot;Bonjour&quot;};
+<blockquote>
+<p>Non, les accolades permettent de définir un bloc d'instruction : elles ne sont pas utilisées pour identifier les paramètres d'une fonction.</p>
+</blockquote>
+</li>
+<li>[ ] saluer(String &quot;Bonjour&quot;);
+<blockquote>
+<p>Argl ... pourquoi repréciser le type alors qu'il est déjà défini au niveau de la signature ? C'est totalement inutile. Et faux !</p>
+</blockquote>
+</li>
+<li>[ ] println(saluer(&quot;Bonjour&quot;));
+<blockquote>
+<p>Alors <code>void</code> cela veut dire <code>vide</code>, donc ici il n'y a pas de résultat qui est retourné, donc on ne peut réaliser un appel à un endroit nécessitant d'avoir une donnée.</p>
+</blockquote>
+</li>
+<li>[x] saluer(&quot;Bonjour&quot;);
+<blockquote>
+<p>Exactement : juste le nom de la fonction et la donnée qu'elle doit traiter.
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>

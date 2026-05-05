@@ -1,0 +1,3 @@
+class ControleTP extends Program {
+
+}

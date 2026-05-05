@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JeuxDeType - tp1</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Types manquants</h1>
+        <p class="session-info">tp1 / JeuxDeType.java</p>
+    </header>
+    <main>
+
+<h2>Ces types ont disparu !</h2>
+<p>Dans le programme ci-dessous, vous devez compléter par le bon type partout où les ... apparaîssent.</p>
+<pre><code class="language-java">class JeuxDeType extends Program {
+    void algorithm(){
+        ... prenom = &quot;Alan&quot;;
+        ... nom = &quot;Turing&quot;;
+        ... naissance = 1912;
+        ... annee = 2022;
+        ... age = annee - naissance;
+        ... initiale = charAt(prenom,0);
+        println(initiale + &quot;. &quot; + nom + &quot; aurait eu &quot; + age + &quot;ans en &quot; + annee);
+    }
+}
+</code></pre>
+<p>Pour débuter l'exercice, utilisez la commande : <code>ijava init JeuxDeType</code>.
+Éditez ensuite le squelette qui a été généré afin de compléter avec les types appropriés.</p>
+<p>Ensuite, compilez votre programme avec la commande : <code>ijava compile JeuxDeType.java</code>.</p>
+<p>Finalement, exécutez votre programme avec : <code>ijava execute JeuxDeType</code>
+Vous devriez obtenir l'affichage suivant :</p>
+<pre><code class="language-bash">&gt; A. Turing aurait eu 110 ans en 2022
+</code></pre>
+<p>Afin de vérifier cela automatiquement, utilisez la commande : <code>ijava test JeuxDeType</code></p>
+<p>Après cette première étape, modifiez les valeurs des variables de manière à ce qu'il réalise le même comportement mais cette fois concernant Ada Lovelace née en 1815.</p>
+<h2>Étapes à suivre</h2>
+<ul>
+<li><code>ijava init JeuxDeType</code></li>
+<li><em>compléter le code source avec un éditeur de texte</em></li>
+<li><code>ijava compile JeuxDeType.java</code></li>
+<li><code>ijava execute JeuxDeType</code></li>
+<li><code>ijava test JeuxDeType</code></li>
+</ul>
+<hr />
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Date - tp12</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Modélisation des dates de début et fin de mandat</h1>
+        <p class="session-info">tp12 / Date.java</p>
+    </header>
+    <main>
+
+<p>Comme vous l'avez remarqué dans le fichier CSV, nous avons des dates qui sont présentes pour identifier les débuts et fin de mandats.</p>
+<p>Lors d'un TD précédent, nous avions travaillé la modélisation d'une date. Pour notre contexte, nous n'allons pas faire le même choix concernant les mois (énumération) et simplifier un peu en utilisant trois champs entiers.</p>
+<p>Définissez le type <code>Date</code> avec les champs <em>jour</em>, <em>mois</em> et <em>année</em>.</p>
+<p>::: question
+<strong>Quelle signature choisiriez-vous pour le constructeur de <code>Date</code> ?</strong></p>
+<ul>
+<li>[ ] Date newDate(int jour, int mois, int annee)
+<blockquote>
+<p>Alors cela correspond à l'intuition et l'implémentation habituelle, mais dans le fichier CSV les dates sont représentées différemment et il serait plus pratique d'avoir un constructeur capable des les interpréter (mais l'on pourrait définir aussi celui-ci en plus).</p>
+</blockquote>
+</li>
+<li>[x] Date newDate(String date)
+<blockquote>
+<p>Bien vu ! Effectivement, les dates étant représentées sous la forme <code>jour/mois/année</code> dans le fichier CSV, il est plus pratique d'avoir ce constructeur.</p>
+</blockquote>
+</li>
+<li>[ ] Date newDate(int jour, Mois mois, int annee)
+<blockquote>
+<p>Heu, on vient de dire que pour notre contexte, on ne remobilise pas la piste de l'énumération ... il faut bien LIRE L'ÉNONCÉ !
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>
