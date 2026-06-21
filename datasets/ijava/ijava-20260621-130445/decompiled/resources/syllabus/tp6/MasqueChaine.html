@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MasqueChaine - tp6</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Masque d’une chaîne</h1>
+        <p class="session-info">tp6 / MasqueChaine.java</p>
+    </header>
+    <main>
+
+<p>Écrivez un programme <code>MasqueChaine</code> contenant la fonction <code>masque</code> qui prend en paramètre une chaîne <code>phrase</code> et un caractère <code>lettre</code>, et retourne une nouvelle chaine qui ne contient que les occurrence de <code>lettre</code> à leur emplacement. Les autres caractères sont remplacés par des points.</p>
+<p><strong>Attention</strong> : soyez bien attentif au fait qu’ici c’est une fonction qui retourne la chaîne créée, pas d’affichage donc.</p>
+<p>Réalisez la fonction devant passer le test qui suit. Vous pouvez vous inspirez de la fonction <code>copieSans</code> de votre cours (mais essayez par vous même avant d'aller jeter un oeil au cours !).</p>
+<pre><code class="language-java">void testMasque () {
+    assertEquals(&quot;a...a...a....&quot;,    masque(&quot;au bal masqué&quot;,    'a'));
+    assertEquals(&quot;................&quot;, masque(&quot;Tonari no Totoro&quot;, 'u'));
+    assertEquals(&quot;.o......o..o.o.o&quot;, masque(&quot;Tonari no Totoro&quot;, 'o'));
+    assertEquals(&quot;&quot;,                 masque(&quot;&quot;,                 'z'));
+}
+</code></pre>
+<p>Il est important de laisser la fonction <code>void algorithm()</code>, même si elle n'est pas utilisée dans ce programme.</p>
+
+    </main>
+</body>
+</html>

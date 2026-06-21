@@ -1,0 +1,11 @@
+# Demande d'usage de vos traces à des fins de recherche
+
+
+::: question
+**Comme expliqué en cours, ijava génère des traces vous permettant de visualiser votre progression en cours et aussi d'affiner le suivi pédagogique pour le dispositif du tutorat. Nous souhaiterions aussi pouvoir utiliser ces traces ANONYMISÉES à des fins de recherche. Nous vous remercions par avance de votre accord qui nous permettra de mener des études d'impact des modifications de la progression pédagogique.**
+
+- [x] oui, pas de soucis !
+  > Merci beaucoup ! Ces éléments nous permettront d'améliorer la progression pédagogique durant le semestre et les années à venir :)
+- [ ] non, je ne préfère pas.
+  > Ce n'est pas une réponse fausse, mais comme c'est un système de QCM détourné pour mener un sondage et éviter le papier ...
+:::

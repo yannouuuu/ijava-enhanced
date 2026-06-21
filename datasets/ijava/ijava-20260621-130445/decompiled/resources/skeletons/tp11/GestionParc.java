@@ -1,0 +1,3 @@
+class GestionParc extends Program {
+
+}

@@ -1,0 +1,3 @@
+class Remplacement extends Program {
+
+}
