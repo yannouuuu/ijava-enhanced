@@ -1,0 +1,43 @@
+TITLE: Usages sur les fonctions
+
+Q: Quelle syntaxe est correcte pour appeler une fonction nommée calculerSomme ?
+A) calculerSomme;
+EXPLAIN: Non, il manque les parenthèses.
+B) calculerSomme();
+EXPLAIN: Correct, cette syntaxe appelle la fonction.
+C) int calculerSomme()
+EXPLAIN: Non, ceci correspond à sa signature
+D) exec(calculerSomme);
+EXPLAIN: Non, cette syntaxe n'existe pas en ijava.
+ANSWER: B
+
+Q: Quelle est la portée des variables définies à l'intérieur d'une fonction ?
+A) Elles sont accessibles dans tout le programme.
+EXPLAIN: Non, leur portée est limitée à la fonction elle-même.
+B) Elles sont accessibles uniquement dans la fonction où elles sont déclarées.
+EXPLAIN: Effectivement, elles sont locales à la fonction.
+C) Elles sont accessibles uniquement à partir d'autres fonctions.
+EXPLAIN: Non, il est impossible d'accéder à une variable définit dans une autre fonction.
+ANSWER: B
+
+Q: Que se passe-t-il si une fonction a une déclaration de type de retour, mais n'inclut pas d'instruction return ?
+A) Le programme se compile normalement.
+EXPLAIN: Non, cela engendrera une erreur de compilation.
+B) La fonction retournera null.
+EXPLAIN: Non, cela engendrera une erreur de compilation.
+C) La fonction ne compilera pas.
+EXPLAIN: Correct, il est nécessaire d'avoir une instruction return si le type de retour n'est pas void.
+D) La fonction retournera une valeur par défaut.
+EXPLAIN: Non, cela engendrera une erreur de compilation.
+ANSWER: C
+
+Q: Quelle est la manière correcte de définir une fonction qui retourne un entier ?
+A) int maFonction() {}
+EXPLAIN: Correct, la déclaration est valide.
+B) void maFonction() { return 0; }
+EXPLAIN: Non, cette fonction est définie pour ne pas retourner de valeur (cf. void).
+C) int maFonction { return 0; }
+EXPLAIN: Non, la syntaxe est incorrecte.
+D) maFonction(int) {}
+EXPLAIN: Non, cela n'est pas une déclaration valide.
+ANSWER: A

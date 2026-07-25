@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JeuDeLaVie - tp9</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Jeu de la vie</h1>
+        <p class="session-info">tp9 / JeuDeLaVie.java</p>
+    </header>
+    <main>
+
+<p>Vous allez implémenter le programme <code>JeuDeLaVie</code> qui simule le jeu de la vie présenté en cours. On rappelle ici les fonctions à écrire, que vous êtes invités à faire dans cet ordre.</p>
+<h2><code>String afficher(boolean[][] monde)</code></h2>
+<p>Écrire la fonction <code>String afficher(boolean[][] monde)</code> qui affiche le tableau <code>monde</code> représentant le monde du jeu de la vie. Utilisez le caractère <code>@</code> pour les cases vivantes (i.e. les cases égales à <code>true</code>) et <code>.</code> pour les cases mortes. Rappelons que les cases sur la bordure du <code>monde</code> ne sont pas significatives et servent uniquement à faciliter les calculs, on peut donc ne pas les afficher. Votre fonction d’affichage, doit valider ce test.</p>
+<pre><code class="language-java">    void test_afficher() {
+        boolean[][] monde = {
+            {F, F, F, F, F},
+            {F, T, T, T, F},
+            {F, F, T, F, F},
+            {F, F, F, F, F}
+        };
+        String expected =
+            &quot;.....\n&quot; +
+            &quot;.@@@.\n&quot; +
+            &quot;..@..\n&quot; +
+            &quot;.....\n&quot;;
+        assertEquals(expected, afficher(monde));
+    }
+</code></pre>
+<h2><code>void initialiser(boolean[][] tab, double proba)</code></h2>
+<p>Écrire la procédure <code>void initialiser(boolean[][] tab, double proba)</code> qui initialise aléatoirement le tableau <code>tab</code> donnée en paramètre de manière à ce que chaque case ait une probabilité (comprise entre 0.0 et 1.0) <code>proba</code> d’être vivante. Attention : toutes les cases sur les bordures doivent être mortes. Pour tester la fonction que vous venez d’écrire, modifiez <code>void algorithm()</code> en utilisant <code>initialiser</code> pour initialiser le tableau, que vous affichez ensuite.</p>
+<h2><code>int nombreDeVoisins(boolean[][] monde, int lig, int col)</code></h2>
+<p>Écrire la fonction <code>int nombreDeVoisins(boolean[][] monde, int lig, int col)</code> qui compte
+le nombre de voisins vivants de la case de coordonnées <code>(lig, col)</code> dans <code>monde</code>. On utilisera cette fonction que sur les cases <em>à l'intérieur du tableau</em>, c'est-à-dire que l'on ne l'appellera pas sur les cases de la première/dernière ligne et colonne.</p>
+<p>Utilisez cette fonction de test pour valider votre fonction.</p>
+<pre><code class="language-java">void test_nombreDeVoisins() {
+    // Initialiser un monde exemple
+    boolean[][] monde = new boolean[][]
+        {{F, F, F, F, F},
+         {F, F, F, F, F},
+         {F, T, T, T, F},
+         {F, F, F, F, F},
+         {F, F, F, F, F}};
+    assertEquals(2, nombreDeVoisins(monde, 2, 2));
+    assertEquals(2, nombreDeVoisins(monde, 1, 1));
+    assertEquals(3, nombreDeVoisins(monde, 3, 2));
+}
+</code></pre>
+<h2><code>boolean evolution(int nombreDeVoisins, boolean etatCellule)</code></h2>
+<p>Écrire la fonction <code>boolean evolution(int nombreDeVoisins, boolean etatCellule)</code> qui calcule l’état d’une cellule à la génération suivante en fonction de son nombre de voisins et de son état actuel. La fonction doit passer ce test.</p>
+<pre><code class="language-java">void test_evolution () {
+    assertEquals(false, evolution(0, false));
+    assertEquals(false, evolution(0,  true));
+    assertEquals(false, evolution(1, false));
+    assertEquals(false, evolution(1,  true));
+    assertEquals(false, evolution(2, false));
+    assertEquals( true, evolution(2,  true));
+    assertEquals( true, evolution(3, false));
+    assertEquals( true, evolution(3,  true));
+    assertEquals(false, evolution(4, false));
+    assertEquals(false, evolution(4,  true));
+}
+</code></pre>
+<h2>Algorithme principal</h2>
+<p>Vous êtes maintenant prêt à écrire l’algorithme principal qui simulera le jeu de la vie, en complétant ce squelette:</p>
+<pre><code class="language-java">void algorithm() {
+    boolean [][] monde = new boolean[20][20];
+        int generation = 0;
+
+        initialiser(monde, 0.1);
+        // Ici, on pourra par la suite ajouter des motifs (carré, glisseur, barre, autres)
+       
+        do {
+            // afficher le monde
+            // calculer la génération suivante
+            println(&quot;Génération &quot;+generation);
+            generation = generation + 1;
+            println(&quot;Entrez \&quot;stop\&quot; pour arrêter, ou entrée pour continuer&quot;);
+        } while(!equals(&quot;stop&quot;, readString()));
+    }
+}
+</code></pre>
+<h2>Peupler le monde ...</h2>
+<p>Vous allez maintenant écrire trois fonctions pour inclure des motifs, tester votre programme et mieux savourer le fruit de votre travail. Les fonctions en question vont générer comme motif :
+— un carré de taille 2 × 2 cases, dont on sait qu’il vivra éternellement (s’il n’est pas perturbé, bien entendu) : <code>void ajouterCarre (boolean[][] monde, int lig, int col)</code>
+— un « glisseur », qui en 4 générations effectue une translation en diagonale : <code>void ajouterGlisseur (boolean[][] monde, int lig, int col)</code>
+— une barre horizontale de 3 cases dont on sait qu’elle oscille en alternant avec une barre verticale : <code>void ajouterBarre (boolean[][] monde, int lig, int col)</code></p>
+<p>Chacune des trois fonctions prend en paramètre les coordonnées où (le coin supérieur gauche du) motif doit être ajouté.</p>
+
+    </main>
+</body>
+</html>

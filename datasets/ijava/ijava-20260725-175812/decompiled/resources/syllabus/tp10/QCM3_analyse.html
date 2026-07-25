@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>QCM3_analyse - tp10</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Jeu du Saute-Mouton : analyse de l'algorithme principal</h1>
+        <p class="session-info">tp10 / QCM3_analyse.java</p>
+    </header>
+    <main>
+
+<p>Nous devons maintenant identifier quels sont les problèmes simples qu’il faut résoudre et pour construire une solution complète au Saute-Mouton.</p>
+<p>Commençons par faire une liste des sous-tâches que le programme devra pouvoir effectuer:</p>
+<ul>
+<li>initialiser la prairie (<strong>déjà fait !</strong>)</li>
+<li>afficher la prairie (<strong>déjà fait !</strong>)</li>
+<li>saisir le coup (valide!) du joueur, càd le déplacement que le joueur veut faire</li>
+<li>faire le déplacement qui correspond au coup saisi</li>
+<li>détecter la fin de la partie, soit parce que la configuration finale est atteinte, soit parce qu’il y a blocage</li>
+<li>afficher le résultat du jeu: réussite ou non</li>
+</ul>
+<p>Cette réflexion nous permet déjà d'ébaucher la forme générale de l'algorithme principal. Écrivons le en langage naturel:</p>
+<pre><code class="language-bash">initialiser la prairie
+tant que le jeu n’est pas fini
+   afficher l’état actuel de la prairie
+   saisir le coup du joueur
+   effectuer le déplacement
+</code></pre>
+<p>Nous allons raffiner ce début de solution en déterminant comment chaque sous-tâche sera implémentée: par une fonction, ou par du code à écrire directement dans l'algorithme principal. C’est la partie difficile, qu’on arrive à faire en accumulant de l’expérience ...</p>
+<p>En règle générale, on essaye de s'attacher à ceci :</p>
+<ul>
+<li>chaque tâche a sa fonction dédiée</li>
+<li>les noms des fonctions sont choisies de telle manière qu’en lisant le programme on comprend ce qu’il fait</li>
+<li>le code à écrire directement dans le programme se limite à des affectations de variables qui servent à transmettre de l’information entre les différentes fonctions, ou à des calculs très simples</li>
+</ul>
+<p>Remplaçons chaque sous-tâche identifiée par une fonction qui lui sera dédiée. Pour l’instant nous donnons uniquement les noms des fonctions. Les signatures des fonctions (càd paramètres et valeurs retournées) seront précisées plus tard, quand on se posera la question des informations qui doivent circuler entre les différentes sous-tâches.</p>
+<pre><code class="language-java">void algorithm() {
+    // initialiser la prairie (FAIT !)
+    // tant que le jeu n’est pas fini
+    //    afficher la prairie (FAIT !)
+    //    saisir le coup (valide) du joueur
+    //    appliquer le déplacement
+}
+</code></pre>
+<p>::: question
+<strong>Quelle signature vous semble pertinente pour <code>fini</code> ?</strong></p>
+<ul>
+<li>[ ] <code>boolean fini()</code>
+<blockquote>
+<p>Sans accès à la prairie, comment vérifier si la partie est finie ?!</p>
+</blockquote>
+</li>
+<li>[x] <code>boolean fini(char[] prairie)</code>
+<blockquote>
+<p>Oui bien vu : en ayant la prairie, il est possible de s'assurer que la situation finale est atteinte ... ou que l'on est dans une situation de blocage.</p>
+</blockquote>
+</li>
+<li>[ ] <code>void fini(char[] prairie, boolean oui)</code>
+<blockquote>
+<p>Aïe, aïe, aïe : il faut réviser les modes de passage des paramètres ! Le booléen transmis peut être lu mais si on le modifie dans le corps de la fonction, cela n'affecte que le calcul dans la fonction et pas le code ayant appelé cette fonction !</p>
+</blockquote>
+</li>
+<li>[ ] <code>boolean fini(char[] prairie, int[] coup)</code>
+<blockquote>
+<p>Pourquoi aurait-on besoin de connaître le coup pour déterminer si la partie est finie ? Toujours transmettre uniquement l'information nécessaire pour réaliser le traitement et rien de plus.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>En supposant qu'un coup est représenté par un indice de départ et un indice d'arrivée, quelle signature vous semble pertinente pour <code>saisir</code> ?</strong></p>
+<ul>
+<li>[ ] <code>int[] saisir()</code>
+<blockquote>
+<p>Comment vérifier la validité du coup saisit si l'on n'a pas accès à la prairie ?!</p>
+</blockquote>
+</li>
+<li>[ ] <code>int[] saisir(String message)</code>
+<blockquote>
+<p>Certes on peut afficher un gentil message au joueur ou la joueuse, mais comment vérifier que le coup est valide sans la prairie en paramètre ?</p>
+</blockquote>
+</li>
+<li>[x] <code>int[] saisir(char[] prairie)</code>
+<blockquote>
+<p>Bien vu ! Il est crucial d'avoir accès à la prairie pour vérifier la validité du coup saisit.</p>
+</blockquote>
+</li>
+<li>[ ] <code>char[] saisir(char[] prairie)</code>
+<blockquote>
+<p>Le type du retour de la fonction est surprenant ! La fonction saisir a juste pour responsabilité de saisir un coup, pas de l'appliquer. Et quand bien même, il n'y aurait aucune nécessité de retourner le tableau qui nous a été transmis, celui nous l'ayant transmis l'ayant déjà !!
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quelle signature vous semble pertinente pour <code>appliquer</code> ?</strong></p>
+<ul>
+<li>[ ] <code>char[] appliquer(int[] coup)</code>
+<blockquote>
+<p>Hum, et où ce coup va-t-t-il s'appliquer si l'on n'a pas accès à la prairie ?</p>
+</blockquote>
+</li>
+<li>[ ] <code>char[] appliquer(char[] prairie, int[] coup)</code>
+<blockquote>
+<p>Il est incohérent d'avoir en paramètre la prairie et de la retourner. Quel sens y aurait-il à retourner une copie ? Lorsqu'il y a un tableau en paramètre, la fonction peut modifier son contenu directement ...</p>
+</blockquote>
+</li>
+<li>[ ] <code>boolean appliquer(char[] prairie, int[] coup)</code>
+<blockquote>
+<p>C'est la fonction saisir qui a la responsabilité de vérifier la validité d'un coup. A quoi pourrait correspondre ce booléen comme valeur de retour ?</p>
+</blockquote>
+</li>
+<li>[x] <code>void appliquer(char[] prairie, int[] coup)</code>
+<blockquote>
+<p>Exactement : on a besoin du coup et de la prairie sur laquelle l'appliquer. Et comme l'on peut modifier directement le contenu du tableau passé en paramètre, pas besoin de retourner un quelconque résultat dans ce cas.
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>
