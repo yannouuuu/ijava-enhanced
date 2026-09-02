@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>QCM3_types_variable - tp1</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Notions de type, variable et affectation</h1>
+        <p class="session-info">tp1 / QCM3_types_variable.java</p>
+    </header>
+    <main>
+
+<p>::: question
+<strong>Quelle instruction déclare une variable entière nommée age et l'initialise à 30 ?</strong></p>
+<ul>
+<li>[ ] age = 30;
+<blockquote>
+<p>age n'est pas déclarée, juste affectée !</p>
+</blockquote>
+</li>
+<li>[x] int age = 30;
+<blockquote>
+<p>Déclaration et initialisation correctes : le type, le nom et la valeur.</p>
+</blockquote>
+</li>
+<li>[ ] int age; age = 30;
+<blockquote>
+<p>Presque, mais là, il y séparation entre l'étape de déclaration et ensuite l'initialisation.</p>
+</blockquote>
+</li>
+<li>[ ] var age = 30;
+<blockquote>
+<p>Correct en Java 10+ ... mais nécessite une inférence de type : nous ne ferons pas cela au S1 !
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quel type de données utiliseriez-vous pour représenter une seule lettre ?</strong></p>
+<ul>
+<li>[ ] String
+<blockquote>
+<p>Ce type est pertinent pour représenter plusieurs lettres ...</p>
+</blockquote>
+</li>
+<li>[ ] int
+<blockquote>
+<p>int = integer, on l'utilise pour représenter des nombres entiers.</p>
+</blockquote>
+</li>
+<li>[x] char
+<blockquote>
+<p>Effectivement, le type char permet de représenter un seul caractère.</p>
+</blockquote>
+</li>
+<li>[ ] boolean
+<blockquote>
+<p>boolean = booléen, on l'utilise pour représenter des valeurs vrai (true) ou fausse (false).
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quel est le type de données du résultat de length(&quot;Bonjour&quot;) ?</strong></p>
+<ul>
+<li>[ ] String
+<blockquote>
+<p>length() retourne un nombre pas une chaîne de caractères.</p>
+</blockquote>
+</li>
+<li>[ ] char
+<blockquote>
+<p>char représente un caractère unique et non un nombre.</p>
+</blockquote>
+</li>
+<li>[x] int
+<blockquote>
+<p>effectivement car length() retourne la longueur de la chaîne, donc un entier.</p>
+</blockquote>
+</li>
+<li>[ ] boolean
+<blockquote>
+<p>boolean représente vrai/faux et non un nombre
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Laquelle de ces proposition est un nom de variable valide ?</strong></p>
+<ul>
+<li>[x] maVariable
+<blockquote>
+<p>Tout à fait, est le nommage respecte la convention Java (Camel case).</p>
+</blockquote>
+</li>
+<li>[ ] 42variable
+<blockquote>
+<p>Non car un identificateur ne peux commencer par un nombre.</p>
+</blockquote>
+</li>
+<li>[ ] $variable
+<blockquote>
+<p>Non car un identificateur ne peux commencer par un caractère spécial (si ce n'est _).</p>
+</blockquote>
+</li>
+<li>[ ] ma-variable
+<blockquote>
+<p>Non car les tirets '-' ne sont pas autorisés, contrairement au '_' (underscore).
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quel est le résultat de &quot;Bonjour&quot; + &quot; le monde&quot; ?</strong></p>
+<ul>
+<li>[ ] &quot;Bonjour&quot; + &quot; le monde&quot;
+<blockquote>
+<p>Non, l'expression est évaluée et produit une nouvelle chaîne !</p>
+</blockquote>
+</li>
+<li>[x] &quot;Bonjour le monde&quot;
+<blockquote>
+<p>Oui c'est une nouvelle chaîne construite par concaténation de deux autres chaînes.</p>
+</blockquote>
+</li>
+<li>[ ] &quot;Bonjourle monde&quot;
+<blockquote>
+<p>Attention : il y a un espace avant 'le' dans la seconde chaîne ...</p>
+</blockquote>
+</li>
+<li>[ ] L'expression n'est pas valide et produit une erreur.
+<blockquote>
+<p>Ah non, aucune erreur ici, l'expression est valide.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quelle expression teste l'égalité entre deux nombres entiers x et y ?</strong></p>
+<ul>
+<li>[x] x == y
+<blockquote>
+<p>Correct, == est l'opérateur d'égalité pour les types primitifs.</p>
+</blockquote>
+</li>
+<li>[ ] x = y
+<blockquote>
+<p>Aïe ! ATTENTION : un seul '=' correspond à l'affectation, ce n'est pas un opérateur de comparaison !</p>
+</blockquote>
+</li>
+<li>[ ] equals(x, y)
+<blockquote>
+<p>ATTENTION : equals() n'est valide que pour les chaînes de caractères (String) et pas les autres types.
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>
