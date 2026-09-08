@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>NettoyerChaine - tp2</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Enlever l'espace en début et fin d'une chaîne</h1>
+        <p class="session-info">tp2 / NettoyerChaine.java</p>
+    </header>
+    <main>
+
+<p>Écrire le programme <code>NettoyerChaine</code> qui à partir d’une variable (<code>chaine</code>) contenant une chaîne de retourne la même chaîne privée de l’éventuel caractère espace qui se trouverait en début et/ou en fin de la chaîne.</p>
+<pre><code class="language-java">class NettoyerChaine extends Program {
+    void algorithm () {
+        String chaine = readString();
+        println(&quot;Avant nettoyage :&quot;);
+        println(&quot;&gt;&quot;+chaine+&quot;&lt;&quot;);
+
+        //À COMPLÉTER
+
+        println(&quot;Après nettoyage :&quot;);
+        println(&quot;&gt;&quot;+chaine+&quot;&lt;&quot;);
+    }
+}
+</code></pre>
+<p>Vous ne devez pas modifier les lignes 7-10 et 14-15 ! Vous devez juste insérer votre code à la place de la ligne 12 et les suivantes pour réaliser cet exercice.</p>
+<p>Voici quelques chaînes qu'il est intéressant de tester : <code>&quot; Bonjour &quot;</code>, <code>&quot; Hello&quot;</code>, &quot;bye &quot;<code>,</code>&quot; x &quot;<code>,</code>&quot; &quot;<code>,</code>&quot;&quot;`.</p>
+<p>Après avoir testé manuellement, n'oubliez pas le test automatisé d'ijava !</p>
+
+    </main>
+</body>
+</html>

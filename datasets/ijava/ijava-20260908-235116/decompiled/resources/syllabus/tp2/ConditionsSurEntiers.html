@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ConditionsSurEntiers - tp2</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Connecteurs logiques et entiers</h1>
+        <p class="session-info">tp2 / ConditionsSurEntiers.java</p>
+    </header>
+    <main>
+
+<p>Dans cet exercice, votre objectif est de déterminer les conditions exprimant certaines propriétés sur des entiers.</p>
+<p>Au début du programme, trois entiers <code>a</code>,  <code>b</code> et <code>c</code> sont saisis auprès de l'usager et vous avez ensuite différentes variables booléennes qui sont définies et que vous devez initialiser à l'aide d'une condition.</p>
+<pre><code class="language-java">    void algorithm(){
+        int a = readInt();
+        int b = readInt();
+        int c = readInt();
+        // Écrire les conditions à la place des valeurs false
+        // Condition a est strictement supérieure à 5.
+        boolean a_superieur_a_5 = false ;
+</code></pre>
+<p>Ainsi, la première condition que vous devez déterminer devra vérifier la propriété que a est strictement supérieure à 5. Il faut donc effacer la valeur <code>false</code> et la remplacer par la condition indiquée.</p>
+<p>::: question
+<strong>A votre avis, la condition qu'il faut trouver est ... ?</strong></p>
+<ul>
+<li>[ ] a &gt;= 5
+<blockquote>
+<p>Incorrect : on demande à ce que cela soit <em>strictement</em> supérieur à 5 !</p>
+</blockquote>
+</li>
+<li>[ ] a &lt; 5
+<blockquote>
+<p>Incorrect : c'est l'inverse, ici on exprime que a doit être strictement inférieur à 5 :(</p>
+</blockquote>
+<ul>
+<li>[x] a &gt; 5</li>
+</ul>
+<blockquote>
+<p>Parfait : bien joué !</p>
+</blockquote>
+</li>
+<li>[ ] a &gt;= 6
+<blockquote>
+<p>Hum, cela fonctionnerait mais n'est pas lisible et plus difficile à interpréter : à éviter !
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Complétez l'ensemble des conditions permettant d'initialiser toutes les variables et vérifiez ensuite si c'est valide en exécutant votre programme avec ces différentes entrées :</p>
+<table>
+  <tr>
+    <td style="text-align: center">0, 0, 0</td>
+    <td style="text-align: center">1, 0, 5</td>
+    <td style="text-align: center">2, 4, 6</td>
+    <td style="text-align: center">0, 0, 34</td>
+    <td style="text-align: center">2, 4, -6</td>
+    <td style="text-align: center">0, 0, 34</td>
+    <td style="text-align: center">2, 4, 2</td>
+  </tr>
+</table>
+<p>Si vous n'avez pas trouvé d'erreur, n'oubliez pas de terminer par <code>ijava test ConditionsSurEntiers</code>.</p>
+
+    </main>
+</body>
+</html>
