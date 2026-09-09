@@ -1,0 +1,54 @@
+TITLE: Connecteurs logiques en ijava
+
+Q: En ijava, comment s'exprime la négation logique ?
+A) !
+EXPLAIN: Parfait : bien joué !
+B) !!
+EXPLAIN: Incorrect : un seul point d'exclamation est suffisant ;)
+C) not
+EXPLAIN: Faux : nous ne sommes pas en python ...
+D) non
+EXPLAIN: Incorrect : en (i)java tous les mots-clés du langage sont en anglais !
+ANSWER: A
+
+Q: En ijava, comment s'exprime le ET logique ?
+A) et
+EXPLAIN: Incorrect : en (i)java tous les mots-clés du langage sont en anglais !
+B) and
+EXPLAIN: Faux : nous ne sommes pas en python ...
+C) &&
+EXPLAIN: Parfait : bien joué !
+D) AND
+EXPLAIN: Incorrect : un mot tout en majuscules fait plutôt référence à une constante.
+ANSWER: C
+
+Q: En ijava, comment s'exprime le OU logique ?
+A) ou
+EXPLAIN: Incorrect : en (i)java tous les mots-clés du langage sont en anglais !
+B) ||
+EXPLAIN: Parfait : bien joué !
+C) or
+EXPLAIN: Faux : nous ne sommes pas en python ...
+D) ^
+EXPLAIN: Incorrect : cet opérateur est utilisé pour un autre connecteur ...
+ANSWER: B
+
+Q: La chaîne mot1 est plus grande que la chaîne mot2 s'écrit ... ?
+A) length(mot1>mot2)
+EXPLAIN: Incorrect : en (i)java tous les mots-clés du langage sont en anglais !
+B) length(mot2) > length(mot1)
+EXPLAIN: Incorrect : cet opérateur est utilisé pour un autre connecteur ...
+C) length(mot1) > length(mot2)
+EXPLAIN: Faux : nous ne sommes pas en python ...
+D) length(mot1) < length(mot2)
+EXPLAIN: Parfait : bien joué !
+ANSWER: C
+
+Q: Si la condition (a < b && a < c) est vérifiée, cela veut dire que ...
+A) a est plus petit que b ou c
+EXPLAIN: Incorrect : en (i)java && correspond au ET logique !
+B) a est plus petit 
+EXPLAIN: Parfait : bien joué !
+C) b est plus petit que c
+EXPLAIN: Faux : b n'est comparé qu'avec a 
+ANSWER: B

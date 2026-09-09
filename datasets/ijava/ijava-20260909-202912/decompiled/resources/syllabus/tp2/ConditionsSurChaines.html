@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ConditionsSurChaines - tp2</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Connecteurs logiques et chaînes de caractères</h1>
+        <p class="session-info">tp2 / ConditionsSurChaines.java</p>
+    </header>
+    <main>
+
+<p>Dans cet exercice, votre objectif est de déterminer les conditions exprimant certaines propriétés sur des chaînes de caractères.</p>
+<p>Au début du programme, trois chaînes de caractères <code>a</code>,  <code>b</code> et <code>c</code> sont saisies auprès de l'usager et vous avez ensuite différentes variables booléennes qui sont définies et que vous devez initialiser à l'aide d'une condition.</p>
+<pre><code class="language-java">    void algorithm(){
+        String a = readInt();
+        String b = readInt();
+        String c = readInt();
+        // Écrire les conditions à la place des valeurs false
+        // Condition la longueur de a est inférieure à 5
+        boolean condLongAinf5 = false ;
+</code></pre>
+<p>Ainsi, la première condition que vous devez déterminer devra vérifier la propriété que la longueur de la chaîne a est strictement inférieur à 5. Il faut donc effacer la valeur <code>false</code> et la remplacer par la condition indiquée.</p>
+<p>::: question
+<strong>A votre avis, la condition qu'il faut trouver est ... ?</strong></p>
+<ul>
+<li>[ ] length(a) &gt; 5
+<blockquote>
+<p>Incorrect : on demande à ce que cela soit inférieur à 5, pas supérieur !</p>
+</blockquote>
+</li>
+<li>[x] length(a) &lt; 5
+<blockquote>
+<p>Parfait : bien joué !</p>
+</blockquote>
+</li>
+<li>[ ] length(a &lt; 5)
+<blockquote>
+<p>Attention : a &lt; 5 va s'évaluer à un booléen, et du coup, la fonction <code>length</code> ne peut pas prendre un booléen pour réaliser son traitement ...</p>
+</blockquote>
+</li>
+<li>[ ] a &lt; 5
+<blockquote>
+<p>Alors, a est une chaîne de caractères et 5 un entier, que signifierait la comparaison entre une chaîne de caractères et un entier ?!
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Complétez l'ensemble des conditions permettant d'initialiser toutes les variables et vérifiez ensuite si c'est valide en exécutant votre programme avec ces différentes entrées :</p>
+<table>
+  <tr>
+    <td style="text-align: center">"bonjour", "jour", "bon"</td>
+    <td style="text-align: center">"", "xx", "xxx"</td>
+    <td style="text-align: center">"yyy", "yyy", "x"</td>
+  </tr>
+</table>
+<p>Si vous n'avez pas trouvé d'erreur, n'oubliez pas de terminer par <code>ijava test ConditionsSurChaines</code>.</p>
+<p class="flip" onclick="show()">Si vous ne comprenez pas pourquoi le test d'ijava est au rouge, cliquez ici (après avoir essayé de déboguer par vous même !) ...</p>
+<div id="hint" style="display: none">
+  <p>A votre avis, que peut-il se passer si l'on doit traiter une chaîne vide avec `charAt` ou `substring` ? ;)</p>
+</div>
+<script>
+function show() {
+  var x = document.getElementById("hint");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+    </main>
+</body>
+</html>
