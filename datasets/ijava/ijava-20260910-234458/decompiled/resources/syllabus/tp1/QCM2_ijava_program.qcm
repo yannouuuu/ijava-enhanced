@@ -1,0 +1,67 @@
+TITLE: Principales composantes d'un programme ijava
+
+Q: Quel est le but de algorithm() ?
+A) C'est ce qui permet de réaliser des sorties.  
+EXPLAIN: Non, ce sont print(...), println(...)etc., qui affichent des données à l'écran.
+B) C'est là que l'on définit l'algorithme principal du programme. 
+EXPLAIN:  Effectivment, algorithm() est le point d'entrée de l'exécution.
+C) C'est ce qui permet de réaliser des entrées utilisateur. 
+EXPLAIN:  Non, ce sont readInt(), readString()etc., qui saisissent des données au clavier.
+D) Aucun, il n'est pas nécessaire d'écrire cela. 
+EXPLAIN:  Argl ! Au contraire, sans cela pas de programme !
+ANSWER: B
+
+Q: print("Hello") sert à ...
+A) saisir Hello depuis le clavier. 
+EXPLAIN: Non pas du tout print est lié à l'affichage. 
+B) afficher bonjour à l'écran. 
+EXPLAIN: Pas vraiment, la machine ne fait pas de traduction automatique lorsque l'on lui demande d'afficher Hello.
+C) afficher Hello à l'écran. 
+EXPLAIN: Tout à fait, println() affiche la donnée entre les parenthèse à l'écran et ajoute un retour à la ligne (contrairement à print).
+D) à rien du tout car cela produit une erreur. 
+EXPLAIN: Ah non, c'est une expression tout à fait valide.
+ANSWER: C
+
+Q: readInt() sert à ...
+A) saisir un caractère depuis le clavier. 
+EXPLAIN: Non pas du tout car Int = entier et pas caractère ! C'est readChar() qui saisit un caractère.
+B) saisir une ligne de texte depuis le clavier. 
+EXPLAIN: Non pas du tout car String = chaîne et pas caractère ! C'est readString() qui saisit une ligne.
+C) afficher un entier sur la console. 
+EXPLAIN: Pas du tout, c'est println() qui réalise un affiche sur la sortie standard.
+D) saisir un entier depuis le clavier. 
+EXPLAIN: Oui tout à fait, d'ailleurs cela se voit dans sa définition : int readInt().
+ANSWER: D
+
+Q: Quel sera le résultat de l'exécution de println(15 / 4 + 2) ?
+A) 5
+EXPLAIN: Oui car 15 / 4 donne 3 et on ajoute ensuite 2 (division prioritaire).
+B) 5.75
+EXPLAIN:  Non car c'sest une division entière et une addition donc le résultat est entier.
+C) 6
+EXPLAIN: Non, pour cela il aurait fallu 16 / 4 + 2.
+D) L'expression n'est pas valide et produit une erreur.
+EXPLAIN: Pas du tout, l'expression est valide.
+ANSWER: A
+
+Q: Juste après avoir edité le code source d'un programme Hello.java, quelle action faut-il avant de l'exécuter ?
+A) ijava execute Hello
+EXPLAIN : Non ! Il faut d'abord compiler un programme afin de pouvoir l'exécuter ...
+B) ijava test Hello
+EXPLAIN : Non ! Il faut d'abord compiler un programme afin de pouvoir le tester ...
+C) ijava init Hello
+EXPLAIN : Non : cette commande permet de créer le squelette à compléter ...
+D) ijava compile Hello
+EXPLAIN : Exact et si tout se passe bien, un fichier Hello.class est créé.
+ANSWER: D
+
+Q: Quelle est la différence entre print(String s) et println(String s) ?
+A) print() ajoute un retour à la ligne, println() non. 
+EXPLAIN: Dommage, c'est l'inverse :)
+B) println() ajoute un retour à la ligne, print() non. 
+EXPLAIN: Oui tout à fait, c'est la différence clé.
+C) Elles sont fonctionnellement identiques. 
+EXPLAIN: Ah non, si non cela serait embêtant d'avoir deux fonctions avec des noms différents ...
+D) println() est utilisée pour les nombres, print() pour les chaînes. 
+EXPLAIN: Argl, pas du tout, ces deux fonctionnent sur tous les types de base.
+ANSWER: B

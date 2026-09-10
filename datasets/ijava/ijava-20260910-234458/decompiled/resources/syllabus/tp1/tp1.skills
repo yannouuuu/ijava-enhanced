@@ -1,0 +1,17 @@
+QCM0_accord_usage_traces : [] | questions:1
+QCM1_ijava_commandes : [] | questions:6
+QCM2_ijava_program : [] | questions:6
+QCM3_types_variable : [] | questions:6
+HelloWorld : ['io-basic']
+JeuxDeType : ['io-basic', 'variable-declaration', 'io-conversion']
+QCM4_chaines : [] | questions:5
+JeuxDeMots : ['type', 'string-type', 'string-charAt', 'string-substring']
+Verlan : ['type', 'string-length', 'string-substring']
+Conversions : ['type', 'type-cast']
+CaractereSuivant : ['type', 'type-convert', 'char-ascii']
+MajMin : []
+RenduMonnaie : []
+ChiffreAuHasard : []
+LettreAuHasard : []
+De : []
+DeMultiface : []
