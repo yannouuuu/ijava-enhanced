@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MomentJournee - tp3</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Vous avez un moment ?</h1>
+        <p class="session-info">tp3 / MomentJournee.java</p>
+    </header>
+    <main>
+
+<p>Le programme <code>MomentJournee</code> indique si c’est la nuit, le matin, l’après midi ou la soirée, en fonction d’une heure reçue. On considère que le matin commence à 6h, l’après-midi commence à 12h, la soirée commence à 18h, et la nuit commence à 22h. Si l’heure donnée en paramètre n’est pas comprise dans l’intervalle [0, 23], la fonction affichera erreur.</p>
+<pre><code class="language-bash">~/ijava2/tp2&gt; ijava execute MomentJournee
+Saisir une heure: 3
+nuit
+~/ijava2/tp2&gt; ijava execute MomentJournee
+Saisir une heure: 12
+après-midi
+</code></pre>
+<p>Voici une série de valeurs avec lesquelles mettre à l’épreuve votre programme :</p>
+<table>
+  <tr><td>Saisie</td><td>Affichage</td></tr>
+  <tr><td>0</td><td>nuit</td></tr>
+  <tr><td>4</td><td>nuit</td></tr>
+  <tr><td>6</td><td>matinée</td></tr>
+  <tr><td>11</td><td>matinée</td></tr>
+  <tr><td>14</td><td>après-midi</td></tr>
+  <tr><td>19</td><td>soirée</td></tr>
+  <tr><td>23</td><td>nuit</td></tr>
+  <tr><td>24</td><td>erreur</td></tr>
+  <tr><td></td><td>erreur</td></tr>
+</table>
+
+    </main>
+</body>
+</html>
