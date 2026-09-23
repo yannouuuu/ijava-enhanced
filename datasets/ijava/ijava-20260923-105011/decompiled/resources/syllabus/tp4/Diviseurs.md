@@ -1,0 +1,37 @@
+# Diviseurs d'un nombre
+
+Votre enseignant de maths vous donne une feuille d'exercice où il faut calculer les diviseurs de différents nombres.
+
+Ne souhaitant pas vous fatiguer à calculer tout cela de tête, vous sortez votre portable pour créer le programme `Diviseurs` afin de faire le travail à votre place (car vous ne faîtes pas trop confiance à Claudio et Chatgepetto).
+
+Pour concevoir votre algorithme, vous commencez par écrire en commentaire dans votre programme la liste des diviseurs de 10, puis de 36. Juste après avoir fait cela, vous vous demandez comment vous avez procédé et écrivez à la suite dans votre commentaire le pseudo code (en français) des opérations qui se sont déroulées rapidement dans votre tête. Vous bloquez quelques instants pour comprendre quand vous avez compris qu'il était important d'arrêter cette série de calculs ...
+
+Après avoir bien réfléchi à tout cela, vous vous lancez dans la création de votre programme.
+
+```bash
+~ijava2/tp4> ijava execute Diviseurs
+9
+Diviseurs : 9 3 1.
+~ijava2/tp4> ijava execute Diviseurs
+10
+Diviseurs : 10 5 2 1.
+~ijava2/tp4> ijava execute Diviseurs
+2
+Diviseurs : 2 1.
+```
+
+<p class="flip" onclick="show()">Avez-vous la solution la plus simple ?</p>
+<div id="hint" style="display: none">
+  <p>Ce programme ne doit contenir qu'une boucle à compteur, une alternative et aucun connecteur logique. </p>
+</div>
+
+<script>
+function show() {
+  var x = document.getElementById("hint");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>

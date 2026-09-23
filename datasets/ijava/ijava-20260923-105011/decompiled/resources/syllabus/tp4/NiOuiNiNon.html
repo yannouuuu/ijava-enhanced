@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>NiOuiNiNon - tp4</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Ni oui, Ni non</h1>
+        <p class="session-info">tp4 / NiOuiNiNon.java</p>
+    </header>
+    <main>
+
+<p>::: question
+<strong>Connaissez-vous le jeu ni oui, ni non ?</strong></p>
+<ul>
+<li>[ ] oui
+<blockquote>
+<p>Ah c'est dommage car dans ce cas, vous avez perdu :p</p>
+</blockquote>
+</li>
+<li>[ ] non
+<blockquote>
+<p>Hé bien, il ne faut ni dire oui, ni dire non ... donc vous avez perdu !</p>
+</blockquote>
+</li>
+<li>[x] je crois
+<blockquote>
+<p>Effectivement, vous y avez déjà joué :^)
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Concevez le programme <code>NiOuiNiNon</code> en étant attentif à ce qu'il fonctionne aussi bien pour une réponse entièrement en lettre majuscules (OUI, NON) qu'en lettres minuscules (oui, non).</p>
+<pre><code class="language-bash">~ijava2/tp?&gt; ijava execute NiOuiNiNon
+hello
+zut
+oui
+Perdu !
+</code></pre>
+<p class="flip" onclick="show()">Avez-vous la solution la plus simple ?</p>
+<div id="hint" style="display: none">
+  <p>Ce programme ne doit contenir qu'une boucle à évènement (while) et trois connecteurs logiques. </p>
+</div>
+<script>
+function show() {
+  var x = document.getElementById("hint");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DiviseursParfait - tp4bis</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Diviseurs et nombre parfait</h1>
+        <p class="session-info">tp4bis / DiviseursParfait.java</p>
+    </header>
+    <main>
+
+<p>Après les exercices sur les diviseurs d'un nombre, un autre exercice donne la définition d'un nombre parfait.</p>
+<p>Un nombre <code>n</code> est dit parfait si la somme de ses diviseurs stricts (sans n!) vaut <code>2 × n</code>.</p>
+<p>Par exemple, <code>6</code> est un nombre parfait car <code>1 + 2 + 3 + 6 = 12 = 2 × 6</code>.</p>
+<p>En partant de votre programme <code>Diviseurs</code>, concevez le programme <code>DiviseursParfait</code> ajoutant juste l'affichage <code>Nombre parfait !</code> lorsque c'est le cas.</p>
+<pre><code class="language-bash">~ijava2/tp4bis&gt; ijava execute DiviseursParfait
+7
+Diviseurs : 7 1.
+~ijava2/tp4bis&gt; ijava execute DiviseursParfait
+6
+Diviseurs : 6 3 2 1.
+Nombre parfait !
+</code></pre>
+<p class="flip" onclick="show()">Avez-vous la solution la plus simple ?</p>
+<div id="hint" style="display: none">
+  <p>Ce programme ne doit contenir qu'une boucle à compteur et deux alternatives. </p>
+</div>
+<script>
+function show() {
+  var x = document.getElementById("hint");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+    </main>
+</body>
+</html>

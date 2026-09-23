@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SyracuseComplet - tp4</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Syracuse le retour</h1>
+        <p class="session-info">tp4 / SyracuseComplet.java</p>
+    </header>
+    <main>
+
+<p>Maintenant que l'on sait calculer la suite de Syracuse, nous allons nous intéresser à certaines propriétés.</p>
+<p>Reprenons l’exemple de l’entier <code>7</code> qui produit cette suite : <code>7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1</code></p>
+<p>Voici la définitions des différentes propriétés :</p>
+<ul>
+<li>la <strong>vol</strong> de 7 est la suite des nombres données ci-dessus (déjà fait !)</li>
+<li>on considère que chaque entier est une <strong>étape</strong> du vol</li>
+<li>l'<strong>altitude maximale</strong> est le plus grand nombre atteint (<code>52</code>)</li>
+<li>la <strong>durée du vol</strong> est le nombre d'étapes nécessaires avant l'apparition de <code>1</code></li>
+<li>la <strong>durée du vol en altitude</strong> est le nombre d'étapes entre le début du vol et le moment où le nombre courant passe en dessous de la valeur de départ (<code>11</code>)</li>
+<li>le <strong>facteur d'expansion</strong> est l'altitude maximale divisée par l'entier de départ (<code>52/7</code>)</li>
+</ul>
+<p>En vous basant sur ce que vous avez déjà réalisé pour <code>Syracuse</code>, ajoutez les variables et structures de contrôles suffisantes pour produire un affichage similaire à celui donné en exemple ci-dessous :</p>
+<pre><code class="language-bash">Entrez un nombre: 7
+Vol: 7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1.
+Altitude max: 52
+Durée de vol: 16
+Durée de vol en altitude: 11
+Facteur d'expansion: 7
+</code></pre>
+<p class="flip" onclick="show()">Avez-vous la solution la plus simple ?</p>
+<div id="hint" style="display: none">
+  <p>Ce programme ne doit contenir qu'une boucle à évènement et trois alternatives.</p>
+</div>
+<script>
+function show() {
+  var x = document.getElementById("hint");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+    </main>
+</body>
+</html>

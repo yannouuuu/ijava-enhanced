@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>FinalCountDown - tp4bis</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>The final countdown</h1>
+        <p class="session-info">tp4bis / FinalCountDown.java</p>
+    </header>
+    <main>
+
+<p>Sachant qu'il existe une fonction <code>long getTime()</code> qui retourne un entier long correspondant au nombre de millisecondes écoulées depuis le 1er janvier 1970, on vous demande de concevoir le programme <code>FinalCountDown</code> qui compte de 5 en 5 en partant de 1000 jusqu’à ce que 5 millisecondes se soient écoulées.</p>
+<p>Cette fonction <code>getTime</code> est généralement utilisée pour calculer des durées en prenant une mesure avant et après un traitement afin de déterminer sa durée d'exécution. Voici un exemple :</p>
+<pre><code class="language-java">   long debut = getTime();
+   // ... faire quelque chose ...
+   long fin = getTime();
+   long duree = fin - debut;    // → durée en millisecondes
+   println(&quot;Opération terminée en &quot; + duree + &quot; ms&quot;);
+</code></pre>
+<p>Le programme <code>FinalCountDown</code> devra produire un affichage similaire à cela :</p>
+<pre><code class="language-bash">~/ijava2/tp4bis&gt; ijava execute FinalCountDown
+1000 995 990 985 980 975 970 965 960 955 950 945 940 935 930 925 920 915 910 905 900 895 890 885 880 875 870 865 860 855 850 845 840 835 830 825 820 815 810 805 800 795 790 785 780 775 770 765 760 755 750 745 740 735 730 725 720 715 710 705 700 695 690 685 680 675 670 665 660 655 650 645 640 635 630 625 620 615 610 605 600 595 590 585 580 575 570 565 560 555 550 545 540 535      
+...
+</code></pre>
+<p>Lancez plusieurs fois votre programme ... que constatez-vous ?</p>
+<p>PS : Toute référence à <a href="https://fr.wikipedia.org/wiki/The_Final_Countdown_(chanson)">un très ancien tube du millénaire</a> précédent serait tout à fait fortuit :o)</p>
+
+    </main>
+</body>
+</html>

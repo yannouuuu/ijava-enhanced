@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HeureEuVersUs - tp3</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>À la bonne heure (française) !</h1>
+        <p class="session-info">tp3 / HeureEuVersUs.java</p>
+    </header>
+    <main>
+
+<p>Alors qu’en France l’heure de la journée est généralement affichée sur 24h, aux États-Unis, elle l’est sur 12h.</p>
+<p>En France, l’heure peut prendre une valeur entre 0 et 23.</p>
+<p>Aux États-Unis (mais pas seulement), l’heure prend une valeur entre 1 et 12 compris. Les heures avant midi sont représentées par l’heure, suivie de &quot;AM&quot;, sauf 0h qui s’écrait 12h00 AM. Les heures de l’après midi sont représentées par un nombre entre 1 et 12, suivi de &quot;PM&quot;.</p>
+<p>Écrivez le programme <code>HeuresEuVersUs</code> transformant une heure française (sur 24h) à la mode  américaine (sur 12h). On supposera dans tout cet exercice que l’heure et les minutes saisies sont toujours correctes (i.e. pas de nombres négatifs, pas de minutes &gt;= 60).</p>
+<pre><code class="language-bash">Saisir heures: 3
+Saisir minutes: 25
+3:25AM
+</code></pre>
+<p>Voici une série de valeurs pour vérifier votre programme :</p>
+<table>
+  <tr><td>Saisie</td><td>Affichage</td></tr>
+  <tr><td>5 20</td><td>5:20AM</td></tr>
+  <tr><td>17 20 </td><td>5:20PM</td></tr>
+  <tr><td>20 49</td><td>10:49PM</td></tr>
+  <tr><td> 0 10</td><td>12:10AM</td></tr>
+  <tr><td>12 10</td><td>12:10PM</td></tr>
+</table>
+
+    </main>
+</body>
+</html>
