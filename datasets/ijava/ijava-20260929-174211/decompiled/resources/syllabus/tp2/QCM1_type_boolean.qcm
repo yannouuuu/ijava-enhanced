@@ -1,0 +1,56 @@
+TITLE: Type booléen et expressions booléennes
+
+Q: En ijava, comment s'écrit le type booléen ?
+A) booléen
+EXPLAIN: Incorrect : en (i)java tous les mots-clés du langage sont en anglais !
+B) boolean
+EXPLAIN: Tout à fait, bien joué.
+C) Boolean
+EXPLAIN: Presque, mais seul le type String a la particulité de la majuscule, tous les autres types sont entièrement en minuscules.
+D) binary
+EXPLAIN: Incorrect : même si il n'y a aussi que deux états pour ce type de donnée.
+ANSWER: B
+
+Q: Le type booléen permet de représenter le résultat d'une ...
+A) possibilité
+EXPLAIN: Hum, pas du tout !
+B) alternative
+EXPLAIN: Ah, ce n'est pas le même concept, l'alternative est la structure de contrôle if ...
+C) condition
+EXPLAIN: Bien joué, on utilise souvent ce terme qui est équivalent à "expression booléenne".
+D) vérification
+EXPLAIN: Certes on vérifie l'état des variables, mais ce n'est pas ce terme qui est utilisé.
+ANSWER: C
+
+Q: En ijava, quelles sont les deux seules valeurs d'un booléen ?
+A) 0 / 1
+EXPLAIN: Incorrect : d'autres langages permettrait cela, mais 0 ou 1 en Java, ce sont des entiers, donc de type int.
+B) TRUE / FALSE
+EXPLAIN: Dommage, mais ce n'est pas le choix des créateurs/trices de Java ... même si cela aurait été un choix pertinent vu que ce sont des constantes !
+C) True / False
+EXPLAIN: Incorrect : Java n'est pas python ;)
+D) true / false
+EXPLAIN: Effectivement, même si cela va à l'encontre de la convention de nommage des constantes en Java avec toutes les lettres en majuscules ...
+ANSWER: D
+
+Q: L'opérateur ! correspond à ... ?
+A) la négation
+EXPLAIN: Bravo, c'est tout à fait cela.
+B) l'inversion
+EXPLAIN: Incorrect : même si conceptuellement on peut voir cela comme "inverser" la valeur, ce n'est pas le non de cet opérateur.
+C) la contradiction
+EXPLAIN: Incorrect. Et l'on cherche à éviter les contradictions dans un système logique ;)
+D) la négativité
+EXPLAIN: Pas loin ... mais c'est un trait de caractère à éviter :o)
+ANSWER: A
+
+Q: En supposant que age vaut 18, à quelle valeur s'évalue l'expression : (age >= 18) en ijava ?
+A) vrai
+EXPLAIN: Non : certes cette condition est vérifiée, mais en ijava, pas de français !
+B) erreur à l'exécution
+EXPLAIN: Incorrect : age est un entier, on compare donc deux entiers, il n'y a aucune erreur de syntaxe ou de sémantique.
+C) true
+EXPLAIN: Bravo, c'est effectivement cela.
+D) false
+EXPLAIN: age = 18, donc (18 >= 18) est bien une condition vérifiée.
+ANSWER: C

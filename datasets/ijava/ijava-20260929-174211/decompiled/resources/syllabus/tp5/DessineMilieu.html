@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DessineMilieu - tp5</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Dessinons un caractère au milieu d'une ligne</h1>
+        <p class="session-info">tp5 / DessineMilieu.java</p>
+    </header>
+    <main>
+
+<p>Maintenant que l'on dispose d'une fonction (dessineLigne) pour dessiner un caractère donné un certain nombre de fois, on souhaiterai disposer d'une autre fonction pour dessiner un caractère au milieu d'une ligne d'une taille donnée.</p>
+<p>::: question
+<strong>Est-ce que dessineLigne pourrait nous servir pour dessineMilieu ?</strong></p>
+<ul>
+<li>[x] Oui !
+<blockquote>
+<p>Effectivement cela serait judicieux :)</p>
+</blockquote>
+</li>
+<li>[ ] Non !
+<blockquote>
+<p>Techniquement, on peut s'en passer, mais vu qu'elle existe, autant la réutiliser ...</p>
+</blockquote>
+</li>
+<li>[ ] Difficile à dire ...
+<blockquote>
+<p>Certes, mais si l'on étudie le traitement à réaliser, on se rend compte qu'il faut afficher quelques espaces avant le caractère placé au milieu en fonction de la taille ... pourquoi ne pas utiliser dessineLigne pour cela ?!
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Voici quelques exemples d'appels à la fonction <code>dessineMilieu</code> et de l'affichage produit</p>
+<pre><code class="language-java">dessineMilieu('a', 5) affichera &quot;  a  &quot;
+dessineMilieu('i', 4) affichera &quot;  i &quot; (compliqué le &quot;vrai&quot; milieu avec les tailles paires ...)
+dessineMilieu('%', 0) affichera &quot;&quot; (rien ... mais il ne doit pas y avoir d'erreur)
+</code></pre>
+<p>Complétez le squelette fourni en <strong>NE MODIFIANT PAS ALGORITHM</strong> et en recopiant le code de <code>dessineLigne</code> de l'exercice précédent.</p>
+
+    </main>
+</body>
+</html>

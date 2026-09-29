@@ -1,0 +1,56 @@
+TITLE: Type String et fonctions associées
+
+Q: Quel est le résultat de l'exécution de println(15 / length("papa") + 2) ?
+A) 5.75
+EXPLAIN:  Non car c'est une division entière et une addition donc le résultat est entier.
+B) 5
+EXPLAIN: Oui car 15 / 4 donne 3 et on ajoute ensuite 2 (division prioritaire).
+C) 6
+EXPLAIN: Non, pour cela il aurait fallu 16 / 4 + 2.
+D) L'expression n'est pas valide et produit une erreur.
+EXPLAIN: Pas du tout, l'expression est valide.
+ANSWER: B
+
+Q: Que retourne charAt("Java", 2) ?
+A) 'J' 
+EXPLAIN: Non : il aurait fallu passer 0 comme indice pour avoir 'J'.
+B) 'a' 
+EXPLAIN: Non : il aurait fallu passer 1 ou 3 comme indice pour avoir 'a'.
+C) 'v' 
+EXPLAIN: Tout à fait, car la première lettre a pour indice 0.
+D) L'expression n'est pas valide et produit une erreur. 
+EXPLAIN: Si elle est valide, l'index est dans la chaîne. Si il valait 0 ou 7, là il y aurait eu une erreur.
+ANSWER: C
+
+Q: Quel est le résultat de substring("exemple", 0, 3) ?
+A) ple 
+EXPLAIN: Non car 0 correspond à l'indice de début et 3 à celui de fin exclus.
+B) ex 
+EXPLAIN: Non : pour obtenir ce résultat il aurait fallu donner les indices 0 et 2.
+C) exe 
+EXPLAIN: Correct ! On copie les caractères depuis l'indice 0 jusqu'à l'indice 3 exclus.
+D) exam 
+EXPLAIN: Non : pour obtenir ce résultat il aurait fallu donner les indices 0 et 4.
+ANSWER: C
+
+Q: Quel est le résultat de equals("test", "Test") ?
+A) true 
+EXPLAIN: Ah non : pour être égales deux chaînes doivent avoir exactement les mêmes caractères (et dans le même ordre) !
+B) false 
+EXPLAIN: Tout à fait : les chaînes ne sont pas identiques à cause de leur premier caractère.
+C) L'expression n'est pas valide et produit une erreur.  
+EXPLAIN: Non, non, cette expression est valide.
+D) null 
+EXPLAIN:  Non car equals retourne un booléen.
+ANSWER: B
+
+Q: Que retourne equals("abc" "abc") ?
+A) false 
+EXPLAIN: Non car il y a une erreur de syntaxe ...
+B) true 
+EXPLAIN: Non car il y a une erreur de syntaxe ... mais sans cela cela aurait effectivement retourné true ;)
+C) null 
+EXPLAIN: Non car equals renvoie un booléen ... mais il y a de toute façon une erreur de syntaxe.
+D) Une erreur 
+EXPLAIN: Effectivement ! Il manque la virgule pour séparer les deux arguments : equals("abc", "abc").
+ANSWER: D

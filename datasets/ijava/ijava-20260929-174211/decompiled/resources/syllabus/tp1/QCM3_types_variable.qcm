@@ -1,0 +1,65 @@
+TITLE: Notions de type, variable et affectation
+
+Q: Quelle instruction déclare une variable entière nommée age et l'initialise à 30 ?
+A) age = 30; 
+EXPLAIN:  age n'est pas déclarée, juste affecté !
+B) int age = 30; 
+EXPLAIN:  Déclaration et initialisation correctes : le type, le nom et la valeur.
+C) int age; age = 30; 
+EXPLAIN:  Presque, mais là, il y séparation entre l'étape de déclaration et ensuite une affectation.
+D) var age = 30; 
+EXPLAIN:  Correct en Java 10+ ... mais nécessite une inférence de type : nous ne ferons pas cela au S1 !
+ANSWER: B
+
+Q: Quel type de données utiliseriez-vous pour représenter une seule lettre ?
+A) String 
+EXPLAIN:  Ce type est pertinent pour représenter plusieurs lettres ...
+B) int 
+EXPLAIN:  int = integer, on l'utilise pour représenter des nombres entiers.
+C) char 
+EXPLAIN:  Effectivement, le type char permet de représenter un seul caractère.
+D) boolean 
+EXPLAIN:  boolean = booléen, on l'utilise pour reprénter des valeurs vrai (true) ou fausse (false).
+ANSWER: C
+
+Q: Quel est le type de données du résultat de length("Bonjour") ?
+A) String 
+EXPLAIN: length() retourne un nombre pas une chaîne de caractères.
+B) char 
+EXPLAIN: char représente un caractère unique et non un nombre.
+C) int 
+EXPLAIN: effectivement car length() retourne la longueur de la chaîne, donc un entier.
+D) boolean 
+EXPLAIN:  boolean représente vrai/faux et non un nombre
+ANSWER: C
+
+Q: Laquelle de ces proposition est un nom de variable valide ?
+A) maVariable 
+EXPLAIN: Tout à fait, est le nommage respecte la convention Java (Camel case).
+B) 42variable 
+EXPLAIN: Non car un identificateur ne peux commencer par un nombre.
+C) $variable 
+EXPLAIN: Non car un identificateur ne peux commencer par un caractère spécial (si ce n'est _).
+D) ma-variable 
+EXPLAIN: Non car les tirets '-' ne sont pas autorisés, contrairement au '_' (underscore).
+ANSWER: A
+
+Q: Quel est le résultat de "Bonjour" + " le monde" ?
+A) "Bonjour" + " le monde" 
+EXPLAIN: Non, l'expression est évaluée et produit une nouvelle chaîne !
+B) "Bonjour le monde" 
+EXPLAIN:  Oui c'est une nouvelle chaîne construite par concaténation de deux autres chaînes.
+C) "Bonjourle monde"
+EXPLAIN: Attention : il y a un espace avant 'le' dans la seconde chaîne ...
+D) L'expression n'est pas valide et produit une erreur. 
+EXPLAIN: Ah non, aucune erreur ici, l'expression est valide.
+ANSWER: B
+
+Q: Quelle expression teste l'égalité entre deux nombres entiers x et y ?
+A) x == y 
+EXPLAIN: Correct, l'opérateur d'égalité pour les types primitifs.
+B) x = y 
+EXPLAIN: Aïe ! ATTENTION : un seul '=' correspond à l'affectation, ce n'est pas un opérateur de comparaison !
+C) equals(x, y) 
+EXPLAIN: ATTENTION : equals() n'est valide que pour les chaînes de caractères (String) et pas les autres types.
+ANSWER: A

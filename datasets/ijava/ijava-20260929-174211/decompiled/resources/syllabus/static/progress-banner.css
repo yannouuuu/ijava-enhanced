@@ -1,0 +1,204 @@
+/* Progress Banner Styles */
+
+#progress-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  background: #000000;
+  color: white;
+  padding: 12px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  width: 100vw;
+}
+
+/* Push body content down to account for fixed banner */
+body {
+  padding-top: 120px !important;
+}
+
+#progress-banner .banner-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 20px;
+  max-width: 100%;
+}
+
+#progress-banner .sessions-overview {
+  display: flex;
+  gap: 4px;
+  font-size: 12px;
+  padding: 6px 0;
+  width: 100%;
+  overflow-x: auto;
+}
+
+#progress-banner .session-badge {
+  padding: 6px 4px;
+  border-radius: 3px;
+  transition: all 0.2s;
+  text-align: center;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  color: white !important;
+  /* Background color will be set via inline style based on 4-color scheme */
+}
+
+#progress-banner .session-badge .session-num {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+#progress-banner .session-badge .session-percent {
+  font-size: 10px;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+#progress-banner .session-badge.current {
+  box-shadow: 0 0 0 3px #fbbf24, 0 0 10px #fbbf24;
+  transform: scale(1.1);
+  z-index: 10;
+  color: black !important;
+}
+
+#progress-banner .session-badge:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+
+#progress-banner .progress-info {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+
+
+#progress-banner .segmented-progress {
+  display: flex;
+  width: 100%;
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  gap: 2px;
+}
+
+#progress-banner .progress-segment {
+  flex: 1;
+  position: relative;
+  transition: all 0.2s ease;
+  cursor: help;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+  font-size: 11px;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Top half: Status area (completion status) */
+#progress-banner .progress-segment .status-half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 2px;
+  width: 100%;
+}
+
+/* Bottom half: Time intensity area */
+#progress-banner .progress-segment .time-half {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 2px;
+  width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#progress-banner .progress-segment .exercise-name-short {
+  font-weight: 600;
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 2px;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+#progress-banner .progress-segment .exercise-score {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+}
+
+#progress-banner .progress-segment .exercise-time {
+  font-size: 9px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* Top half colors based on completion status */
+#progress-banner .progress-segment.completed .status-half {
+  background: #4ade80;
+}
+
+#progress-banner .progress-segment.in-progress .status-half {
+  background: #fbbf24;
+}
+
+#progress-banner .progress-segment.not-started .status-half {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Bottom half colors based on time intensity */
+/* Light blue for short time (0-5 min) */
+#progress-banner .progress-segment.time-minimal .time-half {
+  background: #bfdbfe;
+}
+
+/* Blue for medium time (5-10 min) */
+#progress-banner .progress-segment.time-short .time-half {
+  background: #60a5fa;
+}
+
+/* Orange for long time (10-20 min) */
+#progress-banner .progress-segment.time-medium .time-half {
+  background: #fb923c;
+}
+
+/* Red for very long time (20+ min) */
+#progress-banner .progress-segment.time-long .time-half {
+  background: #ef4444;
+}
+
+/* Dark red for extremely long time (30+ min) */
+#progress-banner .progress-segment.time-extreme .time-half {
+  background: #991b1b;
+  color: white;
+}
+
+#progress-banner .progress-segment.time-extreme .exercise-time {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+#progress-banner .progress-segment:hover {
+  filter: brightness(1.2);
+  z-index: 1;
+}
+

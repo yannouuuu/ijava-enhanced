@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bissextile - tp5</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Les années bissextiles ...</h1>
+        <p class="session-info">tp5 / Bissextile.java</p>
+    </header>
+    <main>
+
+<p>Pour déterminer si une année est bissextile, il faut appliquer les règles suivantes :
+— Les années divisibles par 4 sont bissextiles,
+— Exception : les années divisibles par 100 ne sont pas bissextiles,
+— Exception à l’exception : les années divisibles par 400 sont bissextiles.
+— Sauf application des règles ci-dessus, toute autre année n’est pas bissextile.</p>
+<p>Il est possible de représenter graphiquement ces contraintes avec en bleu les zones pour lesquelles une année est
+bissextile et en blanc pour celles qui ne le sont pas:</p>
+<p><img style="center" src="SchemaBissextile.png"></img></p>
+<p>Concevez le programme <code>Bissextile</code> définissant la fonction booléenne <code>boolean estBissextile(int annee)</code>, qui détermine si une année donnée est bissextile (ou pas).</p>
+<p>Pour vérifier le bon fonctionnement de votre fonction, ajoutez la fonction <code>algorithm()</code> afin d'afficher les 33 dernières années bissextiles en partant de 2022. Vous devriez obtenir l’affichage suivant :</p>
+<pre><code class="language-bash">2020 2016 2012 2008 2004 2000 1996 1992 1988 1984 1980 1976 1972 1968 1964 1960 1956 1952 1948 1944 1940 1936 1932 1928 1924 1920 1916 1912 1908 1904 1896 1892 1888
+</code></pre>
+<p><strong>Ce qui est proposé ensuite est optionnel</strong></p>
+<p>Implémentez quatre résolutions différentes de la fonction précédente en respectant les contraintes suivantes :</p>
+<ol>
+<li>avec quatre alternatives indépendantes (<code>estBissextile1</code>),</li>
+<li>avec une seule alternative constituée d’une expression conditionnelle complexe (<code>estBissextile2</code>),</li>
+<li>avec une cascade de si alors sinon en allant des conditions les plus spécifiques au plus générales (<code>estBissextile3</code>),</li>
+<li>avec une cascade de si alors sinon en allant des conditions les plus générales au plus spécifiques (<code>estBissextile4</code>).</li>
+</ol>
+
+    </main>
+</body>
+</html>
