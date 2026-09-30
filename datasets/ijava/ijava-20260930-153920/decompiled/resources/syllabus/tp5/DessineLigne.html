@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DessineLigne - tp5</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Dessinons une ligne</h1>
+        <p class="session-info">tp5 / DessineLigne.java</p>
+    </header>
+    <main>
+
+<p>On souhaite créer des dessins (simples) en mode texte. Comme ces dessins contiennent souvent des lignes, on se dit que créer une fonction pour afficher facilement une ligne avec un certain caractère et la taille de la ligne serait plutôt pratique.</p>
+<p>::: question
+<strong>Quelle pourrait être la signature de cette fonction ?</strong></p>
+<ul>
+<li>[ ] int dessineLigne(char symbole)
+<blockquote>
+<p>Non, non : il faut effectivement avoir le caractère en paramètre, mais aussi l'entier représentant le nombre de symboles à afficher. Le type int placé à cet endroit signifie que la fonction calcule un résultat entier, ce qui n'est pas le cas.</p>
+</blockquote>
+</li>
+<li>[ ] String dessineLigne(char symbole, int taille)
+<blockquote>
+<p>Ah, ce n'est pas ce qui est demandé ! Plus tard, on utilisera plutôt cette technique : fabriquer une chaîne plutôt que réaliser un affichage. Donc minute papillon et soyez attentifs aux consignes !</p>
+</blockquote>
+</li>
+<li>[x] void dessineLigne(char symbole, int taille)
+<blockquote>
+<p>Exactement ! Cette fonction a besoin du caractère et de l'entier pour réaliser son calcul, mais elle ne produit pas de résultat exploitable ensuite ... elle se contente de changer la couleur de certains pixels à l'écran !</p>
+</blockquote>
+</li>
+<li>[ ] int char dessineLigne()
+<blockquote>
+<p>Hum, étrange syntaxe ou les données nécessaires semblent placer avant le nom de la fonction :( Il faut apprendre le cours ...
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Voici quelques exemples d'appels à la fonction <code>dessineLigne</code> et de l'affichage produit</p>
+<pre><code class="language-java">dessineLigne('a', 4) affichera &quot;aaaa&quot;
+dessineLigne(' ', 5) affichera &quot;     &quot; (donc rien de visible pour un humain !)
+dessineLigne('%', 0) affichera &quot;&quot; (rien de nouveau, aucune erreur ne doit arriver)
+</code></pre>
+<p>Complétez le squelette fourni en <strong>NE MODIFIANT PAS ALGORITHM</strong> !</p>
+<p><strong>ATTENTION :</strong> pour une fois, on ne souhaite pas un retour à la ligne après avoir dessiné les caractères.</p>
+<p class="flip" onclick="show()">(Après avoir fini tous les exercices, CLIQUEZ ICI !)<br/>Avez-vous la solution la plus simple ?</p>
+<div id="hint2" style="display: none">
+  <p>Le corps de la fonction ne doit pas faire plus de trois lignes .... </p>
+</div>
+<script>
+function show() {
+  var x = document.getElementById("hint2");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+    </main>
+</body>
+</html>
