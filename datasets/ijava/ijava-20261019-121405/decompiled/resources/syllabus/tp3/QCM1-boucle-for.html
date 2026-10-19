@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>QCM1-boucle-for - tp3</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Répétitions à compteur : for</h1>
+        <p class="session-info">tp3 / QCM1-boucle-for.java</p>
+    </header>
+    <main>
+
+<p>::: question
+<strong>Quelle est la syntaxe correcte d'une boucle for de base en Java ?</strong></p>
+<ul>
+<li>[x] for (initialisation; condition; accumulation) { }
+<blockquote>
+<p>Parfait : trois expressions, l'initialisation exécutée une seule fois, la condition en début de chaque tour de boucle et à l'inverse l'accumulation en fin de chaque tour de boucle</p>
+</blockquote>
+</li>
+<li>[ ] for [initialisation; condition; incrémentation] { }
+<blockquote>
+<p>Ah non, les étapes importantes sont entourées de parenthèses, pas d'accolades ! Ces dernières sont réservées aux blocs d'instructions.</p>
+</blockquote>
+</li>
+<li>[ ] for (condition) { }
+<blockquote>
+<p>Heu, c'est un peu court ... ceci correspondra à un autre type de boucle ;)</p>
+</blockquote>
+</li>
+<li>[ ] for (initialisation, condition, incrémentation) { }
+<blockquote>
+<p>Attention : ce qui sépare vos expressions ce ne sont pas des virgules, mais des points-virgules (car chaque expression correspond à une instruction).
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Que va afficher le code suivant : for (int i = 0; i &lt; 5; i=i+1) { print(i + &quot; &quot;); }</strong></p>
+<ul>
+<li>[ ] 1 2 3 4 5
+<blockquote>
+<p>Le compteur étant initialisé à 0, sa première valeur sera donc 0 ...</p>
+</blockquote>
+</li>
+<li>[ ] 0 1 2 3 4 5
+<blockquote>
+<p>Attention : la condition indique que le compteur doit être <em>strictement</em> inférieur à 5, du coup, lorsque i vaudra 5, la condition sera fausse le l'on sortira de la boucle. Le 5 ne sera donc pas affiché</p>
+</blockquote>
+</li>
+<li>[x] 0 1 2 3 4
+<blockquote>
+<p>Exactement, on part de 0 inclus à 5 exclus :)</p>
+</blockquote>
+</li>
+<li>[ ] 1 2 3 4
+<blockquote>
+<p>Aïe, aïe, aïe ... inattention : on initialise le compteur à 0, pas à 1 !
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quelle est la valeur de i à la fin de cette boucle ? for (int i = 10; i &gt; 0; i=i-1) { }</strong></p>
+<ul>
+<li>[ ] -1
+<blockquote>
+<p>Nop, la condition indique que 0 est exclus, donc impossible d'atteindre -1.</p>
+</blockquote>
+</li>
+<li>[ ] 10
+<blockquote>
+<p>Heu ... le compteur est initialisé à 10 et décrémenté à chaque tour de boucle. Comme 10 &gt; 0, on fait au moins un tour et le compteur passe donc à 9.</p>
+</blockquote>
+</li>
+<li>[ ] 1
+<blockquote>
+<p>Si i vaut 1 et que la condition i &gt; 0 est évaluée, elle vaudra vrai. On fera donc un nouveau tour de boucle et l'on décrémentera une fois le compteur l'amenant à 0 !</p>
+</blockquote>
+</li>
+<li>[x] 0
+<blockquote>
+<p>Parfaitement : le dernier tour de boucle i vaut 1, la condition est validée et à la fin de ce tour, i est décrémenté et tombe à 0, du coup, la condition est fausse et l'on sort de la boucle.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Que fait cette boucle : for (int i = 0; i &lt; 10; i = i + 2) {print(i + &quot; &quot;); }</strong></p>
+<ul>
+<li>[ ] Affiche tous les nombres de 0 à 10
+<blockquote>
+<p>Attention : la mise à jour du compteur est effectué par pas de 2 et pas 1 !</p>
+</blockquote>
+</li>
+<li>[x] Affiche les nombres pairs de 0 à 8
+<blockquote>
+<p>Tout à fait : on part de 0, et on incrémente de deux en deux, donc : 0, 2, 4, 6 et 8 (car 10 est exclus !)</p>
+</blockquote>
+</li>
+<li>[ ] Affiche les nombres impairs de 0 à 9
+<blockquote>
+<p>Perdu : dès le premier tour de boucle 0 s'affiche (et 0 n'est pas impair).</p>
+</blockquote>
+</li>
+<li>[ ] Affiche les nombres pairs de 0 à 10
+<blockquote>
+<p>Presque ... mais attention la condition est i &lt; 10, donc lorsque i vaut 10, la condition sera fausse, on sort donc de la boucle et impossible d'afficher 10.
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>
