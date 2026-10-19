@@ -1,0 +1,45 @@
+TITLE: Notion d'assertion
+
+Q: Qu'est-ce qu'une assertion en programmation ?
+A) Un moyen d'affirmer quelque chose de vrai dans le code.
+EXPLAIN: Exactement, une assertion vérifie qu'une condition est vraie à un certain moment, ce qui aide à déboguer le programme.
+B) Une condition.
+EXPLAIN: Non, bien qu'une assertion puisse ressembler à une condition, elle n'est pas utilisée pour contrôler le flux du programme.
+C) Un type de boucle.
+EXPLAIN: Non, non, non, une assertion n'est pas utilisée pour itérer mais pour vérifier qu'une situation est vérifié et produit une erreur sinon.
+D) Un moyen de documenter le code.
+EXPLAIN: C'est vrai, la documentation est importante, mais une assertion n'est pas principalement utilisée à cette fin.
+ANSWER: A
+
+Q: Quelle est la syntaxe correcte pour utiliser assertEquals en Java ?
+A) assertEqual(expected, actual);
+EXPLAIN: Incorrect, la méthode est assertEquals, avec un "s" à la fin.
+B) equalsAssert(expected, actual);
+EXPLAIN: Aïe, la fonction  utilisée pour les assertions s’appelle assertEquals, et non equalsAssert.
+C) assertEquals(expected, actual);
+EXPLAIN: Exact, c'est la syntaxe correcte pour comparer deux valeurs en utilisant assertEquals.
+D) assertEquals(actual, expected);
+EXPLAIN: Bien que cela soit syntaxiquement valide, l'ordre des paramètres n'est pas bon : il faut d'abord donner la valeur attendue et ensuite celle qui est calculée par la fonction testée.
+ANSWER: C
+
+Q: Quel type de valeur assertEquals peut-il comparer ?
+A) Seulement des entiers.
+EXPLAIN: Non, assertEquals peut comparer différents types de valeurs, pas seulement des entiers.
+B) Tous les types.
+EXPLAIN: C'est vrai, assertEquals peut être utilisé pour comparer divers types.
+C) Uniquement des chaînes de caractères.
+EXPLAIN: Faux, bien qu'il soit souvent utilisé pour les chaînes, il peut également comparer d'autres types.
+D) Uniquement des types primitifs (int, double, char, boolean ...).
+EXPLAIN: Ce n'est pas correct, assertEquals peut aussi être utilisé avec des chaînes de caractères (String).
+ANSWER: B
+
+Q: Qu'est-ce qu'une fonction de test ?
+A) Une fonction dont le nom débute par test.
+EXPLAIN: Presque, mais si l'on fait uniquement cela, ce n'est pas une fonction de test tant qu'elle ne contient pas d'assertion.
+B) Une fonction contenant des assertions.
+EXPLAIN: Presque, mais si l'on fait uniquement cela et que le nom de la fonction ne débute pas par test, cette fonction ne sera jamais appelé automatiquement lorsque l'on utilise la commande test !
+C) Une fonction contenant des alternatives.
+EXPLAIN: Alors là, aucun rapport, désolé !
+D) Une fonction dont le nom débute par test et contenant des assertions.
+EXPLAIN: Exactement, il faut que ces deux éléments soient présents pour avoir une fonction de test :)
+ANSWER: D

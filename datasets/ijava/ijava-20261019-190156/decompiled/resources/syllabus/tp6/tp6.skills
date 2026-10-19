@@ -1,0 +1,11 @@
+QCM1_fonctions_bases : [] | questions:6
+QCM2_assertions : [] | questions:4
+MasqueChaine : [] | student_tests:1,prof_tests:0
+Cercle : []
+TestBissextile : [] | student_tests:2,prof_tests:0
+Plein : []
+Creux : []
+Dessins : []
+Decompte : [] | student_tests:3,prof_tests:0
+SousChaines : []
+Remplacer : [] | student_tests:1,prof_tests:0

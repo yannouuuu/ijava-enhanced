@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>QCM2_fonctions_usage - tp5</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Usages sur les fonctions</h1>
+        <p class="session-info">tp5 / QCM2_fonctions_usage.java</p>
+    </header>
+    <main>
+
+<p>::: question
+<strong>Quelle syntaxe est correcte pour appeler la fonction  void afficherMenu() ?</strong></p>
+<ul>
+<li>[ ] afficherMenu;
+<blockquote>
+<p>Non, il manque les parenthèses. Même lorsque la fonction n'a pas de paramètre c'est obligatoire !</p>
+</blockquote>
+</li>
+<li>[x] afficherMenu();
+<blockquote>
+<p>Correct, cette syntaxe appelle la fonction afficherMenu.</p>
+</blockquote>
+</li>
+<li>[ ] void afficherMenu()
+<blockquote>
+<p>Non, ceci correspond à sa signature, c'est-à-dire à sa définition !</p>
+</blockquote>
+</li>
+<li>[ ] println(afficherMenu());
+<blockquote>
+<p>ATTENTION : afficherMenu indique un résultat de type void, c'est-à-dire vide, dit autrement cette fonction ne calcule pas de résultat. Impossible de l'appeler au sein de println qui a besoin d'une valeur à afficher.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quelle est la portée des variables définies à l'intérieur d'une fonction ?</strong></p>
+<ul>
+<li>[ ] Elles sont accessibles dans tout le programme.
+<blockquote>
+<p>Non, leur portée est limitée à la fonction elle-même.</p>
+</blockquote>
+</li>
+<li>[x] Elles sont accessibles uniquement dans la fonction où elles sont déclarées.
+<blockquote>
+<p>Effectivement, on dit qu'elles sont locales à la fonction.</p>
+</blockquote>
+</li>
+<li>[ ] Elles sont accessibles uniquement à partir d'autres fonctions.
+<blockquote>
+<p>Non, il est impossible d'accéder à une variable définit dans une autre fonction.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Que se passe-t-il si une fonction a une déclaration de type de retour, mais n'inclut pas d'instruction return ?</strong></p>
+<ul>
+<li>[ ] Le programme compile normalement.
+<blockquote>
+<p>Non, cela engendrera une erreur de compilation.</p>
+</blockquote>
+</li>
+<li>[ ] La fonction retournera null.
+<blockquote>
+<p>Non, cela engendrera une erreur de compilation.</p>
+</blockquote>
+</li>
+<li>[x] La fonction ne compilera pas.
+<blockquote>
+<p>Correct, il est nécessaire d'avoir une instruction return si le type de retour n'est pas void.</p>
+</blockquote>
+</li>
+<li>[ ] La fonction retournera une valeur par défaut.
+<blockquote>
+<p>Non, cela engendrera une erreur de compilation. (i)Java n'a pas ce type de facilité (source de nombreux bugs) où la dernière instruction évaluée correspond au résultat.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quelle est la manière correcte de définir une procédure qui retourne un entier ?</strong></p>
+<ul>
+<li>[x] int maFonction() { ... }
+<blockquote>
+<p>Correct, cette déclaration est valide : pas de paramètre et un type de retour entier.</p>
+</blockquote>
+</li>
+<li>[ ] void maFonction() { ... }
+<blockquote>
+<p>Non, cette fonction est définie pour ne pas retourner de valeur car le type de retour indiqué est void !</p>
+</blockquote>
+</li>
+<li>[ ] int maFonction { ... }
+<blockquote>
+<p>Syntaxe incorrecte ! Même lorsqu'il n'y a pas de paramètre, il faut le signaler explicitement avec des parenthèses n'en contenant aucun.</p>
+</blockquote>
+</li>
+<li>[ ] maFonction(int) { ... }
+<blockquote>
+<p>Syntaxe incorrecte et erreur de raisonnement : d'abord il manque le type de retour et l'entier entre les parenthèses indique que la procédure nécessite un entier pour réaliser son calcul (et ce n'est pas ce qui est demandé).
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>

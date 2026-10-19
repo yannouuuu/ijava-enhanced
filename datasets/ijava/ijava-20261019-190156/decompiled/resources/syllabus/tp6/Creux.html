@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Creux - tp6</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Dessinons un triangle creux</h1>
+        <p class="session-info">tp6 / Creux.java</p>
+    </header>
+    <main>
+
+<p>On souhaite dessiner des triangles creux en fonction d'une <code>taille</code> et d'un <code>caractere</code> tous deux saisis auprès de l'utilisateur ou l'utilisatrice.</p>
+<p>Voici un exemple d'exécution du programme <code>Creux</code>.</p>
+<pre><code class="language-java">Taille : 5
+Caractere : o
+o
+oo
+o o
+o  o
+ooooo
+</code></pre>
+<p>Définissez la fonction <code>void algorithm()</code> produisant une sortie similaire (bien sûr dépendante de la <code>taille</code> et du <code>caractere</code> ...).</p>
+<p><strong>ATTENTION : IL NE FAUT DESSINER QUE LES CARACTÈRES NÉCESSAIRES POUR LE DESSIN !</strong></p>
+<p class="flip" onclick="show()">(Après avoir fini tous les exercices, CLIQUEZ ICI !)<br/>Avez-vous la solution la plus simple ?</p>
+<div id="hint2" style="display: none">
+  <p>Avez-vous bien 2 boucles imbriquées et une troisième ensuite ?</p>
+</div>
+<script>
+function show() {
+  var x = document.getElementById("hint2");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+    </main>
+</body>
+</html>

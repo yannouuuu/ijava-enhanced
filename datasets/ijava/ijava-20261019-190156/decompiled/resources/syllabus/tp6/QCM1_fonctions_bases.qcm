@@ -1,0 +1,67 @@
+TITLE: Notion de fonction
+
+Q: Une fonction permet de ...
+A) d'enrichir le langage en lui ajoutant une nouvelle fonctionnalité
+EXPLAIN: Tout à fait, c'est ce qui permet de modéliser le problème que l'on traite et donner du sens aux algorithmes.
+B) d'exprimer des calculs mathématiques
+EXPLAIN: Alors en mathématiques oui, mais là en informatique, ce n'est pas ce qui est le plus utile (même si c'est bien sûr possible)
+C) disposer de nouvelles responsabilités
+EXPLAIN: Certes, si l'on parle d'une fonction politique, mais la notion de responsabilité aura un autre sens en informatique.
+D) déplacer du code ailleurs
+EXPLAIN: D'une certaine manière oui, mais ce n'est pas la réponse la plus précise parmi celles proposées.
+ANSWER: A
+
+Q: Quel est le type de retour de : `int présent(String texte, char lettre)`
+A) texte
+EXPLAIN: Heu ... ceci n'est pas un type !
+B) int
+EXPLAIN: Tout à fait, cela correspond à la première information indiquée.
+C) boolean
+EXPLAIN: Ce n'est pas ce qui est déclaré, même si cela aurait peut-être pu faire sens.
+D) char
+EXPLAIN: Ah non, ça c'est le type d'un des paramètres de la fonction.
+ANSWER: B
+
+Q: Combien de paramètre(s) a cette fontion : `int présent(String texte, char lettre)`
+A) 0
+EXPLAIN: Hum, il faudrait que cela soit `présent()` pour que cette réponse soit acceptable.
+B) 1
+EXPLAIN: Hum, il faudrait que cela soit `présent(<type>)` pour que cette réponse soit acceptable.
+C) 2
+EXPLAIN: Exactement ! Les paramètres sont : `String texte` et `char lettre`.
+D) 3
+EXPLAIN: Hum, il faudrait que cela soit `présent(<type>, <type>, <type>)` pour que cette réponse soit acceptable.
+ANSWER: C
+
+Q: Une signature de fonction est ...
+A) la description du traitement réalisée par la fonction.
+EXPLAIN: Incorrect : ceci correspondrait plutôt au corps de la fonction !
+B) la documentation technique détaillant ce que fait la fonction.
+EXPLAIN: Non, ceci correspondrait plutôt à la Javadoc que nous verrons plus tard ...
+C) le type de retour, le nom de la fonction et la liste des paramètres.
+EXPLAIN: Tout a fait !
+D) une trace laissée par la fonction lors de son appel.
+EXPLAIN: Ah, cela pourrait être amusant, mais cela n'existe pas :)
+ANSWER: C
+
+Q: Le corps d'une fonction est ... 
+A) ce qui l'a fait vivre.
+EXPLAIN: Amusant, mais soyons sérieux 2mn :p
+B) le programme exprimant le traitement réalisé.
+EXPLAIN: Tout à fait : bien joué !
+C) tout ce qu'il faut écrire pour la définir.
+EXPLAIN: Non : le corps de la fonction ne contient pas sa signature ...
+D) le nom de la fonction et la liste des valeurs qu'elle doit traiter.
+EXPLAIN: Non, ceci correspondrait à l'appel de la fonction.
+ANSWER: B
+
+Q: En supposant que la fonction `void saluer(String messsage)` existe, quel appel est valide ?
+A) saluer{"Bonjour"};
+EXPLAIN: Non, les accolades permettent de définir un bloc d'instruction : elles ne sont pas utilisées pour identifier les paramètres d'une fonction.
+B) saluer(String "Bonjour");
+EXPLAIN: Argl ... pourquoi repréciser le type alors qu'il est déjà défini au niveau de la signature ? C'est totalement inutile. Et faux !
+C) println(saluer("Bonjour"));
+EXPLAIN: Alors `void` cela veut dire `vide`, donc ici il n'y a pas de résultat qui est retourné, donc on ne peut réaliser un appel à un endroit nécessitant d'avoir une donnée.
+D) saluer("Bonjour");
+EXPLAIN: Exactement : juste le nom de la fonction et la donnée qu'elle doit traiter.
+ANSWER: D
