@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Conversions - tp1</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>D'un type à l'autre</h1>
+        <p class="session-info">tp1 / Conversions.java</p>
+    </header>
+    <main>
+
+<h2>Opérateur de forçage de type ou <em>cast</em></h2>
+<p>Cet exercice vous aidera à comprendre le fonctionnement de l'opérateur de conversion.</p>
+<p>Attention : il ne faut ni compiler et ni exécuter ce programme !</p>
+<pre><code class="language-java">class Conversions extends Program {
+    void algorithm(){                    // Indiquez ci-dessous l'affichage produit
+        print( &quot;(int) 4.6 -&gt;&quot; ); 
+        println( (int) 4.6 );            // =&gt; 
+        print( &quot;(double) 4 -&gt;&quot; );
+        println( (double) 4 );           // =&gt; 
+        print(&quot;2.1 + 3 -&gt; &quot;);
+        println(2.1 + 3);                // =&gt; 
+        print(&quot;(int) 'A' -&gt; &quot;);
+        println( (int) 'A' );            // =&gt; 
+        print(&quot; (char) 66 -&gt; &quot;);
+        println( (char) 66);             // =&gt; 
+        print(&quot; (int) 3.7 * 2 -&gt; &quot;);
+        println( (int) 3.7 * 2);         // =&gt; 
+        print(&quot;(int) (3.7 * 2) -&gt; &quot;);
+        println((int) (3.7 * 2));        // =&gt; 
+        print(&quot; \&quot;ABC\&quot; + (char) 65 &quot;);
+        println( &quot;ABC&quot; + (char) 65 );    // =&gt; 
+    }
+}
+</code></pre>
+<ul>
+<li>Essayez dans un premier temps de prédire le résultat du programme <code>Conversions</code> ci-dessus en écrivant en commentaire (rappel : <code>// =&gt; ceci est un commentaire</code>) sur les lignes <code>print</code> les affichages se produisant lors de l'exécution.</li>
+<li>Appelez votre enseignant·e une fois que c'est terminé pour vérification.</li>
+</ul>
+<h2>Étapes</h2>
+<ul>
+<li>*complétez <strong>UNIQUEMENT LES AFFICHAGES PRODUIT AU NIVEAU DES COMMENTAIRES ! et sauvez votre fichier</strong></li>
+<li><code>ijava compile Conversions.java</code></li>
+<li><code>ijava execute Conversions</code> <strong>=&gt; NE PAS LANCER AVANT D'AVOIR VU VOTRE ENSEIGNANT·E !</strong></li>
+<li><code>ijava test Conversions</code></li>
+</ul>
+<hr />
+
+    </main>
+</body>
+</html>

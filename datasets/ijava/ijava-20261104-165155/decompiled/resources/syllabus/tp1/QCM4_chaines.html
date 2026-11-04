@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>QCM4_chaines - tp1</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Type String et fonctions associées</h1>
+        <p class="session-info">tp1 / QCM4_chaines.java</p>
+    </header>
+    <main>
+
+<p>::: question
+<strong>Quel est le résultat de l'exécution de println(15 / length(&quot;papa&quot;) + 2) ?</strong></p>
+<ul>
+<li>[ ] 5.75
+<blockquote>
+<p>Non car c'est une division entière et une addition donc le résultat est entier.</p>
+</blockquote>
+</li>
+<li>[x] 5
+<blockquote>
+<p>Oui car 15 / 4 donne 3 et on ajoute ensuite 2 (division prioritaire).</p>
+</blockquote>
+</li>
+<li>[ ] 6
+<blockquote>
+<p>Non, pour cela il aurait fallu 16 / 4 + 2.</p>
+</blockquote>
+</li>
+<li>[ ] L'expression n'est pas valide et produit une erreur.
+<blockquote>
+<p>Pas du tout, l'expression est valide.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Que retourne charAt(&quot;Java&quot;, 2) ?</strong></p>
+<ul>
+<li>[ ] 'J'
+<blockquote>
+<p>Non : il aurait fallu passer 0 comme indice pour avoir 'J'.</p>
+</blockquote>
+</li>
+<li>[ ] 'a'
+<blockquote>
+<p>Non : il aurait fallu passer 1 ou 3 comme indice pour avoir 'a'.</p>
+</blockquote>
+</li>
+<li>[x] 'v'
+<blockquote>
+<p>Tout à fait, car la première lettre a pour indice 0.</p>
+</blockquote>
+</li>
+<li>[ ] L'expression n'est pas valide et produit une erreur.
+<blockquote>
+<p>Si elle est valide, l'index est dans la chaîne. Si il valait 0 ou 7, là il y aurait eu une erreur.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quel est le résultat de substring(&quot;exemple&quot;, 0, 3) ?</strong></p>
+<ul>
+<li>[ ] ple
+<blockquote>
+<p>Non car 0 correspond à l'indice de début et 3 à celui de fin exclus.</p>
+</blockquote>
+</li>
+<li>[ ] ex
+<blockquote>
+<p>Non : pour obtenir ce résultat il aurait fallu donner les indices 0 et 2.</p>
+</blockquote>
+</li>
+<li>[x] exe
+<blockquote>
+<p>Correct ! On copie les caractères depuis l'indice 0 jusqu'à l'indice 3 exclus.</p>
+</blockquote>
+</li>
+<li>[ ] exam
+<blockquote>
+<p>Non : pour obtenir ce résultat il aurait fallu donner les indices 0 et 4.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quel est le résultat de equals(&quot;test&quot;, &quot;Test&quot;) ?</strong></p>
+<ul>
+<li>[ ] true
+<blockquote>
+<p>Ah non : pour être égales deux chaînes doivent avoir exactement les mêmes caractères (et dans le même ordre) !</p>
+</blockquote>
+</li>
+<li>[x] false
+<blockquote>
+<p>Tout à fait : les chaînes ne sont pas identiques à cause de leur premier caractère.</p>
+</blockquote>
+</li>
+<li>[ ] L'expression n'est pas valide et produit une erreur.
+<blockquote>
+<p>Non, non, cette expression est valide.</p>
+</blockquote>
+</li>
+<li>[ ] null
+<blockquote>
+<p>Non car equals retourne un booléen.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Que retourne equals(&quot;abc&quot; &quot;abc&quot;) ?</strong></p>
+<ul>
+<li>[ ] false
+<blockquote>
+<p>Non car il y a une erreur de syntaxe ...</p>
+</blockquote>
+</li>
+<li>[ ] true
+<blockquote>
+<p>Non car il y a une erreur de syntaxe ... mais sans cela cela aurait effectivement retourné true ;)</p>
+</blockquote>
+</li>
+<li>[ ] null
+<blockquote>
+<p>Non car equals renvoie un booléen ... mais il y a de toute façon une erreur de syntaxe.</p>
+</blockquote>
+</li>
+<li>[x] Une erreur
+<blockquote>
+<p>Effectivement ! Il manque la virgule pour séparer les deux arguments : equals(&quot;abc&quot;, &quot;abc&quot;).
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>
