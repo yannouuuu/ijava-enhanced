@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CaractereSuivant - tp1</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Au suivant !</h1>
+        <p class="session-info">tp1 / CaractereSuivant.java</p>
+    </header>
+    <main>
+
+<h2>Appréhender le type <code>char</code> et la table ASCII</h2>
+<p>On souhaite disposer d'un programme qui nous indique quel est le caractère suivant dans la table ASCII pour un caractère donné. On souhaite que l'usager choississe le caractère ce qui implique de réaliser une saisie au clavier. Pour ce faire, on fait un appel à la fonction <code>readChar()</code>, qui ne prend pas de paramètre et retourne le premier caractère saisi par l'utilisateur au clavier.</p>
+<h2>Programme à compléter</h2>
+<p>Voici le programme presque complet si ce n'est qu'il manque la partie concernant le passage au caractère suivant.</p>
+<pre><code class="language-java">class CaractereSuivant extends Program {
+    void algorithm(){
+        print(&quot;Entrez un caractère : &quot;);
+        char c = readChar();
+        char suivant = ... ; // &lt;-- À COMPLÉTER
+        println(&quot;Le caractère après &quot; + c + &quot; est &quot; + suivant );        
+    }
+}
+</code></pre>
+<ul>
+<li>Complétez le code source puis compilez le.</li>
+<li>Exécutez le programme en l'essayant avec les deux scénarios suivant :</li>
+</ul>
+<pre><code>    &gt; Entrez un caractère : **a** 
+    Le caractère après a est b
+
+    &gt; Entrez un caractère : **Z** 
+    Le caractère après Z est [
+</code></pre>
+<p>Et du texte normal après.
+Les éléments <strong>en gras</strong> correspondent aux entrées de l'usager au cours de l'exécution du programme.</p>
+<ul>
+<li>Essayez avec au moins un autre caractère que les deux demandés.</li>
+<li>Lancez les tests associés à ce programme pour terminer.</li>
+</ul>
+<h2>Étapes à suivre</h2>
+<ul>
+<li><em>complétez le code source avec un éditeur de texte et sauvez bien votre fichier !</em></li>
+<li><code>ijava compile CaractereSuivant.java</code></li>
+<li><code>ijava execute CaractereSuivant</code></li>
+<li><code>ijava test CaractereSuivant</code></li>
+</ul>
+<hr />
+
+    </main>
+</body>
+</html>

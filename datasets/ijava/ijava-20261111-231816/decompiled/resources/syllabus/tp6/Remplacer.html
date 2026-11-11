@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Remplacer - tp6</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Remplacer dans une chaine</h1>
+        <p class="session-info">tp6 / Remplacer.java</p>
+    </header>
+    <main>
+
+<p>On souhaite créer la fonctionnalité <em>Rechercher-remplacer</em> dans un éditeur de texte. On vous demande pour cela d’écrire une fonction qui prend en paramètre trois chaînes de caractères (<code>phrase</code>, <code>avant</code>, <code>apres</code>) et retourne en résultat une nouvelle chaîne dans laquelle toutes les occurrences de <code>avant</code> ont été remplacées par <code>apres</code>.</p>
+<p>Créez le programme <code>Remplacer</code> validant la fonction de test suivante :</p>
+<pre><code class="language-java">void test_copieEnRemplacant_avec_differents_arguments () {
+    assertEquals(&quot;15x35&quot;  , copieEnRemplacant(&quot;15*35&quot;     , &quot;*&quot;   , &quot;x&quot;));
+    assertEquals(&quot;15 + 35&quot;, copieEnRemplacant(&quot;15 plus 35&quot;, &quot;plus&quot;, &quot;+&quot;));
+    assertEquals(&quot;abcd&quot;   , copieEnRemplacant(&quot;abcd&quot;      , &quot;cb&quot;  , &quot;xy&quot;));
+    assertEquals(&quot;abcd&quot;   , copieEnRemplacant(&quot;abcd&quot;      , &quot;&quot;    , &quot;x&quot;));
+    assertEquals(&quot;abcd&quot;   , copieEnRemplacant(&quot;-ab-cd-&quot;   , &quot;-&quot;   , &quot;&quot;));
+    assertEquals(&quot;xx&quot;     , copieEnRemplacant(&quot;aaaa&quot;      , &quot;aa&quot;  , &quot;x&quot;));
+    assertEquals(&quot;xxa&quot;    , copieEnRemplacant(&quot;aaaaa&quot;     , &quot;aa&quot;  , &quot;x&quot;));
+}
+</code></pre>
+<p>Une fois les tests au vert, ajoutez une dernière assertion dans la fonction de test qui vérifie le remplacement de <code>moins</code>par <code>plus</code> dans la phrase <code>&quot;9 moins 3 moins 3&quot;</code>. Vérifiez que les tests sont toujours bien au vert !</p>
+<p class="flip" onclick="show()">(Après avoir fini tous les exercices, CLIQUEZ ICI !)<br/>Avez-vous la solution la plus simple ?</p>
+<div id="hint2" style="display: none">
+  <p>Une boucle et une alternative : pas plus !</p>
+</div>
+<script>
+function show() {
+  var x = document.getElementById("hint2");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+    </main>
+</body>
+</html>

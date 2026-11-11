@@ -1,0 +1,29 @@
+TITLE: Répétitions à compteur : for
+
+Q: Quelle est la syntaxe correcte d'une boucle for de base en Java ?
+A) for (initialisation; condition; incrémentation) { }
+B) for [initialisation; condition; incrémentation] { }
+C) for (condition) { }
+D) for (initialisation, condition, incrémentation) { }
+ANSWER: A
+
+Q: Que va afficher le code suivant : for (int i = 0; i < 5; i=i+1) { print(i + " "); }
+A) 1 2 3 4 5
+B) 0 1 2 3 4 5
+C) 0 1 2 3 4
+D) 1 2 3 4
+ANSWER: C
+
+Q: Quelle est la valeur de i à la fin de cette boucle ? for (int i = 10; i > 0; i=i-1) { }
+A) -1
+B) 10
+C) 1
+D) 0
+ANSWER: D
+
+Q: Que fait cette boucle : for (int i = 0; i < 10; i = i + 2) {print(i + " "); }
+A) Affiche tous les nombres de 0 à 10
+B) Affiche les nombres pairs de 0 à 8
+C) Affiche les nombres impairs de 0 à 9
+D) Affiche les nombres pairs de 0 à 10
+ANSWER: B

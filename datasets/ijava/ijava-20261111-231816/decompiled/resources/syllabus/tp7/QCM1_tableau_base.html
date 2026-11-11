@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>QCM1_tableau_base - tp7</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Notion de tableau : bases</h1>
+        <p class="session-info">tp7 / QCM1_tableau_base.java</p>
+    </header>
+    <main>
+
+<p>::: question
+<strong>Quelle est la différence entre la déclaration et l'allocation d'un tableau ?</strong></p>
+<blockquote>
+<p>Exact, la déclaration définit un tableau sans l'initialiser, tandis que l'allocation réserve de la mémoire pour celui-ci.</p>
+</blockquote>
+<ul>
+<li>[ ] Il n'y a pas de différence, ce sont des synonymes.
+<blockquote>
+<p>C'est faux, ces termes ont des significations distinctes dans le contexte de la programmation.</p>
+</blockquote>
+</li>
+<li>[ ] La déclaration et l'allocation se font en une seule étape.
+<blockquote>
+<p>Ce n'est pas vrai, on doit d'abord déclarer puis ensuite il faut allouer le tableau.</p>
+</blockquote>
+</li>
+<li>[x] La déclaration définit la variable de type tableau alors que l'allocation réserve la mémoire nécessaire pour stocker l'ensemble des éléments souhaités.</li>
+<li>[ ] L'allocation définit les valeurs des éléments.
+<blockquote>
+<p>Non, l'allocation ne fait que allouer de la mémoire, et l'initialisation est ce qui définit les valeurs.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Comment déclarer un tableau d’entiers en Java ?</strong></p>
+<ul>
+<li>[x] int[] tableau;
+<blockquote>
+<p>Correct, c'est la syntaxe appropriée pour déclarer un tableau d'entiers.</p>
+</blockquote>
+</li>
+<li>[ ] tableau int[];
+<blockquote>
+<p>C'est incorrect, comme pour les variables &quot;classiques&quot;, on donne d'abord le type et ensuite le nom de la variable.</p>
+</blockquote>
+</li>
+<li>[ ] int tableau[];
+<blockquote>
+<p>Bien que ça fonctionne, la convention préférée est d'utiliser int[] tableau;. DONC INTERDICTION D'UTILISER CETTE SYNTAXE !</p>
+</blockquote>
+</li>
+<li>[ ] def int tableau[];
+<blockquote>
+<p>Ce n'est pas du tout une syntaxe valide en Java ...
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quelle est la bonne façon d'allouer un tableau de chaînes de caractères de 5 éléments ?</strong></p>
+<ul>
+<li>[ ] String[] tableau = new String(5);
+<blockquote>
+<p>Incorrect, cette syntaxe est erronée pour l'allocation d'un tableau, les parenthèses devraient être des crochets ...</p>
+</blockquote>
+</li>
+<li>[x] String[] tableau = new String[5];
+<blockquote>
+<p>C'est exact, cette syntaxe alloue correctement un tableau de 5 chaînes.</p>
+</blockquote>
+</li>
+<li>[ ] String tableau[] = new String[5];
+<blockquote>
+<p>Bien que cela fonctionne, la première syntaxe est plus conventionnelle. NE PAS UTILISER CETTE SYNTAXE QUI EXPLOSE L'INFORMATION CONCERNANT LE TYPE DE LA VARIABLE !</p>
+</blockquote>
+</li>
+<li>[ ] String tableau = new String[5];
+<blockquote>
+<p>Ce n'est pas correct car il manque les crochets dans la déclaration de la variable !
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Que se passe-t-il si vous essayez d’accéder à un indice qui n’existe pas dans un tableau ?</strong></p>
+<ul>
+<li>[ ] Le tableau renvoie une valeur par défaut.
+<blockquote>
+<p>pas du tout et cela serait très embêtant comme comportement par défaut !</p>
+</blockquote>
+</li>
+<li>[ ] Le programme fait une erreur sans lancer d'exception.
+<blockquote>
+<p>Faux, une exception est levée ...</p>
+</blockquote>
+</li>
+<li>[x] Une exception ArrayIndexOutOfBoundsException est lancée.
+<blockquote>
+<p>Correct, c'est l'exception qui est lancée lorsque l'on tente d'accéder à un indice inválide.</p>
+</blockquote>
+</li>
+<li>[ ] Une exception de type NullPointerException est lancée.
+<blockquote>
+<p>Incorrect, une NullPointerException n'est pas liée à l'accès d'un indice hors limites, c'est un autre type d'erreur liée à l'oubli d'allocation d'une variable.
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quelle est l'intervalle des valeurs des indices d'un tableau en Java ?</strong></p>
+<ul>
+<li>[x] Entre 0 et le nombre d'élèments du tableau moins 1.
+<blockquote>
+<p>Exact, les indices d’un tableau en Java commencent à 0.</p>
+</blockquote>
+</li>
+<li>[ ] Entre 0 et le nombre d'élèments du tableau.
+<blockquote>
+<p>Faux, car l'on commence à compter à partir de 0, du coup le dernier indice valide est le nombre d'élément moins 1.</p>
+</blockquote>
+</li>
+<li>[ ] Entre 1 et le nombre d'élèments du tableau moins 1.
+<blockquote>
+<p>Incorrect, on commence à compter à partir de 0 !</p>
+</blockquote>
+</li>
+<li>[ ] Entre 1 et le nombre d'élèments du tableau.
+<blockquote>
+<p>Incorrect, on commence à compter à partir de 0 !
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>::: question
+<strong>Quelle est la différence entre un indice et une valeur dans un tableau ?</strong></p>
+<ul>
+<li>[ ] La valeur est toujours numérique.
+<blockquote>
+<p>Incorrect, la valeur peut être d’un type quelconque, pas seulement numérique.</p>
+</blockquote>
+</li>
+<li>[ ] Les valeurs ne peuvent pas être modifiées.
+<blockquote>
+<p>Faux, les valeurs dans le tableau peuvent être modifiées, c'est tout l'intérêt !</p>
+</blockquote>
+</li>
+<li>[ ] Les indices sont des variables locales uniquement.
+<blockquote>
+<p>Ce n'est pas vrai, les indices sont des entiers et peuvent être utilisés dans divers contextes.</p>
+</blockquote>
+</li>
+<li>[x] L'indice est utilisé pour accéder à la valeur stockée à cet emplacement dans le tableau.
+<blockquote>
+<p>Correct, l'indice permet de référencer la valeur dans le tableau.
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>

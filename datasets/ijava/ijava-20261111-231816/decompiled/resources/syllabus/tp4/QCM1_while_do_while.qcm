@@ -1,0 +1,56 @@
+TITLE: Répétitions à évènements : while et do while
+
+Q: Quelle est la différence entre while et do while ?
+A) while test la condition en début de boucle et do while en fin
+EXPLAIN: Oui, exactement !
+B) while test la condition en fin de boucle et do while en début
+EXPLAIN: Incorrect, c'est exactement l'inverse :(
+C) aucune différence c'est le même type de boucle
+EXPLAIN: Certes, ce sont toutes deux des répétitions à évènement, mais pourquoi en existe-t-il deux si elles n'ont aucune différence ?
+D) do while est beaucoup moins utilisée que while
+EXPLAIN: Certes, mais ce n'est pas la différence la plus importante sur la nature de ces répétitions !
+ANSWER: A
+
+Q: int cpt=0; while (cpt<5) { cpt=cpt+1;} Que vaut cpt à la fin de l'exécution ?
+A) 6
+EXPLAIN: Incorrect car lorsque cpt vaut 5, la condition bascule à faux et l'on sort de la boucle.
+B) 0
+EXPLAIN: Incorrect au début cpt vaut zero, donc 0 < 5 est vrai et l'on entre dans la boucle.
+C) 4
+EXPLAIN: Incorrect car lorsque cpt vaut 4, 4 < 5 est toujours vrai donc l'on fait un tour de plus !
+D) 5
+EXPLAIN: Exactement, on itère sur 0, 1, 2, 3, 4 (soit 5 fois) et lorsque cpt vaut 5, on sort de la boucle.
+ANSWER: D 
+
+Q: int cpt=0; while (cpt<5) { cpt=cpt+1;} L'addition est exécutée combien de fois ?
+A) 0
+EXPLAIN: 0 < 5 est vrai donc on fait au moins un tour de boucle ...
+B) 6
+EXPLAIN: 5 < 5 est faux et cela se produit avant que le compteur atteigne la valeur 6.
+C) 5
+EXPLAIN: Exactement, bien vu car lorsque cpt vaut 5, on sort de la boucle grâce à 5 < 5 qui est faux.
+D) 4
+EXPLAIN: Hum, testons : 4 < 5 est vrai donc l'on fait un tour de plus !
+ANSWER: C
+
+Q: int cpt=0; while (cpt<5) { cpt=cpt-1;} Combien y-a-t-il de tours de boucle ?
+A) 0
+EXPLAIN: 0<5 donc on rentre bien dans la boucle et réalisons au moins un tour !
+B) une "infinité" ou presque
+EXPLAIN: Tout à fait, comme on décrémente cpt, on "fuit" vers les valeurs négatives et c'est une boucle infinie qui s'enclenche :(
+C) 5
+EXPLAIN: Non, non, bien plus que cela, regardez attentivement comment le compteur est mis à jour !
+D) 4
+EXPLAIN: Non, non, bien plus que cela, regardez attentivement comment le compteur est mis à jour !
+ANSWER: B
+
+Q: Est-il préférable d'utiliser while ou do while pour du contrôle de saisie ?
+A) while
+EXPLAIN: C'est possible d'utiliser while, mais il faut alors initialiser judicieusement la variable présente dans la condition avec une valeur ne perturbant pas le calcul ... c'est donc moins pratique que le do while pour ce type de traitement.
+B) do while
+EXPLAIN: Tout à fait car il faut réaliser une saisie avant de pouvoir la vérifier.
+C) peu importe
+EXPLAIN: Incorrect, do while est plus appropriée.
+D) for 
+EXPLAIN: ARGL !!! La boucle for est à utiliser lorsque l'on connaît à priori le nombre d'itérations !
+ANSWER: B

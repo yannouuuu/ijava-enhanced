@@ -1,0 +1,67 @@
+TITLE: Notion de tableau : bases
+
+Q: Quelle est la différence entre la déclaration et l'allocation d'un tableau ?
+EXPLAIN: Exact, la déclaration définit un tableau sans l'initialiser, tandis que l'allocation réserve de la mémoire pour celui-ci.
+A) Il n'y a pas de différence, ce sont des synonymes.
+EXPLAIN: C'est faux, ces termes ont des significations distinctes dans le contexte de la programmation.
+B) La déclaration et l'allocation se font en une seule étape.
+EXPLAIN: Ce n'est pas vrai, on doit d'abord déclarer puis ensuite il faut allouer le tableau.
+C) La déclaration définit la variable de type tableau alors que l'allocation réserve la mémoire nécessaire pour stocker l'ensemble des éléments souhaités.
+D) L'allocation définit les valeurs des éléments.
+EXPLAIN: Non, l'allocation ne fait que allouer de la mémoire, et l'initialisation est ce qui définit les valeurs.
+ANSWER: C
+
+Q: Comment déclarer un tableau d’entiers en Java ?
+A) int[] tableau;
+EXPLAIN: Correct, c'est la syntaxe appropriée pour déclarer un tableau d'entiers.
+B) tableau int[];
+EXPLAIN: C'est incorrect, comme pour les variables "classiques", on donne d'abord le type et ensuite le nom de la variable.
+C) int tableau[];
+EXPLAIN: Bien que ça fonctionne, la convention préférée est d'utiliser int[] tableau;. DONC INTERDICTION D'UTILISER CETTE SYNTAXE !
+D) def int tableau[];
+EXPLAIN: Ce n'est pas du tout une syntaxe valide en Java ...
+ANSWER: A
+
+Q: Quelle est la bonne façon d'allouer un tableau de chaînes de caractères de 5 éléments ?
+A) String[] tableau = new String(5);
+EXPLAIN: Incorrect, cette syntaxe est erronée pour l'allocation d'un tableau, les parenthèses devraient être des crochets ...
+B) String[] tableau = new String[5];
+EXPLAIN: C'est exact, cette syntaxe alloue correctement un tableau de 5 chaînes.
+C) String tableau[] = new String[5];
+EXPLAIN: Bien que cela fonctionne, la première syntaxe est plus conventionnelle. NE PAS UTILISER CETTE SYNTAXE QUI EXPLOSE L'INFORMATION CONCERNANT LE TYPE DE LA VARIABLE !
+D) String tableau = new String[5];
+EXPLAIN: Ce n'est pas correct car il manque les crochets dans la déclaration de la variable !
+ANSWER: B
+
+Q: Que se passe-t-il si vous essayez d’accéder à un indice qui n’existe pas dans un tableau ?
+A) Le tableau renvoie une valeur par défaut.
+EXPLAIN: pas du tout et cela serait très embêtant comme comportement par défaut !
+B) Le programme fait une erreur sans lancer d'exception.
+EXPLAIN: Faux, une exception est levée ...
+C) Une exception ArrayIndexOutOfBoundsException est lancée.
+EXPLAIN: Correct, c'est l'exception qui est lancée lorsque l'on tente d'accéder à un indice inválide.
+D) Une exception de type NullPointerException est lancée.
+EXPLAIN: Incorrect, une NullPointerException n'est pas liée à l'accès d'un indice hors limites, c'est un autre type d'erreur liée à l'oubli d'allocation d'une variable.
+ANSWER: C
+
+Q: Quelle est l'intervalle des valeurs des indices d'un tableau en Java ?
+A) Entre 0 et le nombre d'élèments du tableau moins 1.
+EXPLAIN: Exact, les indices d’un tableau en Java commencent à 0.
+B) Entre 0 et le nombre d'élèments du tableau.
+EXPLAIN: Faux, car l'on commence à compter à partir de 0, du coup le dernier indice valide est le nombre d'élément moins 1.
+C) Entre 1 et le nombre d'élèments du tableau moins 1.
+EXPLAIN: Incorrect, on commence à compter à partir de 0 !
+D) Entre 1 et le nombre d'élèments du tableau.
+EXPLAIN: Incorrect, on commence à compter à partir de 0 !
+ANSWER: A
+
+Q: Quelle est la différence entre un indice et une valeur dans un tableau ?
+A) La valeur est toujours numérique.
+EXPLAIN: Incorrect, la valeur peut être d’un type quelconque, pas seulement numérique.
+B) Les valeurs ne peuvent pas être modifiées.
+EXPLAIN: Faux, les valeurs dans le tableau peuvent être modifiées, c'est tout l'intérêt !
+C) Les indices sont des variables locales uniquement.
+EXPLAIN: Ce n'est pas vrai, les indices sont des entiers et peuvent être utilisés dans divers contextes.
+D) L'indice est utilisé pour accéder à la valeur stockée à cet emplacement dans le tableau.
+EXPLAIN: Correct, l'indice permet de référencer la valeur dans le tableau.
+ANSWER: D
