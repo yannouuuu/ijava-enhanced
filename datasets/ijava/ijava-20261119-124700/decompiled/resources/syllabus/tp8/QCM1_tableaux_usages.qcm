@@ -1,0 +1,57 @@
+TITLE: Notion de tableau : manipulations
+
+Q: Quelle proposition indique la bonne séquence d'étape d'usage d'un tableau ?
+A) déclaration, initiatilisation, allocation, lecture/écriture
+EXPLAIN: Non, non, non, il faut d'abord allouer la mémoire avant d'initialiser le tableau.
+B) déclaration et initiatilisation, allocation, lecture/écriture
+EXPLAIN: Sans avoir réserver la mémoire avant, impossible d'initialiser quoique ce soit.
+C) déclaration, allocation, initiatilisation, lecture/écriture
+EXPLAIN: Exactement : bien joué !
+D) allocation, déclaration, initiatilisation, lecture/écriture
+EXPLAIN: Hum, avant de demander de la mémoire, il faut expliquer pour quoi on en a besoin.
+ANSWER: C
+
+Q: Que se passe-t-il si vous tentez d'accéder à un indice en dehors des limites d'un tableau ?
+A) Le programme s'exécute normalement.
+EXPLAIN: Incorrect. Accéder à un indice invalide entraînera une erreur.
+B) Une exception ArrayIndexOutOfBoundsException est lancée.
+EXPLAIN: Exact. Cela se produit lorsque l'indice est inférieur à 0 ou supérieur ou égal à la longueur du tableau.
+C) L'indice est automatiquement ajusté à la limite du tableau.
+EXPLAIN: Faux, cela ne se produit pas en Java. Un indice invalide n'est pas corrigé.
+D) Le tableau retourne une valeur par défaut.
+EXPLAIN: Ceci est incorrect, car aucun accès ne peut être fait à un indice invalide.
+ANSWER: B
+
+Q: Comment déclarer et allouer un tableau d'entiers de taille 5 en Java ?
+A) int tableau[5];
+EXPLAIN: Incorrect. En Java, la syntaxe de déclaration ne permet pas de spécifier la taille ainsi à la déclaration et surtout les crochets doivent être avec le type !
+B) int tableau = new int[5];
+EXPLAIN: Faux, la déclaration doit inclure les crochets pour déclarer un tableau d'entiers et pas juste un entier.
+C) int tableau[0] = new int[5];
+EXPLAIN: Cela est incorrect, cette syntaxe n'existe pas en Java.
+D) int[] tableau = new int[5];
+EXPLAIN: Exact, c'est la bonne syntaxe pour déclarer et allouer un tableau d'entiers grâce à l'opérateur new.
+ANSWER: D
+
+Q: Quel est le format correct pour déclarer un tableau à deux dimensions ?
+A) int[][] tableau;
+EXPLAIN: Correct. C'est la bonne syntaxe pour déclarer un tableau à deux dimensions.
+B) int tableau[][];
+EXPLAIN: Bien que cela fonctionne également, c'est à déconseiller fortement car cela éclate la définition du type à deux endroites différents de l'expression.
+C) int[2][2] tableau;
+EXPLAIN: Incorrect, car il ne s'agit pas de la syntaxe de déclaration en Java.
+D) tableau[2][2] int;
+EXPLAIN: Ce format est incorrect ; la déclaration doit être faite avant la définition des dimensions.
+ANSWER: A
+
+Q: Lorsque l'on calcule le nombre d'occurences d'un caractère dans une chaîne, on utilise ...
+A) un parcours partiel, une alternative et un accumulateur
+EXPLAIN: Non, il faut parcourir tous les caractères !
+B) un parcours complet, une alternative et un accumulateur
+EXPLAIN: Oui, bien vu !
+C) un parcours partiel, une cascade d'alternative et un accumulateur
+EXPLAIN: Déjà si l'on n'étudie pas tous les caractères, c'est mal parti ...
+D) un parcours complet, une cascade alternative et un accumulateur
+EXPLAIN: Non ... pourquoi plusieurs alternatives, il n'y a qu'une cas à vérifier !
+ANSWER: B
+

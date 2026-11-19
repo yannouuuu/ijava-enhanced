@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Iut - tp5</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>DessineIUT</h1>
+        <p class="session-info">tp5 / Iut.java</p>
+    </header>
+    <main>
+
+<h2>Un peu d'ASCII Art</h2>
+<p>On souhaite réaliser un programme <code>DessineIUT</code> permettant de produire les affichages suivant en fonction d'une <code>taille</code> saisie auprès de l'usager:</p>
+<pre><code class="language-bash">taille : **5**
+
+IIIII
+  I
+  I
+  I
+IIIII
+
+U   U
+U   U
+U   U
+U   U
+UUUUU
+
+TTTTT
+  T
+  T
+  T
+  T
+</code></pre>
+<pre><code class="language-bash">taille : **3**
+
+III
+ I
+III
+
+U U
+U U
+UUU
+
+TTT
+ T
+ T
+</code></pre>
+<p>Chacune des lettres I, U et T est ici dessinée dans un carré dont la taille est le nombre saisi par l'usager.</p>
+<p>Pour y parvenir, on va découper le programme en plusieurs procédures {rappel : ce sont des fonctions qui ne retournent rien, c'est-à-dire que leur type de retour est <code>void</code>, comme pour <code>algorithm</code>}.</p>
+<p>Vous devez tester séparément chacune des procédures. C'est à dire, après avoir écrit une procédure, appelez-la plusieurs fois dans la fonction principale <code>algorithm</code> avec des paramètres différents pour vous assurer qu'elle fait bien ce qu'on attend.</p>
+<p>Si on analyse chacune des lignes de chacune des lettres, on remarque qu'il existe en fait 3 types de lignes :</p>
+<ul>
+<li>les lignes pleines, par exemple</li>
+</ul>
+<pre><code class="language-bash">TTTTT
+</code></pre>
+<p>On peut ici reprendre la procédure dessineLigne vue en TD :</p>
+<pre><code class="language-java">void dessineLigne(int n, char c) {
+    for (int i=0; i&lt;n; i=i+1) {
+        print(c);
+    }
+    print(&quot;\n');
+}      
+</code></pre>
+<ul>
+<li>les lignes avec un caractère au milieu du carré, par exemple</li>
+</ul>
+<pre><code class="language-bash"> I
+</code></pre>
+<p>Réalisez une procédure <code>void dessineMilieu(int n, char c)</code> qui dessine le caractère reçu <code>c</code> au milieu d'une ligne de taille <code>n</code>. On peut remarquer que dans ce cas, il n'est pas nécessaire d'afficher les espaces en fin de ligne.</p>
+<ul>
+<li>les lignes avec des caractères aux extrêmités, par exemple</li>
+</ul>
+<pre><code class="language-bash">U   U
+</code></pre>
+<p>Réalisez une procédure qui correspont à cela.</p>
+<ul>
+<li>Maintenant que l'on a nos briques de base, on va pouvoir dessiner chacune de nos lettres en les assemblant. Créez trois procédures, <code>dessinerI</code>,  <code>dessinerU</code>,  <code>dessinerT</code>, paramétrées par un caractère et une taille.</li>
+<li>Il ne nous reste plus qu'à définir <code>void algorithm()</code> en saisissant auprès de l'utilisateur la taille souhaitée et à appeler nos procédures de manière à obtenir l'affichage successif des 3 lettres I, U et T en utilisant le caractère correspondant à la lettre qu'on dessine ('I' pour dessiner le I, etc.).</li>
+</ul>
+<h2>Étapes à suibre</h2>
+<ul>
+<li><code>ijava init Iut</code></li>
+<li><em>complétez le corps des fonctions du fichier <code>Iut.java</code></em></li>
+<li><code>ijava compile Iut.java</code></li>
+<li><code>ijava execute Iut</code></li>
+<li><code>ijava test Iut</code></li>
+</ul>
+<hr />
+
+    </main>
+</body>
+</html>

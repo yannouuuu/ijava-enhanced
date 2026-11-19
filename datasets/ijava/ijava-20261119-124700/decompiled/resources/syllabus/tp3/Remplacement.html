@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Remplacement - tp3</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Remplacer un caractère dans une chaîne</h1>
+        <p class="session-info">tp3 / Remplacement.java</p>
+    </header>
+    <main>
+
+<p>Cet exercice consiste à manipuler des chaînes de caractères.</p>
+<pre><code class="language-java">class Remplacement extends Program {
+    void algorithm(){
+        String texte;
+        char ancien, nouveau;
+        print(&quot;Veuillez saisir votre texte : &quot;);
+        texte = readString();
+        print(&quot;Caractère à remplacer : &quot;);
+        ancien = readChar();
+        print(&quot;Caractère de remplacement : &quot;);
+        nouveau = readChar();
+</code></pre>
+<p>::: question
+<strong>Que fait le début de ce programme ?</strong></p>
+<ul>
+<li>[x] La saisie des données à traiter
+<blockquote>
+<p>Effectivement, quelques affichages et la saisie du texte et des caractères nécessaires pour traiter ensuite le problème</p>
+</blockquote>
+</li>
+<li>[ ] Le remplacement du caractère dans le texte
+<blockquote>
+<p>Où voyez-vous une modification sur le <code>texte</code> saisit dans le code ci-dessus ?!</p>
+</blockquote>
+</li>
+<li>[ ] Des affichages
+<blockquote>
+<p>Certes, mais aussi des saisies. Celles sur lesquels porteront le traitement à écrire.</p>
+</blockquote>
+</li>
+<li>[ ] Aucune idée
+<blockquote>
+<p>Hum, il est urgent de relire le cours, retravaillez les TD et finir les TP précédents !
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Compléter le programme <code>Remplacement</code> afin qu’il affiche le <code>texte</code> initial dans lequelle toutes les occurrences de l'<code>ancien</code> caractère sont remplacées par le <code>nouveau</code>.</p>
+<p>Voici quelques scénarios à vérifier :</p>
+<pre><code class="language-bash">~/ijava2/tp2&gt; ijava execute Remplacement
+Veuillez saisir votre texte : HELLo
+Caractère à remplacer : o
+Caractère de remplacement : O
+HELLO
+~/ijava2/tp2&gt; ijava execute Remplacement
+Veuillez saisir votre texte : Blabla
+Caractère à remplacer : i
+Caractère de remplacement : u
+Blabla
+~/ijava2/tp2&gt; ijava execute Remplacement
+Veuillez saisir votre texte : oooTITREooo
+Caractère à remplacer : o
+Caractère de remplacement : x
+xxxTITRExxx
+</code></pre>
+
+    </main>
+</body>
+</html>

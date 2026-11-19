@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CTPv1 - tp255</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Nouveau changement de représentation des images !</h1>
+        <p class="session-info">tp255 / CTPv1.java</p>
+    </header>
+    <main>
+
+<p>Comme vous l'avez sûrement appris, notre langage de programmation a connu une évolution significative avec l'ajout d'une structure de données, le tableau, qui nous permet (enfin !) de gérer un ensemble de valeurs de même type !</p>
+<p>Quand on pense à la représentation actuelle de nos images, qui ne nécessite pas moins de 3 chaînes de caractères et pas mal de code pour gérer les décalages au sein de certaines chaînes ... peut-être que les tableaux pourraient nous aider à simplifier tout cela ?</p>
+<p>Si l'on reprend notre palette de couleurs d'exemple de la <code>Semaine3</code> :</p>
+<table>
+   <tr><td>Noir</td><td>Blanc</td><td>Rouge</td><td>Vert</td><td>Bleu</td>></tr>
+   <tr><td>0,0,0</td><td>255,255,255</td><td>255,0,0</td><td>0,255,0</td><td>0,0,255</td>></tr>
+   <tr><td>N</td><td>B</td><td>r</td><td>v</td><td>b</td>></tr>
+</table>
+<p>Il serait bien plus simple de représenter notre palette avec trois tableaux :</p>
+<ol>
+<li>un tableau contenant les différentes lettres représentant les couleurs disponibles,</li>
+<li>trois tableaux d'entiers, un par composante de couleur pour représenter la couleur RGB associée à une lettre.</li>
+</ol>
+<p>Si l'on aligne proprement ces tableaux, le même indice nous permettra de sélectionner facilement les informations nous intéressant !</p>
+<p>Voici une représentation de la nouvelle représentation proposée :</p>
+<table>
+   <tr><td>Letters</td><td>B</td><td>r</td><td>v</td><td>b</td><td>N</td></tr>
+   <tr><td>Red</td><td>255</td><td>255</td><td>0,</td><td>0</td><td>0</td></tr>
+   <tr><td>Green</td><td>255</td><td>0</td><td>255</td><td>0</td><td>0</td></tr>
+   <tr><td>Blue</td><td>255</td><td>0</td><td>0</td><td>255</td><td>0</td></tr>
+   <tr><td>Index</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+</table>
+<p>Ainsi, lorsque l'on connait l'indice de la couleur souhaitée, on accède directement avec le même indice à ses composantes RGB :)</p>
+<h3>Définition de <code>boolean paletteValid(String[] codes, int[] r, int[] g, int[] b)</code>.</h3>
+<table>
+<tr><th>Type de retour </th><th>Nom de la fonction</th><th>Paramètres</th></tr>
+<tr><td><code>boolean</code></td>
+    <td><code>paletteValide</code></td>
+    <td><code>(String[] codes, int[] r, int[] g, int[] b)</code></td>
+</tr>
+<tr><td colspan="3">Retourne <code>true</code> si la palette est cohérente, c'est-à-dire que les quatres tableaux ont la même taille et <code>false</code> sinon.
+</td></tr>
+</table>
+<h3>Définition de <code>void println(String[] codes, int[] r, int[]g, int[] b)</code>.</h3>
+<table>
+<tr><th>Type de retour </th><th>Nom de la fonction</th><th>Paramètres</th></tr>
+<tr><td><code>void</code></td>
+    <td><code>println</code></td>
+    <td><code>(String[] codes, int[] r, int[] g, int[] b)</code></td>
+</tr>
+<tr><td colspan="3">Affiche la palette passée en paramètre sous la forme d'une liste <code>lettre (r,g,b)</code> à raison d'un code couleur par ligne. On supposera la palette valide et il n'est pas nécessaire de le vérifier ici. Exemples:
+<ul>
+<li><code>println(CODES, ROUGE, VERT, BLEU)</code> affichera :<br/>
+<code>
+N (0,0,0)
+B (255,255,255)
+r (255,0,0)
+v (0,255,0)
+b (0,0,255)
+</code>
+</li>
+</ul>
+</td></tr>
+</table>
+<h3>Définition de <code>int colorIndex(String[] codes, char lettre)</code>.</h3>
+<table>
+<tr><th>Type de retour </th><th>Nom de la fonction</th><th>Paramètres</th></tr>
+<tr><td><code>int</code></td>
+    <td><code>colorIndex</code></td>
+    <td><code>(String[] codes, char lettre)</code></td>
+</tr>
+<tr><td colspan="3">Retourne l'indice de la <code>lettre</code> dans <code>codes</code> si elle est présente dans la palette de couleurs et <code>-1</code> sinon. Exemples:
+<ul>
+<li><code>colorIndex(CODES, 'B')</code> retourne l'indice <code>1</code> car <code>B</code> est bien présent dans la constante <code>CODES</code> définie précédemment.</li>
+<li><code>colorIndex(CODES, 'z')</code> retourne l'indice' <code>-1</code> car <code>z</code> n'est pas présent dans <code>CODES</code>.</li>
+</ul>
+</td></tr>
+</table>
+<h3>Définition de <code>int[] colorForLetter(String[] codes, int[] r, int[] g, int[] b, char letter)</code>.</h3>
+<table>
+<tr><th>Type de retour </th><th>Nom de la fonction</th><th>Paramètres</th></tr>
+<tr><td><code>int[]</code></td>
+    <td><code>colorForLetter</code></td>
+    <td><code>(String[] codes, int[] r, int[] g, int[] b, char letter)</code></td>
+</tr>
+<tr><td colspan="3">Retourne un tableau d'entiers contenant les composantes RGB (données dans <code>r</code>, <code>g</code> et <code>b</code>) de la couleur associée à la  <code>letter</code> dans <code>codes</code> si elle est présente dans la palette de couleurs et un tableau vide sinon (dit autrement, un tableau de taille 0). Exemples:
+<ul>
+<li><code>colorForLetter(CODES, 'B')</code> retourne le tableau <code>[255, 255, 255]</code> car <code>B</code> est bien présent dans la constante <code>CODES</code> définie précédemment et correspond à la couleur blanche.</li>
+<li><code>colorForLetter(CODES, 'z')</code> retourne un tableau vide car <code>z</code> n'est pas présent dans <code>CODES</code>.</li>
+</ul>
+</td></tr>
+</table>
+
+    </main>
+</body>
+</html>

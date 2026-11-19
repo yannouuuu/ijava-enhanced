@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Maquillage - tp3</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Maquiller un caractère dans une chaîne</h1>
+        <p class="session-info">tp3 / Maquillage.java</p>
+    </header>
+    <main>
+
+<p>Cet exercice consiste à maquiller certains caractères d'une chaînes de caractères ...</p>
+<pre><code class="language-java">class Maquillage extends Program {
+    void algorithm(){
+        String texte;
+        char ancien, nouveau;
+        print(&quot;Veuillez saisir votre texte : &quot;);
+        texte = readString();
+        print(&quot;Caractère recherché : &quot;);
+        ancien = readChar();
+        print(&quot;Nouveau caractère : &quot;);
+        nouveau = readChar();
+</code></pre>
+<p>::: question
+<strong>Existe-t-il un opérateur ou une fonction permettant de modifier un caractère dans une chaîne de caractères?</strong></p>
+<ul>
+<li>[x] Non
+<blockquote>
+<p>Effectivement, une chaîne est comme un nombre : on peut lire sa valeur, mais impossible de la modifier.</p>
+</blockquote>
+</li>
+<li>[ ] Oui avec l'opérateur d'affectation
+<blockquote>
+<p>Non, l'affectation permet d'affecteur une nouvelle chaîne à une variable mais ne permet pas de modifier une chaîne existante !</p>
+</blockquote>
+</li>
+<li>[ ] Oui avec la fonction <code>chartAt</code>
+<blockquote>
+<p>La fonction <code>charAt</code>permet de <em>copier</em> un caractère à une position donnée mais ne modifie en rien la chaîne initiale.</p>
+</blockquote>
+</li>
+<li>[ ] Aucune idée
+<blockquote>
+<p>ATTENTION : il est urgent de relire le cours, toutes les informations importantes sont présentes dedans !
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Compléter le programme <code>Maquillage</code> afin qu’il affiche lettre par lettre le <code>texte</code> initial en maquillant la lettre recherchée par la nouvelle.</p>
+<p>Voici quelques scénarios à vérifier :</p>
+<pre><code class="language-bash">~/ijava2/tp2&gt; ijava execute Maquillage
+Veuillez saisir votre texte : HELLo
+Caractère recherché : o
+Nouveau caractère : O
+HELLO
+~/ijava2/tp2&gt; ijava execute Maquillage
+Veuillez saisir votre texte : Blabla
+Caractère recherché : i
+Nouveau caractère : u
+Blabla
+~/ijava2/tp2&gt; ijava execute Maquillage
+Veuillez saisir votre texte : oooTITREooo
+Caractère recherché : o
+Nouveau caractère : x
+xxxTITRExxx
+</code></pre>
+
+    </main>
+</body>
+</html>

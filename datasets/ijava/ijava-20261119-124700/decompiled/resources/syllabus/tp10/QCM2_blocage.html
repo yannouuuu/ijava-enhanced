@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>QCM2_blocage - tp10</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Jeu du Saute-Mouton : situations de blocage</h1>
+        <p class="session-info">tp10 / QCM2_blocage.java</p>
+    </header>
+    <main>
+
+<p>Rappelons d'abord la situation initiale du casse-tête avec les deux troupeaux de faisant face :</p>
+<table>
+  <tr>
+    <td style="text-align: center">&gt;</td>
+    <td style="text-align: center">&gt;</td>
+    <td style="text-align: center">&gt;</td>
+    <td style="text-align: center">_</td>
+    <td style="text-align: center">&lt;</td>
+    <td style="text-align: center">&lt;</td>
+    <td style="text-align: center">&lt;</td>
+  </tr>
+</table>
+<p>Pour réussir le casse-tête, il faut parvenir à cette une situation finale où les troupeaux se tournent le dos :</p>
+<table>
+  <tr style=>
+    <td style="text-align: center">&lt;</td>
+    <td style="text-align: center">&lt;</td>
+    <td style="text-align: center">&lt;</td>
+    <td style="text-align: center">_</td>
+    <td style="text-align: center">&gt;</td>
+    <td style="text-align: center">&gt;</td>
+    <td style="text-align: center">&gt;</td>
+  </tr>
+</table>
+<p>::: question
+<strong>Quels sont les déplacements possibles dans cette situation finale ?</strong></p>
+<ul>
+<li>[ ] 3 et 5
+<blockquote>
+<p>les moutons ne maîtrisent pas la marche arrière malheureusement :p</p>
+</blockquote>
+</li>
+<li>[x] aucun !
+<blockquote>
+<p>Tout a fait ! La situation finale est une situation de blocage, c'est-à-dire sans plus aucun déplacement possible.</p>
+</blockquote>
+</li>
+<li>[ ] 2 et 6
+<blockquote>
+<p>Ah non, les moutons ne savent sauter que devant eux, trop périlleux le saut arrière !</p>
+</blockquote>
+</li>
+<li>[ ] je ne sais pas trop
+<blockquote>
+<p>relisez attentivement les règles de déplacements ...
+:::</p>
+</blockquote>
+</li>
+</ul>
+<p>Observez attentivement la situation suivante :</p>
+<table>
+  <tr style="background-color: lightblue">
+    <td style="text-align: center">&gt;</td>
+    <td style="text-align: center">&gt;</td>
+    <td style="text-align: center">&lt;</td>
+    <td style="text-align: center">&gt;</td>
+    <td style="text-align: center">&lt;</td>
+    <td style="text-align: center">&lt;</td>
+    <td style="text-align: center">_</td>
+  </tr>
+  <tr style="border: none">
+    <td style="text-align: center">1</td>
+    <td style="text-align: center">2</td>
+    <td style="text-align: center">3</td>
+    <td style="text-align: center">4</td>
+    <td style="text-align: center">5</td>
+    <td style="text-align: center">6</td>
+    <td style="text-align: center">7</td>
+  </tr>
+</table>
+<p>::: question
+<strong>Quels sont les déplacements possibles dans cette situation ?</strong></p>
+<ul>
+<li>[ ] 4
+<blockquote>
+<p>Nop, un mouton ne peut sauter qu'un mouton à la fois, pas deux !</p>
+</blockquote>
+</li>
+<li>[ ] 6
+<blockquote>
+<p>Hum, les moutons ne peuvent se déplacer que dans la direction dans laquelle ils regardent, pas de marche arrière pour les moutons !</p>
+</blockquote>
+</li>
+<li>[ ] 7
+<blockquote>
+<p>Il n'y a pas de mouton à cet endroit ...</p>
+</blockquote>
+</li>
+<li>[x] aucun
+<blockquote>
+<p>Effectivement, c'est une situation de blocage aussi !
+:::</p>
+</blockquote>
+</li>
+</ul>
+
+    </main>
+</body>
+</html>
